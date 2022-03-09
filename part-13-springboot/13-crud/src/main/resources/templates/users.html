@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <style type="text/css">
+        table {border-collapse: collapse; font-size: 14px; width: 80%; margin: auto}
+        table, th, td {border: 1px solid darkslategray;padding: 10px}
+    </style>
+</head>
+<body>
+<div style="text-align: center">
+    <span style="color: darkslategray; font-size: 30px">欢迎光临！</span>
+    <hr/>
+    <table class="list">
+        <tr>
+            <th>id</th>
+            <th>username</th>
+            <th>phone</th>
+            <th>createTime</th>
+        </tr>
+        <tr th:each="user: ${users}">
+            <!--
+            如果没有值，则会显示td中默认的1。这正是thymeleaf能够动静结合的原因，模板解析失败不影响页面的显示效果，因为会显示默认值！
+            -->
+            <td th:text="${user.userId}">1</td>
+            <th th:text="${user.username}">temp</th>
+            <th th:text="${user.phone}">ss</th>
+            <th th:text="${#dates.format(user.createTime,'yyyy-MM-dd')}">2020-05-20</th>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

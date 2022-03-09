@@ -1,0 +1,21 @@
+server:
+  port: 8068
+
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://114.67.89.253:3306/oldpeople_pigxx?useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: root
+    password: centos123qwer
+    type: com.zaxxer.hikari.HikariDataSource
+    #    type: com.alibaba.druid.pool.DruidDataSource
+    #    druid:
+    #      initial-size: 8
+    #      min-idle: 8
+    #      max-active: 16
+    hikari:
+      idle-timeout: 60000
+      maximum-pool-size: 50
+      minimum-idle: 10

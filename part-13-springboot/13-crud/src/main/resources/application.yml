@@ -1,0 +1,49 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /crud
+
+#jdbc:
+#  driverClassName: com.mysql.cj.jdbc.Driver
+#  url: jdbc:mysql://127.0.0.1:3306/pigxx
+#  username: root
+#  password: 123456
+
+
+# SpringBoot通过logging.level.*=debug来配置日志级别，*填写包名
+logging:
+  level:
+    com.bytesRoom: debug
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://114.67.89.253:3306/oldpeople_pigxx?useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: root
+    password: centos123qwer
+    type: com.zaxxer.hikari.HikariDataSource
+    #    type: com.alibaba.druid.pool.DruidDataSource
+#    druid:
+#      initial-size: 8
+#      min-idle: 8
+#      max-active: 16
+    hikari:
+      idle-timeout: 60000
+      maximum-pool-size: 50
+      minimum-idle: 10
+
+  # 开发阶段关闭thymeleaf的模板缓存
+  thymeleaf:
+    cache: false
+
+
+mybatis:
+#  通用mapper自动开启驼峰
+  configuration:
+    map-underscore-to-camel-case: true
+# mybatis 别名扫描
+  type-aliases-package: com.bytesRoom.pojo
+# mapper.xml文件位置,如果没有映射文件，请注释掉
+  mapper-locations: mapper/*.xml
+
+
+

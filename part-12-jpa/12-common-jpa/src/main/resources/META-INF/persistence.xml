@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+                http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <!--配置jpa的核心配置文件！！！-->
+    <!--该文件只能放在resources/META-INF目录下面-->
+
+    <!--配置持久化单元
+        name：持久化单元名称
+        transaction-type：事务类型
+             RESOURCE_LOCAL：本地事务管理
+             JTA：分布式事务管理 -->
+    <persistence-unit name="myJpa" transaction-type="RESOURCE_LOCAL">
+        <!--配置JPA规范的服务提供商 -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <!--数据信息-->
+            <!-- 数据库驱动 -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <!-- 数据库地址 -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://114.67.89.253:3306/darkhorse297_jpa?useSSL=false"/>
+            <!-- 数据库用户名 -->
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <!-- 数据库密码 -->
+            <property name="javax.persistence.jdbc.password" value="centos123qwer"/>
+
+            <!--jpa提供者的可选配置：我们的JPA规范的提供者为hibernate，所以jpa的核心配置中兼容hibernate的配置信息 -->
+            <!--配置hibernate的配置信息-->
+            <!--打印sql-->
+            <property name="hibernate.show_sql" value="true"/>
+            <!--格式化sql-->
+            <property name="hibernate.format_sql" value="true"/>
+            <!--自动创建数据库表-->
+            <!--create update none-->
+            <!--
+            create 程序运行时创建数据库（如果有表，先删除再创建表）
+            update 程序运行时创建表（如果有表，不会创建表）
+            none 不会创建表
+            -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>
+
