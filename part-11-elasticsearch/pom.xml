@@ -12,6 +12,11 @@
 
     <artifactId>part-11-elasticsearch</artifactId>
 
+    <modules>
+        <module>11-java-elasticsearch</module>
+        <module>11-springdata-elasticsearch</module>
+    </modules>
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
