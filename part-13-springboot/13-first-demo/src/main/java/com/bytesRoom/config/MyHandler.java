@@ -3,11 +3,11 @@ package com.bytesRoom.config;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Myhandler {
+public class MyHandler {
 
     private JdbcProperties2 jdbcProperties2;
 
-    Myhandler(JdbcProperties2 jdbcProperties2){
+    MyHandler(JdbcProperties2 jdbcProperties2){
         this.jdbcProperties2 = jdbcProperties2;
     }
 

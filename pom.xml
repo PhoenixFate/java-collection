@@ -13,7 +13,8 @@
         <module>part-12-jpa</module>
         <module>part-13-springboot</module>
         <module>part-11-elasticsearch</module>
-        <module>part17-docker</module>
+        <module>part-17-docker</module>
+        <module>part-18-integration</module>
     </modules>
 
     <properties>

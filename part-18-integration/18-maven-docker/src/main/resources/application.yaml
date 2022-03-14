@@ -1,0 +1,25 @@
+jdbc4:
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/pigxx
+  username: root
+  password: 444444444
+  user:
+    name: jack
+    age: 12
+    language:
+      -java
+      -c++
+      -ios
+      -web
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+server:
+  port: 8090
+  servlet:
+    context-path: /abc
+
