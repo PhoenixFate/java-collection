@@ -15,6 +15,7 @@
         <module>part-11-elasticsearch</module>
         <module>part-17-docker</module>
         <module>part-18-integration</module>
+        <module>part-19-education-online</module>
     </modules>
 
     <properties>

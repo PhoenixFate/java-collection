@@ -59,6 +59,8 @@
             <!--docker的maven插件，官网: https://github.com/spotify/docker-maven-plugin-->
             <!--代替Dockerfile的写法-->
             <!--mvn clean package docker:build -DpushImage-->
+            <!--只上传-->
+            <!--mvn docker:build -DpushImage-->
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
