@@ -1,0 +1,1 @@
+terminal 进入当前目录, 然后webpack main.js
