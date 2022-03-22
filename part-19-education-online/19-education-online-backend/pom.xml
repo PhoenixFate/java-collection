@@ -17,6 +17,7 @@
         <module>xc-framework-utils</module>
         <module>xc-service-api</module>
         <module>xc-service-manage-cms</module>
+        <module>test-freemarker</module>
     </modules>
 
 

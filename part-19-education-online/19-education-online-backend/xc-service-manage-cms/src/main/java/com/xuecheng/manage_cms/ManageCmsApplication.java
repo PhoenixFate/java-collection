@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages={"com.xuecheng.api"})//扫描接口
 //默认启动类会扫描本包下面所有的bean，所以下面的一句，可加可不加，但为了阅读，建议添加
 @ComponentScan(basePackages={"com.xuecheng.manage_cms"})//扫描本项目下的所有类
+@ComponentScan(basePackages={"com.xuecheng.framework"})//扫描common包下的类
 public class ManageCmsApplication {
     public static void main(String[] args) {
         SpringApplication.run(ManageCmsApplication.class,args);
