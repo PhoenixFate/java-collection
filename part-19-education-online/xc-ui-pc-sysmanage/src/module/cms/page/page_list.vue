@@ -50,6 +50,10 @@
             size="small" type="text"
             @click="del(page.row.pageId)">删除
           </el-button>
+          <el-button
+            size="small" type="text"
+            @click="preview(page.row.pageId)">页面预览
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -97,6 +101,10 @@ export default {
       // alert(page)
       this.params.page = page;
       this.query()
+    },
+    preview: function (pageId) {
+      //打开浏览器窗口
+      window.open("http://www.xuecheng.com/cms/preview/"+pageId);
     },
     edit: function (pageId) {
       //打开修改页面
