@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class ReceiveHandler {
 
     /**
-     * 监听mq的处理器
+     * 监听消息队列
      */
     @RabbitListener(queues = {RabbitmqConfig.QUEUE_INFORM_EMAIL})
     public void sendEmail(String message, Message message2, Channel channel){
