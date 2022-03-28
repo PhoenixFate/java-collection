@@ -7,8 +7,11 @@ import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_cms.service.CmsPageService;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 /**
  * @author Administrator
@@ -64,5 +67,17 @@ public class CmsPageController implements CmsPageControllerApi {
     @DeleteMapping("/delete/{id}")
     public ResponseResult delete(@PathVariable("id") String id) {
         return cmsPageService.deleteById(id);
+    }
+
+    /**
+     * 页面发布
+     * @param pageId 页面id
+     * @return
+     */
+    @Override
+    @PostMapping("/postPage/{pageId}")
+    public ResponseResult postPage(@PathVariable("pageId")String pageId) throws IOException, TemplateException {
+        //执行页面静态化
+        return cmsPageService.postPage(pageId);
     }
 }

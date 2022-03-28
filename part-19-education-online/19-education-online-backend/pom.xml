@@ -22,6 +22,7 @@
         <module>test-rabbitmq-consumer</module>
         <module>springboot-rabbitmq-producer</module>
         <module>springboot-rabbitmq-consumer</module>
+        <module>xc-service-manage-cms-client</module>
     </modules>
 
 

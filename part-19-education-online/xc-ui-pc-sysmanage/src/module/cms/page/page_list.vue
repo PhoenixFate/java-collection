@@ -54,6 +54,10 @@
             size="small" type="text"
             @click="preview(page.row.pageId)">页面预览
           </el-button>
+          <el-button
+            size="small" type="primary" plain
+            @click="postPage(page.row.pageId)">页面发布
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -104,12 +108,25 @@ export default {
     },
     preview: function (pageId) {
       //打开浏览器窗口
-      window.open("http://www.xuecheng.com/cms/preview/"+pageId);
+      window.open("http://www.xuecheng.com/cms/preview/" + pageId);
     },
     edit: function (pageId) {
       //打开修改页面
       this.$router.push({
         path: '/cms/page/edit/' + pageId
+      })
+    },
+    postPage: function (pageId) {
+      this.$confirm('您确认发布该页面吗?', '提示', {}).then(() => {
+        //调用服务端接口
+        cmsApi.post_page(pageId).then(res => {
+          if (res.success) {
+            console.log("发布页面id=" + pageId + "成功！")
+            this.$message.success("发布成功，请稍后查看结果")
+          } else {
+            this.$message.error("发布失败")
+          }
+        })
       })
     },
     del: function (pageId) {
