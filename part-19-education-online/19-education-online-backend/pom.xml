@@ -23,6 +23,7 @@
         <module>springboot-rabbitmq-producer</module>
         <module>springboot-rabbitmq-consumer</module>
         <module>xc-service-manage-cms-client</module>
+        <module>xc-service-manage-course</module>
     </modules>
 
 
@@ -33,8 +34,8 @@
         <springframework.version>5.0.5.RELEASE</springframework.version>
         <mybatis-spring-boot.version>1.3.1</mybatis-spring-boot.version>
         <mybatis.version>3.4.5</mybatis.version>
-        <druid.version>1.1.6</druid.version>
-        <mysql-connector-java.version>5.1.45</mysql-connector-java.version>
+        <druid.version>1.1.17</druid.version>
+        <mysql-connector-java.version>8.0.20</mysql-connector-java.version>
         <commons-io.version>2.6</commons-io.version>
         <org.apache.commons.io.version>1.3.2</org.apache.commons.io.version>
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
@@ -46,7 +47,6 @@
         <springfox-swagger.version>2.7.0</springfox-swagger.version>
         <fastjson.version>1.2.30</fastjson.version>
         <fastdfs-client-java.version>1.27.0.0</fastdfs-client-java.version>
-        <mysql-connector-java.version>5.1.40</mysql-connector-java.version>
         <elasticsearch.version>6.2.1</elasticsearch.version>
         <guava.version>24.0-jre</guava.version>
     </properties>
@@ -91,6 +91,11 @@
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.netflix.feign</groupId>
@@ -162,6 +167,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${springframework.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

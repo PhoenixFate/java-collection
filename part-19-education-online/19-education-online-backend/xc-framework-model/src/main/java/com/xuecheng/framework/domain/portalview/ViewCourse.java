@@ -3,7 +3,7 @@ package com.xuecheng.framework.domain.portalview;
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.CoursePic;
-import com.xuecheng.framework.domain.course.ext.TeachplanNode;
+import com.xuecheng.framework.domain.course.ext.TeachPlanNode;
 import com.xuecheng.framework.domain.report.ReportCourse;
 import lombok.Data;
 import lombok.ToString;
@@ -25,7 +25,7 @@ public class ViewCourse implements Serializable{
     private CourseBase courseBase;
     private CourseMarket courseMarket;
     private CoursePic coursePic;
-    private TeachplanNode teachplan;
+    private TeachPlanNode teachplan;
     //课程统计信息
     private ReportCourse reportCourse;
 

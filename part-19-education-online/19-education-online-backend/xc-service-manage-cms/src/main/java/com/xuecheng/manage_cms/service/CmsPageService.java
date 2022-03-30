@@ -77,7 +77,7 @@ public class CmsPageService {
      * @param queryPageRequest 查询条件
      * @return
      */
-    public QueryResponseResult findList(int page, int size, QueryPageRequest queryPageRequest){
+    public QueryResponseResult<CmsPage> findList(int page, int size, QueryPageRequest queryPageRequest){
         if(queryPageRequest==null){
             queryPageRequest=new QueryPageRequest();
         }
@@ -112,11 +112,10 @@ public class CmsPageService {
         }
         Pageable pageable = PageRequest.of(page,size);
         Page<CmsPage> all = cmsPageRepository.findAll(example,pageable);//实现自定义条件查询并且分页查询
-        QueryResult queryResult = new QueryResult();
+        QueryResult<CmsPage> queryResult = new QueryResult<CmsPage>();
         queryResult.setList(all.getContent());//数据列表
         queryResult.setTotal(all.getTotalElements());//数据总记录数
-        QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS,queryResult);
-        return queryResponseResult;
+        return new QueryResponseResult<>(CommonCode.SUCCESS,queryResult);
     }
 
     //新增页面
