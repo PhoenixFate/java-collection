@@ -1,6 +1,7 @@
 package com.xuecheng.manage_course.service;
 
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.TeachPlan;
 import com.xuecheng.framework.domain.course.ext.TeachPlanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
@@ -10,6 +11,7 @@ import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.dao.CourseBaseRepository;
+import com.xuecheng.manage_course.dao.CourseMarketRepository;
 import com.xuecheng.manage_course.dao.TeachPlanMapper;
 import com.xuecheng.manage_course.dao.TeachPlanRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +35,10 @@ public class CourseService {
 
     @Autowired
     private TeachPlanRepository teachPlanRepository;
+
+    @Autowired
+    private CourseMarketRepository courseMarketRepository;
+
 
     //课程计划查询
     public TeachPlanNode findTeachPlanPlan(String courseId) {
@@ -143,4 +149,39 @@ public class CourseService {
 
     }
 
+    @Transactional
+    public ResponseResult updateCourseBase(String courseId, CourseBase courseBase) {
+        Optional<CourseBase> optional = courseBaseRepository.findById(courseId);
+        if (!optional.isPresent()) {
+            ExceptionCast.cast(CommonCode.INVALID_PARAM);
+        }
+        courseBaseRepository.save(courseBase);
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    public CourseMarket getCourseMarketById(String courseId) {
+        Optional<CourseMarket> optional = courseMarketRepository.findById(courseId);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
+    }
+
+    @Transactional
+    public ResponseResult updateCourseMarket(String courseId, CourseMarket courseMarket) {
+        if (courseMarket == null) {
+            courseMarket = new CourseMarket();
+        }
+
+        Optional<CourseMarket> optional = courseMarketRepository.findById(courseId);
+        if (optional.isPresent()) {
+            CourseMarket courseMarket1 = optional.get();
+            courseMarket.setId(courseMarket1.getId());
+        } else {
+            //一起的不存在，则新增
+            courseMarket.setId(courseId);
+        }
+        courseMarketRepository.save(courseMarket);
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
 }

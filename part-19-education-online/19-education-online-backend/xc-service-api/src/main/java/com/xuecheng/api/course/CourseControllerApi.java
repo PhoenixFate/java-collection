@@ -1,6 +1,7 @@
 package com.xuecheng.api.course;
 
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.TeachPlan;
 import com.xuecheng.framework.domain.course.ext.TeachPlanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
@@ -11,7 +12,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "课程管理接口", description = "课程管理的增删改查接口")
+@Api(description = "课程管理的增删改查接口", tags = {"课程管理接口"})
 public interface CourseControllerApi {
 
     /**
@@ -30,11 +31,14 @@ public interface CourseControllerApi {
     })
     QueryResponseResult<CourseBase> findCourseList(Integer page, Integer size, CourseListRequest courseListRequest);
 
-    @ApiOperation("课程基础信息")
+    @ApiOperation("获取课程基础信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "课程id", required = true, paramType = "path", dataType = "string")
     })
     CourseBase getCourseBaseById(String id);
+
+    @ApiOperation("更新课程基础信息")
+    ResponseResult updateCourseBase(String courseId, CourseBase courseBase);
 
     @ApiOperation("添加课程计划")
     @ApiImplicitParams({
@@ -42,4 +46,9 @@ public interface CourseControllerApi {
     })
     ResponseResult addTeachPlan(TeachPlan teachPlan);
 
+    @ApiOperation("获取课程营销信息")
+    CourseMarket getCourseMarketById(String courseId);
+
+    @ApiOperation("更新课程营销信息")
+    ResponseResult updateCourseMarket(String courseId, CourseMarket courseMarket);
 }
