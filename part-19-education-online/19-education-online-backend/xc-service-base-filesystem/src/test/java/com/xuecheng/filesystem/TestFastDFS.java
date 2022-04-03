@@ -1,4 +1,4 @@
-package com.xuecheng.test.fastdfs;
+package com.xuecheng.filesystem;
 
 import org.csource.common.MyException;
 import org.csource.fastdfs.*;
@@ -11,8 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.Socket;
 import java.net.URL;
 
 /**
@@ -47,8 +45,6 @@ public class TestFastDFS {
             TrackerServer trackerServer = trackerClient.getConnection();
             //获取Stroage
             StorageServer storeStorage = trackerClient.getStoreStorage(trackerServer);
-            Socket socket = storeStorage.getSocket();
-            socket.setSoTimeout(20000);
             //创建stroageClient
             StorageClient1 storageClient1 = new StorageClient1(trackerServer, storeStorage);
             //向stroage服务器上传文件
@@ -82,8 +78,6 @@ public class TestFastDFS {
             TrackerServer trackerServer = trackerClient.getConnection();
             //获取Stroage
             StorageServer storeStorage = trackerClient.getStoreStorage(trackerServer);
-            Socket socket = storeStorage.getSocket();
-            socket.setSoTimeout(20000);
             //创建stroageClient
             StorageClient1 storageClient1 = new StorageClient1(trackerServer, storeStorage);
             //向stroage服务器上传文件

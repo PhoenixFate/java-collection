@@ -1,0 +1,41 @@
+server:
+  port: 10066
+
+spring:
+  application:
+    name: upload-file
+  servlet:  #请求文件大小
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  mvc:
+    async:
+      request-timeout: 30000
+fdfs:
+  so-timeout: 20000       # 读取时间
+  connect-timeout: 60000   # 连接超时时间
+  thumb-image:           # 缩略图
+    width: 150
+    height: 150
+  tracker-list:          # tracker服务配置地址列表
+    - 114.67.89.253:22042
+  pool:
+    #从池中借出的对象的最大数目（配置为-1表示不限制）
+    max-total: -1
+    #获取连接时的最大等待毫秒数(默认配置为5秒)
+    max-wait-millis: 10000
+    #每个key最大连接数
+    max-total-per-key: 50
+    #每个key对应的连接池最大空闲连接数
+    max-idle-per-key: 10
+    #每个key对应的连接池最小空闲连接数
+    min-idle-per-key: 5
+upload:
+  baseUrl: https://fastdfs.bytes-space.com/
+
+xuecheng:
+  fastdfs:
+    connect_timeout_in_seconds: 60
+    network_timeout_in_seconds: 120
+    charset: UTF-8
+    tracker_servers: 114.67.89.253:22042,114.67.89.253:22041 #多个 trackerServer中间以逗号分隔

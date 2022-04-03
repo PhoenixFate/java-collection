@@ -20,22 +20,22 @@ public class FileSystem {
     //文件请求路径
     private String filePath;
     //文件大小
-    private long fileSize;
+    private Long fileSize;
     //文件名称
     private String fileName;
     //文件类型
     private String fileType;
     //图片宽度
-    private int fileWidth;
+    private Integer fileWidth;
     //图片高度
-    private int fileHeight;
+    private Integer fileHeight;
     //用户id，用于授权
     private String userId;
     //业务key
-    private String businesskey;
+    private String businessKey;
     //业务标签
-    private String filetag;
+    private String fileTag;
     //文件元信息
-    private Map metadata;
+    private Map<Object, Object> metaData;
 
 }
