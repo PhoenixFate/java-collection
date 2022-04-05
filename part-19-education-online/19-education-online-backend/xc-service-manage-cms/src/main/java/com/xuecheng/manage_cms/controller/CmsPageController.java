@@ -42,7 +42,7 @@ public class CmsPageController implements CmsPageControllerApi {
         // QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS, queryResult);
         // return queryResponseResult;
         //调用service
-        return cmsPageService.findList(page,size,queryPageRequest);
+        return cmsPageService.findList(page, size, queryPageRequest);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class CmsPageController implements CmsPageControllerApi {
     @Override
     @PutMapping("/edit/{id}")
     public CmsPageResult edit(@PathVariable("id") String id, @RequestBody CmsPage cmsPage) {
-        return cmsPageService.update(id,cmsPage);
+        return cmsPageService.update(id, cmsPage);
     }
 
     @Override
@@ -71,13 +71,20 @@ public class CmsPageController implements CmsPageControllerApi {
 
     /**
      * 页面发布
+     *
      * @param pageId 页面id
      * @return
      */
     @Override
     @PostMapping("/postPage/{pageId}")
-    public ResponseResult postPage(@PathVariable("pageId")String pageId) throws IOException, TemplateException {
+    public ResponseResult postPage(@PathVariable("pageId") String pageId) throws IOException, TemplateException {
         //执行页面静态化
         return cmsPageService.postPage(pageId);
+    }
+
+    @Override
+    @PostMapping("/save")
+    public CmsPageResult saveCmsPage(@RequestBody CmsPage cmsPage) {
+        return cmsPageService.savePage(cmsPage);
     }
 }

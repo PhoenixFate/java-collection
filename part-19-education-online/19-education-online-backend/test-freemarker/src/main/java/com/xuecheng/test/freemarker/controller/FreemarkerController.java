@@ -20,20 +20,31 @@ public class FreemarkerController {
     @Autowired
     RestTemplate restTemplate;
 
+    @RequestMapping("/course")
+    public String course(Map<String, Object> map) {
+        String dataUrl = "http://localhost:31200/course/courseView/297e7c7c62b888f00162b8a7dec20000";
+        ResponseEntity<Map> forEntity = restTemplate.getForEntity(dataUrl, Map.class);
+        Map body = forEntity.getBody();
+        System.out.println(body);
+        map.putAll(body);
+        return "course";
+    }
+
     @RequestMapping("/banner")
-    public String index_banner(Map<String, Object> map){
+    public String index_banner(Map<String, Object> map) {
         String dataUrl = "http://localhost:31001/cms/config/getModel/5a791725dd573c3574ee333f";
         ResponseEntity<Map> forEntity = restTemplate.getForEntity(dataUrl, Map.class);
         Map body = forEntity.getBody();
-        map.put("model",body);
+        map.put("model", body);
         return "index_banner";
     }
+
     @RequestMapping("/test1")
-    public String freemarker(Map<String, Object> map){
+    public String freemarker(Map<String, Object> map) {
         //形参数据最终会放到request域中
 
         //向数据模型放数据
-        map.put("name","黑马程序员");
+        map.put("name", "黑马程序员");
         Student stu1 = new Student();
         stu1.setName("小明");
         stu1.setAge(18);
@@ -43,7 +54,7 @@ public class FreemarkerController {
         stu2.setName("小红");
         stu2.setMondy(200.1f);
         stu2.setAge(19);
-       stu2.setBirthday(new Date());
+        stu2.setBirthday(new Date());
         List<Student> friends = new ArrayList<>();
         friends.add(stu1);
         stu2.setFriends(friends);
@@ -52,17 +63,17 @@ public class FreemarkerController {
         stus.add(stu1);
         stus.add(stu2);
         //向数据模型放数据
-        map.put("stus",stus);
+        map.put("stus", stus);
         //准备map数据
-        HashMap<String,Student> stuMap = new HashMap<>();
-        stuMap.put("stu1",stu1);
-        stuMap.put("stu2",stu2);
+        HashMap<String, Student> stuMap = new HashMap<>();
+        stuMap.put("stu1", stu1);
+        stuMap.put("stu2", stu2);
         //向数据模型放数据
-        map.put("stu1",stu1);
+        map.put("stu1", stu1);
         //向数据模型放数据
-        map.put("stuMap",stuMap);
+        map.put("stuMap", stuMap);
 
-        map.put("point",102920122);
+        map.put("point", 102920122);
         //返回模板文件名称
         return "test1";
     }

@@ -37,4 +37,6 @@ public class CmsSite {
     private Date siteCreateTime;
     //物理路径
     private String sitePhysicalPath;
+    //物理路径-mac
+    private String sitePhysicalPathMac;
 }

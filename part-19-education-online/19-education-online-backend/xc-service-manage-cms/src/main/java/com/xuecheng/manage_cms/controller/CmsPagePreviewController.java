@@ -19,13 +19,15 @@ public class CmsPagePreviewController extends BaseController {
     @Autowired
     private CmsPageService cmsPageService;
 
-    @RequestMapping(value = "/cms/preview/{pageId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/cms/preview/{pageId}", method = RequestMethod.GET)
     //页面预览
-    public void preview(@PathVariable("pageId")String pageId) throws IOException, TemplateException {
-        String pageHtml=cmsPageService.getPageHtml(pageId);
-        if(StringUtils.isNotEmpty(pageHtml)){
+    public void preview(@PathVariable("pageId") String pageId) throws IOException, TemplateException {
+        String pageHtml = cmsPageService.getPageHtml(pageId);
+        if (StringUtils.isNotEmpty(pageHtml)) {
+            response.setHeader("Content-type", "text/html;charset=utf-8");
             ServletOutputStream outputStream = response.getOutputStream();
             outputStream.write(pageHtml.getBytes("utf-8"));
+            response.setContentType("text/html");
         }
     }
 

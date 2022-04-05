@@ -83,10 +83,12 @@ public class FileSystemService {
         TrackerClient trackerClient = new TrackerClient();
         try {
             TrackerServer trackerServer = trackerClient.getConnection();
+            Socket trackerServerSocket = trackerServer.getSocket();
+            trackerServerSocket.setSoTimeout(40000);
             //得到storage服务器
             StorageServer storeStorage = trackerClient.getStoreStorage(trackerServer);
             Socket socket = storeStorage.getSocket();
-            socket.setSoTimeout(20000);
+            socket.setSoTimeout(40000);
             //创建storageClient来上传文件
             StorageClient1 storageClient1 = new StorageClient1(trackerServer, storeStorage);
             //上传文件

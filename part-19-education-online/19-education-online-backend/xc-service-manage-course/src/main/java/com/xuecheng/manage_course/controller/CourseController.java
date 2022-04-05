@@ -5,9 +5,13 @@ import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.CoursePic;
 import com.xuecheng.framework.domain.course.TeachPlan;
+import com.xuecheng.framework.domain.course.ext.CourseInfo;
+import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachPlanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
+import com.xuecheng.framework.domain.course.response.CoursePublishResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
+import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +38,7 @@ public class CourseController implements CourseControllerApi {
 
     @Override
     @GetMapping("/courseBase/list/{page}/{size}")
-    public QueryResponseResult<CourseBase> findCourseList(@PathVariable("page") Integer page, @PathVariable("size") Integer size, CourseListRequest courseListRequest) {
+    public QueryResponseResult<CourseInfo> findCourseList(@PathVariable("page") Integer page, @PathVariable("size") Integer size, CourseListRequest courseListRequest) {
         return courseService.findCourseList(page, size, courseListRequest);
     }
 
@@ -84,5 +88,17 @@ public class CourseController implements CourseControllerApi {
     @DeleteMapping("/coursePicture/delete/{courseId}")
     public ResponseResult deleteCoursePicture(@PathVariable("courseId") String courseId) {
         return courseService.deleteCoursePicture(courseId);
+    }
+
+    @Override
+    @GetMapping("/courseView/{courseId}")
+    public CourseView getCourseView(@PathVariable("courseId") String courseId) {
+        return courseService.getCourseView(courseId);
+    }
+
+    @Override
+    @PostMapping("/preview/{courseId}")
+    public CoursePublishResult coursePreview(@PathVariable("courseId") String courseId) {
+        return courseService.coursePreview(courseId);
     }
 }

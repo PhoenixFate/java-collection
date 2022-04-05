@@ -3,6 +3,7 @@ package com.xuecheng.manage_course.dao;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachPlanNode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,8 +55,8 @@ public class TestDao {
     public void testPageHelper() {
         //分页，查询第一页，每页显示10条记录
         PageHelper.startPage(1, 10);
-        Page<CourseBase> courseListWithPage = courseMapper.findCourseListWithPage();
-        List<CourseBase> result = courseListWithPage.getResult();
+        Page<CourseInfo> courseListWithPage = courseMapper.findCourseListWithPage();
+        List<CourseInfo> result = courseListWithPage.getResult();
         System.out.println(result);
         long total = courseListWithPage.getTotal();
         System.out.println(total);

@@ -19,33 +19,40 @@ public interface CmsPageControllerApi {
             @ApiImplicitParam(name = "size", value = "每页记录数", required = true, paramType = "path", dataType = "int")
     })
     QueryResponseResult<CmsPage> findList(int page, int size, QueryPageRequest queryPageRequest);
+
     //新增页面
     @ApiOperation("新增cms页面")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cmsPage", value = "新增cms页面所需的参数", required = true,dataType="CmsPage")
+            @ApiImplicitParam(name = "cmsPage", value = "新增cms页面所需的参数", required = true, dataType = "CmsPage")
     })
     CmsPageResult add(CmsPage cmsPage);
+
     //查询页面
     @ApiOperation("通过id查询页面")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="id",value = "cms数据的id",required = true,paramType = "path",dataType = "String")
+            @ApiImplicitParam(name = "id", value = "cms数据的id", required = true, paramType = "path", dataType = "String")
     })
     CmsPage findById(String id);
 
     @ApiOperation("修改页面")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="id",value = "主键id",required = true,dataType = "String"),
-            @ApiImplicitParam(name = "cmsPage", value = "修改cms页面所需的参数", required = true,dataType="CmsPage")
+            @ApiImplicitParam(name = "id", value = "主键id", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "cmsPage", value = "修改cms页面所需的参数", required = true, dataType = "CmsPage")
     })
-    CmsPageResult edit(String id,CmsPage cmsPage);
+    CmsPageResult edit(String id, CmsPage cmsPage);
+
     //删除页面
     @ApiOperation("通过id删除页面")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="id",value = "cms数据的id",required = true,paramType = "path",dataType = "String")
+            @ApiImplicitParam(name = "id", value = "cms数据的id", required = true, paramType = "path", dataType = "String")
     })
     ResponseResult delete(String id);
+
     //页面发布
     @ApiOperation("页面发布")
     ResponseResult postPage(String pageId) throws Exception;
 
+    //保存页面，有则修改，没有则新增
+    @ApiOperation("保存页面")
+    ResponseResult saveCmsPage(CmsPage cmsPage);
 }

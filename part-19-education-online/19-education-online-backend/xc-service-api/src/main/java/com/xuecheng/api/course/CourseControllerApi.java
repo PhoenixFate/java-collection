@@ -4,8 +4,11 @@ import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.CourseMarket;
 import com.xuecheng.framework.domain.course.CoursePic;
 import com.xuecheng.framework.domain.course.TeachPlan;
+import com.xuecheng.framework.domain.course.ext.CourseInfo;
+import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachPlanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
+import com.xuecheng.framework.domain.course.response.CoursePublishResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import io.swagger.annotations.Api;
@@ -30,7 +33,7 @@ public interface CourseControllerApi {
             @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "path", dataType = "int"),
             @ApiImplicitParam(name = "size", value = "每页记录数", required = true, paramType = "path", dataType = "int")
     })
-    QueryResponseResult<CourseBase> findCourseList(Integer page, Integer size, CourseListRequest courseListRequest);
+    QueryResponseResult<CourseInfo> findCourseList(Integer page, Integer size, CourseListRequest courseListRequest);
 
     @ApiOperation("获取课程基础信息")
     @ApiImplicitParams({
@@ -61,4 +64,11 @@ public interface CourseControllerApi {
 
     @ApiOperation("删除当前课程图片")
     ResponseResult deleteCoursePicture(String courseId);
+
+    //根据id，返回课程详情所有内容
+    @ApiOperation("查询课程视图")
+    CourseView getCourseView(String courseId);
+
+    @ApiOperation("课程预览")
+    CoursePublishResult coursePreview(String courseId);
 }

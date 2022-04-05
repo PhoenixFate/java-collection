@@ -6,8 +6,8 @@
         select * from course_base where id = #{id}
     </select>
 
-    <select id="findCourseListWithPage" resultType="com.xuecheng.framework.domain.course.CourseBase">
-        select * from course_base
+    <select id="findCourseListWithPage" resultType="com.xuecheng.framework.domain.course.ext.CourseInfo">
+        select b.*,p.pic as pic from course_base  b left join course_pic p on b.id=p.courseid
     </select>
 
 </mapper>
