@@ -16,5 +16,8 @@ spring:
 xuecheng:
   mq:
     #cms客户端监控的队列名称（不同的客户端监控的队列不能重复）
-    queue: queue_cms_post_page_01
-    routingKey: 5a751fab6abb5044e0d19ea1	#此routingKey为门户站点ID
+    # 每个站点都有对应不同的queue和routingKey
+    # 门户 queue: queue_cms_post_page_01 routingKey: 5a751fab6abb5044e0d19ea1
+    # 课程发布 queue: queue_cms_post_page_03 routingKey: 624c0a1788e9f226caaabb84
+    queue: queue_cms_post_page_03
+    routingKey: 624c0a1788e9f226caaabb84	#此routingKey为门户站点ID

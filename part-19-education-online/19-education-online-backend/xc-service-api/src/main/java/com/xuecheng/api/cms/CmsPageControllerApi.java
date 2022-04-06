@@ -3,12 +3,15 @@ package com.xuecheng.api.cms;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+
+import java.io.IOException;
 
 @Api(value = "cms页面管理接口", description = "cms页面管理接口，提供页面的增、删、改、查")
 public interface CmsPageControllerApi {
@@ -55,4 +58,8 @@ public interface CmsPageControllerApi {
     //保存页面，有则修改，没有则新增
     @ApiOperation("保存页面")
     ResponseResult saveCmsPage(CmsPage cmsPage);
+
+    //课程一键发布
+    @ApiOperation("课程一键发布页面")
+    CmsPostPageResult postPageQuickly(CmsPage cmsPage) throws Exception;
 }

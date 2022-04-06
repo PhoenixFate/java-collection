@@ -74,7 +74,7 @@ export const publish = id => {
 }
 //查询课程信息
 export const findCourseView = courseId => {
-  return http.requestQuickGet(apiUrl + '/course/courseview/' + courseId)
+  return http.requestQuickGet(apiUrl + '/course/courseView/' + courseId)
 }
 
 /*保存媒资信息*/

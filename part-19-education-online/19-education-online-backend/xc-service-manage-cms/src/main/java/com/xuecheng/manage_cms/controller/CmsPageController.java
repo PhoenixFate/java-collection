@@ -4,6 +4,7 @@ import com.xuecheng.api.cms.CmsPageControllerApi;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_cms.service.CmsPageService;
@@ -86,5 +87,12 @@ public class CmsPageController implements CmsPageControllerApi {
     @PostMapping("/save")
     public CmsPageResult saveCmsPage(@RequestBody CmsPage cmsPage) {
         return cmsPageService.savePage(cmsPage);
+    }
+
+    //课程一键发布
+    @Override
+    @PostMapping("/postPageQuickly")
+    public CmsPostPageResult postPageQuickly(@RequestBody CmsPage cmsPage) throws IOException, TemplateException {
+        return cmsPageService.postPageQuickly(cmsPage);
     }
 }

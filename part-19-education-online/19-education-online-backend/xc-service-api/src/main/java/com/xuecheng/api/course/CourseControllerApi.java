@@ -71,4 +71,10 @@ public interface CourseControllerApi {
 
     @ApiOperation("课程预览")
     CoursePublishResult coursePreview(String courseId);
+
+    @ApiOperation("课程发布")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "courseId", value = "课程发布", required = true, paramType = "path", dataType = "string")
+    })
+    CoursePublishResult coursePublish(String courseId);
 }

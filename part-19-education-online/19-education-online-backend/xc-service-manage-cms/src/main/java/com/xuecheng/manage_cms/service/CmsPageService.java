@@ -5,10 +5,12 @@ import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.xuecheng.framework.domain.cms.CmsPage;
+import com.xuecheng.framework.domain.cms.CmsSite;
 import com.xuecheng.framework.domain.cms.CmsTemplate;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsCode;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -16,6 +18,7 @@ import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_cms.config.RabbitmqConfig;
 import com.xuecheng.manage_cms.dao.CmsPageRepository;
+import com.xuecheng.manage_cms.dao.CmsSiteRepository;
 import com.xuecheng.manage_cms.dao.CmsTemplateRepository;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
@@ -71,6 +74,8 @@ public class CmsPageService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private CmsSiteRepository cmsSiteRepository;
 
     /**
      * 页面查询方法
@@ -359,5 +364,37 @@ public class CmsPageService {
         } else {
             return this.add(cmsPage);
         }
+    }
+
+    //课程一键发布页面
+    @Transactional
+    public CmsPostPageResult postPageQuickly(CmsPage cmsPage) throws TemplateException, IOException {
+        //将页面信息存储到cms_page对应的mongo中
+        CmsPageResult cmsPageResult = this.savePage(cmsPage);
+        if (!cmsPageResult.isSuccess()) {
+            ExceptionCast.cast(CommonCode.FAIL);
+        }
+
+        //得到页面的id
+        String pageId = cmsPageResult.getCmsPage().getPageId();
+
+        //执行页面发布(先静态化、保存到fdsGrid，再发送mq消息)
+        ResponseResult responseResult = this.postPage(pageId);
+        if (!responseResult.isSuccess()) {
+            ExceptionCast.cast(CommonCode.FAIL);
+        }
+        //拼接页面url=cmsSite.siteDomain+cmsSite.siteWebPath+cmsPage.pageWebPath+cmsPage.pageName
+        //取出站点id
+        String siteId = cmsPage.getSiteId();
+        CmsSite cmsSite = this.findCmsSiteById(siteId);
+        //拼装页面url
+        String pageUrl = cmsSite.getSiteDomain() + cmsSite.getSiteWebPath() + cmsPage.getPageWebPath() + cmsPage.getPageName();
+        return new CmsPostPageResult(CommonCode.SUCCESS, pageUrl);
+    }
+
+    //根据站点id，查询站点信息
+    public CmsSite findCmsSiteById(String siteId) {
+        Optional<CmsSite> optional = cmsSiteRepository.findById(siteId);
+        return optional.orElse(null);
     }
 }
