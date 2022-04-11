@@ -20,7 +20,7 @@
             <!-- 数据库驱动 -->
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <!-- 数据库地址 -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://114.67.89.253:3306/darkhorse297_jpa?useSSL=false"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://www.bytes-space.com:3306/darkhorse297_jpa?useSSL=false"/>
             <!-- 数据库用户名 -->
             <property name="javax.persistence.jdbc.user" value="root"/>
             <!-- 数据库密码 -->

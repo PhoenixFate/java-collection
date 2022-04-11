@@ -18,8 +18,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.xuecheng.manage_cms"})//扫描本项目下的所有类
 @ComponentScan(basePackages = {"com.xuecheng.framework"})//扫描common包下的类
 @EnableDiscoveryClient //表示一个EurekaClient从EurekaServer中发现服务
-public class ManageCmsApplication {
+public class XueChengManageCmsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ManageCmsApplication.class, args);
+        SpringApplication.run(XueChengManageCmsApplication.class, args);
     }
 }

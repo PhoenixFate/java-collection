@@ -4,7 +4,7 @@ spring:
   application:
     name: rabbitmq-producer
   rabbitmq:
-    host: 114.67.89.253
+    host: www.bytes-space.com
     port: 40572
     username: guest
     password: guest

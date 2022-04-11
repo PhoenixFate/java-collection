@@ -63,7 +63,7 @@
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="user" value="root"/>
         <property name="password" value="centos123qwer"/>
-        <property name="jdbcUrl" value="jdbc:mysql://114.67.89.253:3306/darkhorse297_jpa?useSSL=false" />
+        <property name="jdbcUrl" value="jdbc:mysql://www.bytes-space.com:3306/darkhorse297_jpa?useSSL=false" />
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
     </bean>
 

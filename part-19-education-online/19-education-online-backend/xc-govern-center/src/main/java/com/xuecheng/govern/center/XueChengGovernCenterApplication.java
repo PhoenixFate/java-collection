@@ -10,8 +10,8 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  **/
 @EnableEurekaServer //标识此工程是一个EurekaServer
 @SpringBootApplication
-public class GovernCenterApplication {
+public class XueChengGovernCenterApplication {
     public static void main(String[] args) {
-        SpringApplication.run(GovernCenterApplication.class,args);
+        SpringApplication.run(XueChengGovernCenterApplication.class,args);
     }
 }

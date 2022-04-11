@@ -1,0 +1,12 @@
+server:
+  port: ${port:40100}
+spring:
+  application:
+    name: xc-search-service
+xuecheng:
+  elasticsearch:
+    hostList: ${eshostlist:www.bytes-space.com:50920} #多个结点中间用逗号分隔
+  course:
+    index: xc_course_real
+    type: doc
+    source_field: id,name,grade,mt,st,charge,valid,pic,qq,price,price_old,status,studymodel,teachmode,expires,pub_time,start_time,end_time

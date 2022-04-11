@@ -66,7 +66,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.12</version>
                 <configuration>
-                    <imageName>114.67.89.253:50500/${project.artifactId}:${project.version}</imageName>
+                    <imageName>www.bytes-space.com:50500/${project.artifactId}:${project.version}</imageName>
                     <!--等价于Dockerfile中的 from jdk1.8-->
                     <baseImage>jdk8-image</baseImage>
                     <!--等价于Dockerfile中的 ENTRYPOINT ["java","-jar","/app"]-->
@@ -78,7 +78,7 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
-                    <dockerHost>http://114.67.89.253:50375</dockerHost>
+                    <dockerHost>http://www.bytes-space.com:50375</dockerHost>
                 </configuration>
             </plugin>
         </plugins>

@@ -108,7 +108,7 @@ export default {
     },
     preview: function (pageId) {
       //打开浏览器窗口
-      window.open("http://www.xuecheng.com/cms/preview/" + pageId);
+      window.open("http://www.xuecheng.test/cms/preview/" + pageId);
     },
     edit: function (pageId) {
       //打开修改页面

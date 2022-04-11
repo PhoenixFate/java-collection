@@ -16,8 +16,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages={"com.xuecheng.framework"})//扫描framework中通用类
 @ComponentScan(basePackages={"com.xuecheng.filesystem"})//扫描本项目下的所有类
 @EnableDiscoveryClient //表示一个EurekaClient从EurekaServer中发现服务
-public class FileSystemApplication {
+public class XueChengFileSystemApplication {
     public static void main(String[] args) {
-        SpringApplication.run(FileSystemApplication.class,args);
+        SpringApplication.run(XueChengFileSystemApplication.class,args);
     }
 }

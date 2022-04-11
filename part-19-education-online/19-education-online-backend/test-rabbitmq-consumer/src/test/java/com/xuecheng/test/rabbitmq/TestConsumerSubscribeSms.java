@@ -15,7 +15,7 @@ public class TestConsumerSubscribeSms {
     public static void main(String[] args) {
         //通过接连工厂创建新连接和mq建立连接
         ConnectionFactory connectionFactory=new ConnectionFactory();
-        connectionFactory.setHost("114.67.89.253");
+        connectionFactory.setHost("www.bytes-space.com");
         connectionFactory.setPort(40572);
         connectionFactory.setUsername("guest");
         connectionFactory.setPassword("guest");

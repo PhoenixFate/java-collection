@@ -10,7 +10,7 @@ spring:
   data:
     mongodb:
       database: xc_fs
-      uri: mongodb://root:root@114.67.89.253:40017
+      uri: mongodb://root:root@www.bytes-space.com:40017
 #SpringMVC上传文件配置
   servlet:
     multipart:
@@ -29,7 +29,7 @@ xuecheng:
     connect_timeout_in_seconds: 60
     network_timeout_in_seconds: 120
     charset: UTF-8
-    tracker_servers: 114.67.89.253:22042,114.67.89.253:22041 #多个 trackerServer中间以逗号分隔
+    tracker_servers: www.bytes-space.com:22042,www.bytes-space.com:22041 #多个 trackerServer中间以逗号分隔
 eureka:
   client:
     registerWithEureka: true #服务注册开关

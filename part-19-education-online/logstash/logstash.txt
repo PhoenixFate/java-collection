@@ -1,0 +1,11 @@
+下载logstash
+修改config/jvm.options 在最后添加
+-Dsun.stdout.encoding=UTF-8
+-Dsun.stderr.encoding=UTF-8
+
+安装logstash-input-jdbc插件
+logstash-plugin.bat install logstash-input-jdbc
+
+拷贝mysql.conf xc_course_template.json mysql-connector-java-8.0.25.jar 到config/
+运行logstash:
+bin/logstash.bat -f ../config/course.config

@@ -5,11 +5,11 @@ spring:
     name: xc-service-manage-course
   data:
     mongodb:
-      uri: mongodb://root:root@114.67.89.253:40017
+      uri: mongodb://root:root@www.bytes-space.com:40017
       database: xc_cms
   datasource:
     druid:
-      url: jdbc:mysql://114.67.89.253:40306/xc_course?characterEncoding=utf-8
+      url: jdbc:mysql://www.bytes-space.com:50306/xc_course?characterEncoding=utf-8
       username: root
       password: centos123qwer
       driverClassName: com.mysql.cj.jdbc.Driver
