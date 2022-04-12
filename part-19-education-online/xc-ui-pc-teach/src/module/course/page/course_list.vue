@@ -52,12 +52,12 @@
           {
             id:'test01',
             name:'test01',
-            pic:''
+            pic:'/group3/M00/00/00/o4YBAGJMc_eAfOEKAAC8bUtGUmw044.jpg'
           },
           {
             id:'test02',
             name:'test02',
-            pic:''
+            pic:'/group3/M00/00/00/o4YBAGJMc_eAfOEKAAC8bUtGUmw044.jpg'
           }
           ],
         sels: [],//列表选中列

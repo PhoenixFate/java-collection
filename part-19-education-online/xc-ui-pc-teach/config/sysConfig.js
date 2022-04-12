@@ -1,9 +1,9 @@
 var sysConfig = {
     xcApiUrlPre: '/api',
     //xcApiUrlPre: '',
-    xcApiUrl: 'http://api.xuecheng.com',
+    xcApiUrl: 'http://api.xuecheng.test',
     imgUrl:'https://fastdfs.bytes-space.com/',
-    videoUrl:'http://video.xuecheng.com',
+    videoUrl:'http://video.xuecheng.test',
     openAuthenticate:false,
     openAuthorize:false
 }

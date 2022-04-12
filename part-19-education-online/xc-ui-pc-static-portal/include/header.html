@@ -47,10 +47,10 @@
                     <!--<a href="#" class="personal"><span class="personalIco"></span>消息</a>-->
                     <span v-if="logined == true">欢迎{{this.user.username}}</span>
                     <a href="javascript:;" @click="logout" v-if="logined == true">退出</a>
-                    <a href="http://ucenter.xuecheng.com/" class="personal" target="_blank">我的学习</a>
+                    <a href="http://ucenter.xuecheng.test/" class="personal" target="_blank">我的学习</a>
                     <a href="javascript:;" @click="showlogin" v-if="logined == false">登陆&nbsp;|&nbsp;注册</a>
-                    <a href="http://teacher.xuecheng.com/" class="personal" target="_blank">教学提供方</a>
-                    <a href="http://system.xuecheng.com/" class="personal" target="_blank">系统后台</a>
+                    <a href="http://teacher.xuecheng.test/" class="personal" target="_blank">教学提供方</a>
+                    <a href="http://system.xuecheng.test/" class="personal" target="_blank">系统后台</a>
                     <!--<a href="#" class="myInfo"><img src="img/asset-myImg.jpg" alt="">个人中心</a>-->
                 </div>
                 <!--<div class="starch">
@@ -102,7 +102,7 @@
                 this.$confirm('确认退出吗?', '提示', {
                 }).then(() => {
                     //跳转到统一登陆
-                    window.location = "http://ucenter.xuecheng.com/#/logout"
+                    window.location = "http://ucenter.xuecheng.test/#/logout"
                 }).catch(() => {
 
                 });
@@ -138,7 +138,7 @@
                 this.$refs[formName].resetFields();
             },
             showlogin: function(){
-                window.location = "http://ucenter.xuecheng.com/#/login?returnUrl="+ Base64.encode(window.location)
+                window.location = "http://ucenter.xuecheng.test/#/login?returnUrl="+ Base64.encode(window.location)
             }
         },
        created() {

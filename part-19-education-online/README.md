@@ -42,7 +42,7 @@ eureka02: vm options: -DPORT=50102 -DEUREKA_SERVER=http://eureka01:50101/eureka/
 
         location /static/plugins/ {
             alias C:/Users/phoenix/IdeaProjects/java-collection/part-19-education-online/xc-ui-pc-static-portal/plugins/;
-            add_header Access-Control-Allow-Origin http://ucenter.xuecheng.com;
+            add_header Access-Control-Allow-Origin http://ucenter.xuecheng.test;
             add_header Access-Control-Allow-Credentials true;
             add_header Access-Control-Allow-Methods GET;
         }

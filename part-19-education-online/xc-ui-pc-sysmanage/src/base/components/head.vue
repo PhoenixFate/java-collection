@@ -71,7 +71,7 @@
         this.$confirm('确认退出吗?', '提示', {
         }).then(() => {
           //跳转到统一登陆
-          window.location = "http://ucenter.xuecheng.com/#/logout"
+          window.location = "http://ucenter.xuecheng.test/#/logout"
           /*const loading = this.$loading({
             lock: true,
             text: 'Loading',

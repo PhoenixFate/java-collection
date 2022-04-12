@@ -14,7 +14,7 @@
       if(data && data.data){
           if(data.data.code && data.data.code =='10001'){
               //需要登录
-              window.location = "http://ucenter.xuecheng.com/#/login?returnUrl="+ Base64.encode(window.location)
+              window.location = "http://ucenter.xuecheng.test/#/login?returnUrl="+ Base64.encode(window.location)
           }
       }
       return data
