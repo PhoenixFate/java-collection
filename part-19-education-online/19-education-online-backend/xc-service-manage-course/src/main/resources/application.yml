@@ -13,10 +13,10 @@ spring:
       username: root
       password: centos123qwer
       driverClassName: com.mysql.cj.jdbc.Driver
-      initialSize: 5  #初始建立连接数量
-      minIdle: 5  #最小连接数量
-      maxActive: 20 #最大连接数量
-      maxWait: 20000  #获取连接最大等待时间，毫秒
+      initialSize: 10  #初始建立连接数量
+      minIdle: 10  #最小连接数量
+      maxActive: 50 #最大连接数量
+      maxWait: 40000  #获取连接最大等待时间，毫秒
       testOnBorrow: true #申请连接时检测连接是否有效
       testOnReturn: false #归还连接时检测连接是否有效
       timeBetweenEvictionRunsMillis: 60000 #配置间隔检测连接是否有效的时间（单位是毫秒）

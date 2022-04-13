@@ -1,9 +1,11 @@
 package com.xuecheng.auth.service;
 
+import com.alibaba.fastjson.JSON;
 import com.xuecheng.framework.client.XcServiceList;
 import com.xuecheng.framework.domain.ucenter.ext.AuthToken;
 import com.xuecheng.framework.domain.ucenter.response.AuthCode;
 import com.xuecheng.framework.exception.ExceptionCast;
+import com.xuecheng.framework.model.response.CommonCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -48,11 +50,11 @@ public class AuthService {
     public AuthToken login(String username, String password, String clientId, String clientSecret) {
         AuthToken authToken = this.applyToken(username, password, clientId, clientSecret);
         if (authToken == null) {
+            //申请令牌失败
             ExceptionCast.cast(AuthCode.AUTH_LOGIN_APPLY_TOKEN_FAIL);
         }
-
         //将令牌存储到redis
-        boolean saveResult = this.saveToken(authToken.getAccess_token(), authToken.getJwt_token(), expireTime);
+        boolean saveResult = this.saveToken(authToken.getAccess_token(), JSON.toJSONString(authToken), expireTime);
         if (!saveResult) {
             ExceptionCast.cast(AuthCode.AUTH_LOGIN_TOKEN_SAVE_FAIL);
         }
@@ -76,12 +78,26 @@ public class AuthService {
         return false;
     }
 
+    //从redis中删除token
+    private boolean deleteToken(String accessToken) {
+        String key = "user_token:" + accessToken;
+        stringRedisTemplate.delete(key);
+        long expire = stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
+        if (expire < 0) {
+            return true;
+        }
+        return false;
+    }
+
     //申请令牌
     private AuthToken applyToken(String username, String password, String clientId, String clientSecret) {
         //远程请求spring security获取令牌
         //从eureka中获取认证服务的地址（因为spring security在认证服务中）
         //从eureka中获取认证服务的一个实例的地址
         ServiceInstance serviceInstance = loadBalancerClient.choose(XcServiceList.XC_SERVICE_UCENTER_AUTH);
+        if (serviceInstance == null) {
+            ExceptionCast.cast(CommonCode.SERVER_ERROR);
+        }
         //此地址就是http://ip:port
         URI uri = serviceInstance.getUri();
         //令牌申请的地址 http://localhost:40400/auth/oauth/token
@@ -111,10 +127,19 @@ public class AuthService {
         });
 
         ResponseEntity<Map> exchange = restTemplate.exchange(authUrl, HttpMethod.POST, httpEntity, Map.class);
-
         //申请令牌信息
         Map bodyMap = exchange.getBody();
         if (bodyMap == null || bodyMap.get("access_token") == null || bodyMap.get("refresh_token") == null || bodyMap.get("jti") == null) {
+            //解析spring security 返回的错误信息
+            if (bodyMap != null && bodyMap.get("error_description") != null) {
+                String error_description = (String) bodyMap.get("error_description");
+                if (error_description.contains("UserDetailService returned null")) {
+                    ExceptionCast.cast(AuthCode.AUTH_ACCOUNT_NOTEXISTS);
+                } else if (error_description.contains("Bad credentials") || error_description.contains("坏的凭证")) {
+                    ExceptionCast.cast(AuthCode.AUTH_CREDENTIAL_ERROR);
+                }
+            }
+
             return null;
         }
         AuthToken authToken = new AuthToken();
@@ -133,4 +158,31 @@ public class AuthService {
         return "Basic " + new String(encode);
     }
 
+    public static void main(String[] args) {
+
+        System.out.println("Bad credentials".indexOf("Bad credentials"));
+    }
+
+    //从redis查询令牌
+    public AuthToken getUserToken(String token) {
+        String key = "user_token:" + token;
+        //从redis中取到令牌信息
+        String value = stringRedisTemplate.opsForValue().get(key);
+        //转成对象
+        try {
+            AuthToken authToken = JSON.parseObject(value, AuthToken.class);
+            return authToken;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public void logout(String token) {
+        boolean result = this.deleteToken(token);
+        if (!result) {
+            ExceptionCast.cast(AuthCode.AUTH_LOGOUT_FAIL);
+        }
+    }
 }

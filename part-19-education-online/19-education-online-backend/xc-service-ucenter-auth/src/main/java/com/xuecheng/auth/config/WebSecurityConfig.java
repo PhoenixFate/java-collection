@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //spring security的配置
 @Configuration
 @EnableWebSecurity
-@Order(-1)
+@Order(-1) //定义Spring容器加载Bean的顺序，数值越低，优先级越高
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //忽略认证的地址

@@ -5,3 +5,4 @@ out
 null
 node_modules
 logs
+package-lock.json

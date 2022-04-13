@@ -37,7 +37,7 @@ xuecheng:
     clientId: XcWebApp
     clientSecret: XcWebApp
     cookieDomain: xuecheng.test
-    cookieMaxAge: -1
+    cookieMaxAge: 2592000 # 0表示删除cookie，-1表示生命周期为session，正数表示多少秒
 encrypt:
   key-store:
     location: classpath:/xc.keystore

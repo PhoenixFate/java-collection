@@ -16,6 +16,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
+/**
+ * 将服务加入认证中心的配置
+ */
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)//激活方法上的PreAuthorize注解
@@ -60,7 +63,7 @@ public class ResourceServerConfig  extends ResourceServerConfigurerAdapter {
                 //下边的路径放行
                 .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources","/swagger-resources/configuration/security",
-                        "/swagger-ui.html","/webjars/**","/course/**").permitAll()
+                        "/swagger-ui.html","/webjars/**","/course/abc").permitAll()
                 .anyRequest().authenticated();
     }
 

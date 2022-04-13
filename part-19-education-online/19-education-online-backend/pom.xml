@@ -29,6 +29,8 @@
         <module>xc-govern-center</module>
         <module>xc-service-search</module>
         <module>xc-service-ucenter-auth</module>
+        <module>xc-service-ucenter</module>
+        <module>xc-govern-gateway</module>
     </modules>
 
 

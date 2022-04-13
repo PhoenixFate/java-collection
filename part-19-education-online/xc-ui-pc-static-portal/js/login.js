@@ -6,13 +6,13 @@
     //let loginRequest = querystring.stringify(params)
     //将参数格式化为key/value串
     let loginRequest = querystringify(params);
-    return requestPostForm('/openapi/auth/userlogin',loginRequest);
+    return requestPostForm('/openapi/auth/user/login',loginRequest);
 }
 /*退出*/
  const logout = () => {
-    return requestPost('/openapi/auth/userlogout');
+    return requestPost('/openapi/auth/user/logout');
 }
 /*获取jwt令牌*/
 const getjwt = () => {
-    return requestGet('/openapi/auth/userjwt');
+    return requestGet('/openapi/auth/user/jwt');
 }

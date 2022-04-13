@@ -92,7 +92,7 @@
     },
     mounted() {
       //查询我的课程
-      this.getCourse();
+       this.getCourse();
     }
   }
 </script>

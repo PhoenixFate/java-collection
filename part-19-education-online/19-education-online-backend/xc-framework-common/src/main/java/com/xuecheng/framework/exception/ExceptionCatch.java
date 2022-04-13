@@ -10,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.security.access.AccessDeniedException;
 
 /**
  * 统一异常捕获类
@@ -23,7 +24,7 @@ public class ExceptionCatch {
     //数据不可更改并且线程安全
     private static ImmutableMap<Class<? extends Throwable>,ResultCode> EXCEPTIONS;
     //定义map的builder对象，用于构建ImmutableMap
-    private static final ImmutableMap.Builder<Class<? extends Throwable>,ResultCode> BUILDER=ImmutableMap.builder();
+    protected static final ImmutableMap.Builder<Class<? extends Throwable>,ResultCode> builder=ImmutableMap.builder();
 
 
     //捕获CustomException此类异常
@@ -44,8 +45,9 @@ public class ExceptionCatch {
     public ResponseResult exception(Exception exception){
         //记录日志
         LOGGER.error("catch exception: {}",exception.getMessage());
+        exception.printStackTrace();
         if(EXCEPTIONS==null){
-            EXCEPTIONS=BUILDER.build();//EXCEPTIONS构建成功，并且不能更改
+            EXCEPTIONS=builder.build();//EXCEPTIONS构建成功，并且不能更改
         }
         //从EXCEPTIONS中找异常类型所对应的错误代码，如果找到了将错误代码响应给用户，如果找不到，则响应99999错误代码
         ResultCode resultCode = EXCEPTIONS.get(exception.getClass());
@@ -58,8 +60,8 @@ public class ExceptionCatch {
 
     static {
         //定义异常类型所对应的错误代码
-        BUILDER.put(HttpMessageNotReadableException.class,CommonCode.INVALID_PARAM);
+        builder.put(HttpMessageNotReadableException.class,CommonCode.INVALID_PARAM);
+        builder.put(AccessDeniedException.class,CommonCode.UNAUTHORISE);
     }
-
 
 }
