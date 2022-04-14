@@ -1,4 +1,4 @@
-package com.xuecheng.manage_course.config;
+package com.xuecheng.manage_cms.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)//激活方法上的PreAuthorize注解
-public class ResourceServerConfig  extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     //公钥
     private static final String PUBLIC_KEY = "publickey.txt";
@@ -63,7 +63,7 @@ public class ResourceServerConfig  extends ResourceServerConfigurerAdapter {
                 //下边的路径放行
                 .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources","/swagger-resources/configuration/security",
-                        "/swagger-ui.html","/webjars/**","/course/courseView","/course/abc").permitAll()
+                        "/swagger-ui.html","/webjars/**","/course/abc").permitAll()
                 .anyRequest().authenticated();
     }
 

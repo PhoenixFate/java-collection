@@ -4,7 +4,7 @@ var sysConfig = {
     xcApiUrl: 'http://api.xuecheng.test',
     imgUrl:'https://fastdfs.bytes-space.com/',
     videoUrl:'http://video.xuecheng.test',
-    openAuthenticate:false,
+    openAuthenticate:true,
     openAuthorize:false
 }
 

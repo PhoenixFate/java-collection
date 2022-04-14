@@ -299,6 +299,7 @@ public class CmsPageService {
             ExceptionCast.cast(CmsCode.CMS_GENERATEHTML_DATAISNULL);
         }
         //通过restTemplate请求dataUrl获取数据
+        //这里需要仿照ucenter-auth 在restTemplate请求头中添加jwt token
         ResponseEntity<Map> forEntity = restTemplate.getForEntity(dataUrl, Map.class);
         return forEntity.getBody();
     }

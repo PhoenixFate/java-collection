@@ -7,7 +7,7 @@ export const sys_getDictionary= dType => {
 }
 /*获取jwt令牌*/
 export const getjwt= () => {
-  return http.requestQuickGet('/openapi/auth/userjwt')
+  return http.requestQuickGet('/openapi/auth/user/jwt')
 }
 
 

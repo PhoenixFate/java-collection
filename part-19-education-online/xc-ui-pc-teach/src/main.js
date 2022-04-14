@@ -135,25 +135,26 @@ axios.interceptors.request.use(function (config) {
   return Promise.reject(error);
 });
 // 响应拦截
-/*axios.interceptors.response.use(data => {
+axios.interceptors.response.use(data => {
   console.log("data=")
   console.log(data)
-  if(data && data.data){
-    if(data.data.code && data.data.code =='10001'){
+  if (data && data.data) {
+    if (data.data.code && data.data.code == '10001') {
       //需要登录
       // router.push({
       //   path: '/login',
       //   query: {returnUrl: Base64.encode(window.location)}
       // })
-      window.location = "http://ucenter.xuecheng.test/#/login?returnUrl="+ Base64.encode(window.location)
-    }else if(data.data.code && data.data.code =='10002'){
+      //跨域跳转登录页面
+      window.location = "http://ucenter.xuecheng.test/#/login?returnUrl=" + Base64.encode(window.location)
+    } else if (data.data.code && data.data.code == '10002') {
       Message.error('您没有此操作的权限，请与客服联系！');
-    }else if(data.data.code && data.data.code =='10003'){
+    } else if (data.data.code && data.data.code == '10003') {
       Message.error('认证被拒绝，请重新登录重试！');
     }
   }
   return data
-})*/
+})
 /*
  //axios请求超时设置
 axios.defaults.retry = 2;

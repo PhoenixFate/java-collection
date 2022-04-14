@@ -107,7 +107,7 @@ public class CourseService {
 
         //分页，查询第一页，每页显示10条记录
         PageHelper.startPage(page, size);
-        com.github.pagehelper.Page<CourseInfo> courseListWithPage = courseMapper.findCourseListWithPage();
+        com.github.pagehelper.Page<CourseInfo> courseListWithPage = courseMapper.findCourseListWithPage(courseListRequest);
         List<CourseInfo> result = courseListWithPage.getResult();
         long total = courseListWithPage.getTotal();
 
@@ -345,7 +345,7 @@ public class CourseService {
         //保存课程索引信息
         //创建coursePub对象并且保存到数据库
         CoursePub coursePub = this.createCoursePub(courseId);
-        this.saveCoursePub(courseId,coursePub);
+        this.saveCoursePub(courseId, coursePub);
         //缓存课程索引信息
         //得到页面url
         String pageUrl = cmsPostPageResult.getPageUrl();
@@ -360,15 +360,15 @@ public class CourseService {
         return courseBase;
     }
 
-    private CoursePub saveCoursePub(String courseId,CoursePub coursePub){
-        CoursePub coursePubNew=null;
+    private CoursePub saveCoursePub(String courseId, CoursePub coursePub) {
+        CoursePub coursePubNew = null;
         Optional<CoursePub> optional = coursePubRepository.findById(courseId);
-        if(optional.isPresent()){
-            coursePubNew=optional.get();
-        }else {
-            coursePubNew=new CoursePub();
+        if (optional.isPresent()) {
+            coursePubNew = optional.get();
+        } else {
+            coursePubNew = new CoursePub();
         }
-        BeanUtils.copyProperties(coursePub,coursePubNew);
+        BeanUtils.copyProperties(coursePub, coursePubNew);
         coursePubNew.setId(courseId);
         coursePubNew.setTimestamp(new Date());
         // SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -397,7 +397,7 @@ public class CourseService {
         }
 
         Optional<CoursePic> picOptional = coursePictureRepository.findById(id);
-        if(picOptional.isPresent()){
+        if (picOptional.isPresent()) {
             CoursePic coursePic = picOptional.get();
             coursePub.setPic(coursePic.getPic());
         }

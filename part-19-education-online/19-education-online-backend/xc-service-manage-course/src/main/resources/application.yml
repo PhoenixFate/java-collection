@@ -1,5 +1,7 @@
 server:
   port: 31200
+  servlet:
+    context-path: /
 spring:
   application:
     name: xc-service-manage-course

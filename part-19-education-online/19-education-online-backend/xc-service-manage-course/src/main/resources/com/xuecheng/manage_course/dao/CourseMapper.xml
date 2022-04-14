@@ -3,11 +3,20 @@
 <mapper namespace="com.xuecheng.manage_course.dao.CourseMapper">
     <select id="findCourseBaseById" parameterType="java.lang.String"
             resultType="com.xuecheng.framework.domain.course.CourseBase">
-        select * from course_base where id = #{id}
+        select *
+        from course_base
+        where id = #{id}
     </select>
 
-    <select id="findCourseListWithPage" resultType="com.xuecheng.framework.domain.course.ext.CourseInfo">
-        select b.*,p.pic as pic from course_base  b left join course_pic p on b.id=p.courseid
+    <select id="findCourseListWithPage" parameterType="com.xuecheng.framework.domain.course.request.CourseListRequest"
+            resultType="com.xuecheng.framework.domain.course.ext.CourseInfo">
+        select b.*, p.pic as pic
+        from course_base b
+        left join course_pic p on b.id = p.courseid
+        where 1=1
+        <if test="companyId!=null and companyId!=''">
+            and b.company_id=#{companyId}
+        </if>
     </select>
 
 </mapper>

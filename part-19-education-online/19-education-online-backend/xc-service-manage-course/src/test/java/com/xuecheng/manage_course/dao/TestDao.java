@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachPlanNode;
+import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class TestDao {
     public void testPageHelper() {
         //分页，查询第一页，每页显示10条记录
         PageHelper.startPage(1, 10);
-        Page<CourseInfo> courseListWithPage = courseMapper.findCourseListWithPage();
+        Page<CourseInfo> courseListWithPage = courseMapper.findCourseListWithPage(new CourseListRequest());
         List<CourseInfo> result = courseListWithPage.getResult();
         System.out.println(result);
         long total = courseListWithPage.getTotal();
