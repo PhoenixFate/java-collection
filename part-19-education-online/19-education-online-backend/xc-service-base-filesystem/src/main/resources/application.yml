@@ -10,7 +10,7 @@ spring:
   data:
     mongodb:
       database: xc_fs
-      uri: mongodb://root:root@www.bytes-space.com:40017
+      uri: mongodb://root:root@www.bytes-space.com:50017
 #SpringMVC上传文件配置
   servlet:
     multipart:

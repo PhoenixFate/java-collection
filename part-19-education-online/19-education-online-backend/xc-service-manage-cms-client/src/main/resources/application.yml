@@ -5,7 +5,7 @@ spring:
     name: xc-service-manage-cms-client
   data:
     mongodb:
-      uri:  mongodb://root:root@www.bytes-space.com:40017
+      uri:  mongodb://root:root@www.bytes-space.com:50017
       database: xc_cms
   rabbitmq:
     host: www.bytes-space.com
