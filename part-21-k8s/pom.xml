@@ -9,26 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>part-17-docker</artifactId>
+    <artifactId>part-21-k8s</artifactId>
     <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>true</skipTests>
-                    <testFailureIgnore>true</testFailureIgnore>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
 
 </project>
