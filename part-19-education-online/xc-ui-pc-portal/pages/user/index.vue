@@ -6,7 +6,9 @@
 
 <script>
 export default {
-  layout:'test'
+  //使用test布局
+  //不写默认使用default布局
+  layout: 'test'
 }
 </script>
 
