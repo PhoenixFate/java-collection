@@ -79,7 +79,22 @@ public class SearchService {
         }
 
         //设置查询对象
+        //设置boolQueryBuilder到searchSourceBuilder
         searchSourceBuilder.query(boolQueryBuilder);
+
+
+        //设置分页参数
+        if (page <= 0) {
+            page = 1;
+        }
+        if (size <= 0) {
+            size = 12;
+        }
+        //起始记录下标
+        int from = (page - 1) * size;
+        searchSourceBuilder.from(from);
+        searchSourceBuilder.size(size);
+
         searchRequest.source(searchSourceBuilder);
 
         QueryResult<CoursePub> queryResult = new QueryResult<>();
