@@ -189,7 +189,7 @@
 </template>
 <script>
 //配置文件
-import {search_course} from "../../../api/course";
+import {search_course, sysres_category} from "../../../api/course";
 
 let config = require('~/config/sysConfig')
 import querystring from 'querystring'
@@ -224,7 +224,14 @@ export default {
 
     //向java微服务发起请求搜索课程
     let course_data = await courseApi.search_course(page, 10, route.query);
+    //查询分类
+    let category_data = await sysres_category();
+    //全部分类
+    let category = category_data.category
+    let first_category = category[0].children //一级分类
+    let second_category = {}//二级分类
     if (course_data && course_data.queryResult) {
+      let keywords=''
       let mt = ''
       let st = ''
       let grade = ''
@@ -244,9 +251,19 @@ export default {
         keyword = route.query.keyword
       }
 
+      //遍历一级分类
+      for(let i in first_category){
+        keywords+=first_category[i].name+' '
+        if(mt!=='' && mt===first_category[i].id){
+          //取出二级分类
+          second_category=first_category[i].children;
+          break;
+        }
+      }
+
       return {
         courseList: course_data.queryResult.list,//课程列表
-        first_category: {},
+        first_category: first_category,
         second_category: {},
         mt: mt,
         st: st,
@@ -259,7 +276,7 @@ export default {
     } else {
       return {
         courseList: {},//课程列表
-        first_category: {},
+        first_category: first_category,
         second_category: {},
         mt: '',
         st: '',

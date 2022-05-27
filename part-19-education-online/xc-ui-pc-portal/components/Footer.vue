@@ -41,7 +41,7 @@
   export default {
     head: {
       link: [
-        { rel: 'stylesheet', href: '/static/plugins/normalize-css/normalize.css"' },
+        { rel: 'stylesheet', href: '/static/plugins/normalize-css/normalize.css' },
         { rel: 'stylesheet', href: '/static/plugins/bootstrap/dist/css/bootstrap.css' },
         { rel: 'stylesheet', href: '/static/css/page-learing-index.css' }
       ]
