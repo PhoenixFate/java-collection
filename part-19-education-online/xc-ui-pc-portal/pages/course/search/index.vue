@@ -3,12 +3,12 @@
     <div class="learing-list">
       <div class="list-box">
         <ul>
-          <li>关键字ss：</li>
+          <li>关键字：</li>
           <ol>
-            <li>{{ keyword }}
+            <li>
               <nuxt-link v-if="keyword" class="title-link"
                          :to="'/course/search?keyword=&mt='+mt+'&st=' + st+'&grade='+grade">
-                &Chi;
+                {{ keyword }}
               </nuxt-link>
             </li>
           </ol>
@@ -22,7 +22,7 @@
           <ol>
             <li v-for="category_v in first_category">
               <nuxt-link class="title-link all" :to="'/course/search?keyword='+keyword+'&mt=' + category_v.id"
-                         v-if="category_v.id == mt">{{ category_v.name }}
+                         v-if="category_v.id === mt">{{ category_v.name }}
               </nuxt-link>
               <nuxt-link class="title-link" :to="'/course/search?keyword='+keyword+'&mt=' + category_v.id" v-else>
                 {{ category_v.name }}
@@ -264,7 +264,7 @@ export default {
       return {
         courseList: course_data.queryResult.list,//课程列表
         first_category: first_category,
-        second_category: {},
+        second_category: second_category,
         mt: mt,
         st: st,
         grade: grade,
@@ -276,7 +276,7 @@ export default {
     } else {
       return {
         courseList: {},//课程列表
-        first_category: first_category,
+        first_category: {},
         second_category: {},
         mt: '',
         st: '',
@@ -363,7 +363,7 @@ a {
   overflow: hidden;
 }
 
-.eslight {
+.es-light {
   color: #990000;
 }
 </style>
