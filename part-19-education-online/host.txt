@@ -1,5 +1,4 @@
 # xuecheng start
-127.0.0.1 www.xuecheng.com
 127.0.0.1 www.xuecheng.test
 127.0.0.1 ucenter.xuecheng.test
 127.0.0.1 teacher.xuecheng.test
