@@ -14,7 +14,7 @@ import java.util.Date;
  * @Modified By:
  */
 @Data
-@ToString
+@ToString(callSuper = true)
 @Document(collection = "media_file")
 public class MediaFile {
     /*
@@ -45,9 +45,7 @@ public class MediaFile {
     private String processStatus;
     //hls处理
     private MediaFileProcess_m3u8 mediaFileProcess_m3u8;
-
     //tag标签用于查询
     private String tag;
-
 
 }

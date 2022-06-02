@@ -31,6 +31,7 @@
         <module>xc-service-ucenter-auth</module>
         <module>xc-service-ucenter</module>
         <module>xc-govern-gateway</module>
+        <module>xc-service-manage-media</module>
     </modules>
 
 
