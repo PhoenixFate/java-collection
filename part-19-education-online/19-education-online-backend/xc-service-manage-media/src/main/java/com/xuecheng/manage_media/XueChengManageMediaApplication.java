@@ -20,9 +20,9 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages={"com.xuecheng.api"})//扫描接口
 @ComponentScan(basePackages={"com.xuecheng.framework"})//扫描framework中通用类
 @ComponentScan(basePackages={"com.xuecheng.manage_media"})//扫描本项目下的所有类
-public class ManageMediaApplication {
+public class XueChengManageMediaApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ManageMediaApplication.class,args);
+        SpringApplication.run(XueChengManageMediaApplication.class,args);
     }
 
     @Bean

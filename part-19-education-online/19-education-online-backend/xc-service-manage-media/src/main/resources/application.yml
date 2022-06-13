@@ -8,7 +8,7 @@ spring:
       uri:  mongodb://root:root@www.bytes-space.com:50017
       database: xc_media
 xc-service-manage-media:
-  upload-location: E:/work/video/
+  upload-location: D:/work/video/
 eureka:
   client:
     registerWithEureka: true #服务注册开关

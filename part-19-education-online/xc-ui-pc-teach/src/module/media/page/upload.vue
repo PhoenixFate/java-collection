@@ -72,7 +72,7 @@ export default {
                     fileMD5: this.fileMD5,
                     fileName: file.name,
                     fileSize: file.size,
-                    mimetype: file.type,
+                    mimeType: file.type,
                     fileExtension: file.ext
                   },
                   dataType: "json",
@@ -102,7 +102,7 @@ export default {
                 // 文件唯一表示
                 fileMD5: this.fileMD5,
                 // 当前分块下标
-                chunkIndex: block.chunk,
+                chunk: block.chunk,
                 // 当前分块大小
                 chunkSize: block.end - block.start
               },
@@ -133,7 +133,7 @@ export default {
                 fileMD5: this.fileMD5,
                 fileName: file.name,
                 fileSize: file.size,
-                mimetype: file.type,
+                mimeType: file.type,
                 fileExtension: file.ext
               },
               success: function (response) {
@@ -153,7 +153,7 @@ export default {
     this.uploader = WebUploader.create(
       {
         swf: "/static/plugins/webuploader/dist/Uploader.swf",//上传文件的flash文件，浏览器不支持h5时启动flash
-        server: "/api/media/upload/uploadchunk",//上传分块的服务端地址，注意跨域问题
+        server: "/api/media/upload/upload/chunk",//上传分块的服务端地址，注意跨域问题
         fileVal: "file",//文件上传域的name
         pick: "#picker",//指定选择文件的按钮容器
         auto: false,//手动触发上传
