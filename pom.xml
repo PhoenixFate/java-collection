@@ -17,6 +17,7 @@
         <module>part-18-integration</module>
         <module>part-19-education-online</module>
         <module>part-21-k8s</module>
+        <module>activiti7</module>
     </modules>
 
     <properties>
