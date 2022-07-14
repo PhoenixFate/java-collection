@@ -1,8 +1,6 @@
 package com.phoenix;
 
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngineConfiguration;
-import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.*;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,4 +48,40 @@ public class ActivitiTest01 {
         ProcessEngine processEngine = processEngineConfigurationFromResourceDefault.buildProcessEngine();
         LOGGER.info("default process engine: {}", processEngine);
     }
+
+    /**
+     * 获取activiti 核心服务接口
+     */
+    @Test
+    public void getServices(){
+        //获取流程引擎实例
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        RepositoryService repositoryService = processEngine.getRepositoryService();
+        LOGGER.info("repositoryService: "+repositoryService);
+
+        RuntimeService runtimeService = processEngine.getRuntimeService();
+        LOGGER.info("runtimeService: "+runtimeService);
+
+        TaskService taskService = processEngine.getTaskService();
+        LOGGER.info("taskService: "+taskService);
+
+        HistoryService historyService = processEngine.getHistoryService();
+        LOGGER.info("historyService: "+historyService);
+
+        DynamicBpmnService dynamicBpmnService = processEngine.getDynamicBpmnService();
+        LOGGER.info("dynamicBpmnService: "+dynamicBpmnService);
+
+        ManagementService managementService = processEngine.getManagementService();
+        LOGGER.info("managementService: "+managementService);
+
+    }
+
+
+
+
+
+
+
+
+
 }
