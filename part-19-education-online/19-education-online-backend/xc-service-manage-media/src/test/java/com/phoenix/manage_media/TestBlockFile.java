@@ -1,9 +1,7 @@
 package com.phoenix.manage_media;
 
 import org.junit.Test;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
@@ -18,15 +16,17 @@ import java.util.List;
  */
 public class TestBlockFile {
 
+    private final String basePath = "D:\\work\\video\\";
+
     /**
      * 测试文件分块
      */
     @Test
     public void test01() throws IOException {
         //源文件
-        File sourceFile = new File("E:\\work\\video\\lucene.avi");
+        File sourceFile = new File(basePath + "lucene.avi");
         //块文件目录
-        String chunksFileFolder = "E:\\work\\video\\chunks\\";
+        String chunksFileFolder = basePath + "chunks\\";
         //先定义块文件大小 1M
         long chunkFileSize = 1 * 1024 * 1024;
         //块数
@@ -61,7 +61,7 @@ public class TestBlockFile {
     @Test
     public void testMergeFile() throws IOException {
         //块文件目录
-        String chunksFileFolderPath = "E:\\work\\video\\chunks\\";
+        String chunksFileFolderPath = basePath + "chunks\\";
         //块文件目录对象
         File chunkFileFolder = new File(chunksFileFolderPath);
         //块文件列表
@@ -78,7 +78,7 @@ public class TestBlockFile {
             }
         });
         //合并文件
-        File mergeFile = new File("E:\\work\\video\\lucene_merge.avi");
+        File mergeFile = new File(basePath + "lucene_merge.avi");
         //创建新文件
         boolean isSuccess = mergeFile.createNewFile();
         //创建写对象

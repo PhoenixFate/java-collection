@@ -1,0 +1,22 @@
+server:
+  port: 31450
+spring:
+  application:
+    name: xc-service-manage-media-processor
+  data:
+    mongodb:
+      uri:  mongodb://root:root@www.bytes-space.com:50017
+      database: xc_media
+  #rabbitmq配置
+  rabbitmq:
+    host: www.bytes-space.com
+    port: 40572
+    username: guest
+    password: guest
+    virtual-host: /
+xc-service-ma nage-media:
+  mq:
+    queue-media-video-processor: queue_media_video_processor
+    routing-key-media-video: routing_key_media_video
+  video-location: D:/work/video/
+  ffmpeg-path: D:/work/video/ffmpeg-20180227-fa0c9d6-win64-static/bin/ffmpeg.exe

@@ -32,14 +32,14 @@ public class MediaUploadController implements MediaUploadControllerApi {
 
     @PostMapping("/check/chunk")
     @Override
-    public CheckChunkResult checkChunk(String fileMD5, Integer chunkIndex, Long chunkSize) {
-        return mediaUploadService.checkChunk(fileMD5, chunkIndex, chunkSize);
+    public CheckChunkResult checkChunk(String fileMD5, Integer chunk, Long chunkSize) {
+        return mediaUploadService.checkChunk(fileMD5, chunk, chunkSize);
     }
 
     @PostMapping("/upload/chunk")
     @Override
-    public ResponseResult uploadChunk(String fileMD5, Integer chunkIndex, MultipartFile file) throws IOException {
-        return mediaUploadService.uploadChunk(fileMD5,chunkIndex,file);
+    public ResponseResult uploadChunk(String fileMD5, Integer chunk, MultipartFile file) throws IOException {
+        return mediaUploadService.uploadChunk(fileMD5,chunk,file);
     }
 
     @PostMapping("/merge/chunk")

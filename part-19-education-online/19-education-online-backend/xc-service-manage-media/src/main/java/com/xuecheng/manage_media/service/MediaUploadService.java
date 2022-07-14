@@ -9,16 +9,15 @@ import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_media.dao.MediaFileRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Optional;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author phoenix
@@ -26,12 +25,12 @@ import java.util.Optional;
  * @date 2022/6/6 15:12
  */
 @Service
-@RequiredArgsConstructor
 public class MediaUploadService {
 
+    @Autowired
     private MediaFileRepository mediaFileRepository;
 
-    @Value("xc-service-manage-media.upload-location:")
+    @Value("${xc-service-manage-media.upload-location}")
     private String uploadLocation;
 
     /**
@@ -104,7 +103,7 @@ public class MediaUploadService {
      * @return String
      */
     private String getChunkFileFolderPath(String fileMD5) {
-        return getFileFolderPath(fileMD5) + File.separator + "chunk" + File.separator;
+        return getFileFolderPath(fileMD5) + "chunk" + File.separator;
     }
 
 
@@ -129,6 +128,15 @@ public class MediaUploadService {
         }
     }
 
+    /**
+     * 上传文块文件
+     *
+     * @param fileMD5
+     * @param chunkIndex
+     * @param file
+     * @return
+     * @throws IOException
+     */
     public ResponseResult uploadChunk(String fileMD5, Integer chunkIndex, MultipartFile file) throws IOException {
         //检查分块文件的目录，如果不存在则创建
         String chunkFileFolderPath = getChunkFileFolderPath(fileMD5);
@@ -170,22 +178,115 @@ public class MediaUploadService {
         //1.合并所有chunk
         //得到分块文件的所属目录
         String chunkFileFolderPath = getChunkFileFolderPath(fileMD5);
+        //文块文件目录
         File chunkFileFolder = new File(chunkFileFolderPath);
         //分块文件列表
         File[] chunkFiles = chunkFileFolder.listFiles();
+        if (chunkFiles == null || chunkFiles.length == 0) {
+            //合并文件失败
+            ExceptionCast.cast(MediaCode.MERGE_FILE_FAIL);
+        }
 
         //创建一个合并文件
         String filePath = this.getFilePath(fileMD5, fileExtension);
         File mergedFile = new File(filePath);
 
         //执行合并
+        mergedFile = this.mergeFile(Arrays.asList(chunkFiles), mergedFile);
+        if (mergedFile == null) {
+            //合并文件失败
+            ExceptionCast.cast(MediaCode.MERGE_FILE_FAIL);
+        }
 
         //2.校验合并文件后的MD5是否和前端传入的MD5值保持一致
-
+        boolean checkFileMD5 = this.checkFileMD5(mergedFile, fileMD5);
+        if (!checkFileMD5) {
+            //校验文件失败
+            ExceptionCast.cast(MediaCode.MERGE_FILE_CHECKFAIL);
+        }
 
         //3.将文件的信息写入MongoDB中
+        MediaFile mediaFile = new MediaFile();
+        mediaFile.setFileId(fileMD5);
+        mediaFile.setFileOriginalName(fileName);
+        mediaFile.setFileName(fileMD5 + "." + fileExtension);
+        //文件的相对路径
+        mediaFile.setFilePath(fileMD5.charAt(0) + File.separator + fileMD5.charAt(1) + File.separator + fileMD5 + File.separator);
+        mediaFile.setFileSize(fileSize);
+        mediaFile.setUploadTime(new Date());
+        mediaFile.setMimeType(mimeType);
+        mediaFile.setFileType(fileExtension);
+        //状态为上传成功
+        mediaFile.setFileStatus("301002");
+        //调用保存到mongo
+        mediaFileRepository.save(mediaFile);
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    //校验合并后的文件的md5
+    private boolean checkFileMD5(File mergedFile, String MD5) {
+        FileInputStream inputStream = null;
+        try {
+            //创建文件输入流
+            inputStream = new FileInputStream(mergedFile);
+            //得到文件的MD5
+            String MD5Hex = DigestUtils.md5Hex(inputStream);
+
+            //和传入的md5比较
+            return MD5Hex.equalsIgnoreCase(MD5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return false;
+    }
 
 
+    //合并文件
+    private File mergeFile(List<File> chunkFileList, File mergedFile) {
+        try {
+            if (mergedFile.exists()) {
+                //合并后的文件存在，则删除
+                mergedFile.delete();
+            } else {
+                //创建一个新文件
+                mergedFile.createNewFile();
+            }
+
+            //对块文件进行排序
+            Collections.sort(chunkFileList, new Comparator<File>() {
+                @Override
+                public int compare(File o1, File o2) {
+                    if (Integer.parseInt(o1.getName()) > Integer.parseInt(o2.getName())) {
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
+
+            //创建一个写对象
+            RandomAccessFile randomAccessFileWrite = new RandomAccessFile(mergedFile, "rw");
+            byte[] b = new byte[1024];
+            for (File chunkFile : chunkFileList) {
+                RandomAccessFile randomAccessFileRead = new RandomAccessFile(chunkFile, "r");
+                int len = -1;
+                while ((len = randomAccessFileRead.read(b)) != -1) {
+                    randomAccessFileWrite.write(b, 0, len);
+                }
+                randomAccessFileRead.close();
+            }
+            randomAccessFileWrite.close();
+            return mergedFile;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
+
+
 }

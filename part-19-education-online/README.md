@@ -17,3 +17,7 @@ eureka02: vm options: -DPORT=50102 -DEUREKA_SERVER=http://eureka01:50101/eureka/
 * nuxt.js \
   nuxt.js有标准的目录结构，官方提供了模板工程，可以模板工程快速创建nuxt项目。
   模板工程地址：https://github.com/nuxt-community/starter-template/archive/master.zip
+
+## 默认账号
+itcast
+111111
