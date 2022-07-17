@@ -1,5 +1,5 @@
 server:
-  port: 8324
+  port: 8325
   servlet:
     context-path: /workflow
 spring:
@@ -40,7 +40,7 @@ spring:
     mail-server-user-name: w736486962@qq.com
     # qq的smtp服务相关的授权码
     mail-server-password: xxx填写自己qq邮箱的smtp授权码
-    # 关闭不自动添加部署数据 SpringAutoDeployment
+    # 每次启动项目，默认会向 act_re_deployment 表插入一条 SpringAutoDeployment 数据，指定never-fail 可关闭插入
     #deployment-mode: never-fail
 
 # 日志级别是debug才能显示SQL日志
