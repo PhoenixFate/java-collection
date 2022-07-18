@@ -8,6 +8,7 @@ import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -33,6 +34,9 @@ public class ActivitiTestLeaveProcessPro07 {
 
     @Autowired
     private RuntimeService runtimeService;
+
+    @Autowired
+    private TaskService taskService;
 
     /**
      * 通过流程定义模型数据部署流程定义
@@ -101,6 +105,12 @@ public class ActivitiTestLeaveProcessPro07 {
 
     /**
      * 启动流程实例：分配流程定义中的流程变量值 （就可以获取到办理人）
+     *
+     * 领导审批 ${assignee1}
+     * 总监审批 ${user.username}
+     * 总经理审批 ${userService.getUsername()}
+     * 行政审批 ${deptService.findManagerByUserId(userId)}
+     *
      */
     @Test
     public void startProcessInstanceAssigneeUEL() {
@@ -108,18 +118,33 @@ public class ActivitiTestLeaveProcessPro07 {
         Map<String, Object> variables = new HashMap<>();
         //流程变量值：基本数据类型，JavaBean，Map，List
         variables.put("assignee1", "meng");
-        User user=new User();
+        User user = new User();
         user.setUsername("xue");
         // Map<String,Object> userMap=new HashMap<>();
         // userMap.put("username","xue");
-        variables.put("user",user);
+        variables.put("user", user);
         //设置在DeptService.findManagerByUserId(userId) userId这个参数值
-        variables.put("userId","123");
+        variables.put("userId", "123");
 
         //启动流程实例（流程定义key，业务id，流程变量）
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leaveProcess", "9999", variables);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leaveProcessPro", "8888", variables);
 
-        LOGGER.info("启动流程实例成功！ {}",processInstance.getId());
+        LOGGER.info("启动流程实例成功！ {}", processInstance.getId());
     }
+
+    /**
+     * 完成任务
+     *    领导审批 ${assignee1}
+     *    总监审批 ${user.username}
+     *    总经理审批 ${userService.getUsername()}
+     *    行政审批 ${deptService.findManagerByUserId(userId)}
+     */
+    @Test
+    public void completeTask() {
+        String taskId = "f1b903dc-0683-11ed-9866-00ff044bad5f";
+        taskService.complete(taskId);
+
+    }
+
 
 }
