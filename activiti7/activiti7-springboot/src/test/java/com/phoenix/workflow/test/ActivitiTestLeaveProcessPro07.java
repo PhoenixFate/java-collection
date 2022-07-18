@@ -1,10 +1,11 @@
 package com.phoenix.workflow.test;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.phoenix.workflow.domain.User;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
-import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.bpmn.model.*;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -12,6 +13,7 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
@@ -50,7 +53,7 @@ public class ActivitiTestLeaveProcessPro07 {
     @Test
     public void deployLeaveProcessPro() throws Exception {
         // 1. 查询流程定义模型json字节码
-        String modelId = "6a3856bd-05e5-11ed-8295-864ef7cab3a9";
+        String modelId = "2efead1c-06ab-11ed-bd2a-d653185d896a";
         byte[] jsonBytes = repositoryService.getModelEditorSource(modelId);
         if (jsonBytes == null) {
             System.out.println("模型数据为空，请先设计流程定义模型，再进行部署");
@@ -127,7 +130,7 @@ public class ActivitiTestLeaveProcessPro07 {
         variables.put("userId", "123");
 
         //启动流程实例（流程定义key，业务id，流程变量）
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leaveProcessPro", "8888", variables);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leaveProcessPro", "7777", variables);
 
         LOGGER.info("启动流程实例成功！ {}", processInstance.getId());
     }
@@ -146,5 +149,62 @@ public class ActivitiTestLeaveProcessPro07 {
 
     }
 
+
+
+    /**
+     * 获取当前任务的下一节点用户任务信息，
+     * 为了动态设置一下节点任务办理人
+     */
+    @Test
+    public void getNextNodeInfo(){
+        //1.获取当前任务信息
+        String taskId="34eb210d-069d-11ed-acb8-c6d478d85d6d";
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+
+        //2.从当前任务信息中获取此流程定义id
+        String processDefinitionId = task.getProcessDefinitionId();
+
+        //3.拿到流程定义id后可获取bpmnModel对象
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
+
+        //4.通过任务节点id，来获取当前节点信息
+        FlowElement flowElement = bpmnModel.getFlowElement(task.getTaskDefinitionKey());
+
+        List<SequenceFlow> outgoingFlows = ((FlowNode) flowElement).getOutgoingFlows();
+        //当前节点的所有下个节点
+        for (SequenceFlow outgoingFlow : outgoingFlows) {
+            //下一个节点的目标元素
+            FlowElement nextFlowElement = outgoingFlow.getTargetFlowElement();
+            if(nextFlowElement instanceof UserTask){
+              LOGGER.info("节点id: {}; 节点名称: {}",nextFlowElement.getId(),nextFlowElement.getName());
+            }
+        }
+    }
+
+    /**
+     * 完成当前节点，并且设置下一个节点的任务办理人（可以在输入框指定哪个办理人）
+     */
+    @Test
+    public void completeTaskSetNextTaskAssignee(){
+        //1.查询任务
+        String taskId="34eb210d-069d-11ed-acb8-c6d478d85d6d";
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+
+        //2.完成任务
+        taskService.complete(task.getId());
+
+        //3.查询下一个任务
+        List<Task> taskList = taskService.createTaskQuery()
+                .processInstanceId(task.getProcessInstanceId()).list();
+
+        //4.设置下一个任务办理人
+        if(CollectionUtils.isNotEmpty(taskList)){
+            for (Task task1 : taskList) {
+                //动态分配任务办理人
+               taskService.setAssignee(task1.getId(),"小谷");
+            }
+        }
+
+    }
 
 }
