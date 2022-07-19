@@ -9,10 +9,6 @@ import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.history.HistoricActivityInstance;
-import org.activiti.engine.history.HistoricActivityInstanceQuery;
-import org.activiti.engine.history.HistoricProcessInstance;
-import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.Model;
@@ -36,7 +32,7 @@ import java.util.Map;
  * @date 2022/7/19 10:15
  */
 @SpringBootTest
-public class ActivitiTestExclusiveGateway10 {
+public class ActivitiTestParallelGateway11 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ActivitiTest01.class);
 
@@ -57,7 +53,7 @@ public class ActivitiTestExclusiveGateway10 {
     @Test
     public void deploy() throws IOException {
         //1.查询流程定义json字节码
-        String modelId = "ba2886a5-0741-11ed-b18f-00ff044bad5f";
+        String modelId = "e802d031-0780-11ed-b7e3-e6cbe45046b1";
         byte[] modelEditorSource = repositoryService.getModelEditorSource(modelId);
         if (modelEditorSource == null) {
             LOGGER.info("模型数据为空，请先设计流程定义模型，再进行部署");
@@ -119,7 +115,7 @@ public class ActivitiTestExclusiveGateway10 {
         //请假天数duration>3 先总经理审批，再行政审批
         //请假天数duration<=3 只有行政审批
         variables.put("duration", "2");
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leaveExclusiveGateway","4455", variables);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leaveParallelGateway","3322", variables);
         LOGGER.info("启动流程实例成功！ {}", processInstance.getId());
     }
 
