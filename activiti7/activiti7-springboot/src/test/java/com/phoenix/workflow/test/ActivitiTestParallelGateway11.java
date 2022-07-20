@@ -50,6 +50,10 @@ public class ActivitiTestParallelGateway11 {
     @Autowired
     private TaskService taskService;
 
+    /**
+     * 并行网关 部署
+     * @throws IOException
+     */
     @Test
     public void deploy() throws IOException {
         //1.查询流程定义json字节码
@@ -114,7 +118,7 @@ public class ActivitiTestParallelGateway11 {
         Map<String, Object> variables = new HashMap<>();
         //请假天数duration>3 先总经理审批，再行政审批
         //请假天数duration<=3 只有行政审批
-        variables.put("duration", "2");
+        variables.put("duration", "5");
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leaveParallelGateway","3322", variables);
         LOGGER.info("启动流程实例成功！ {}", processInstance.getId());
     }
@@ -133,7 +137,7 @@ public class ActivitiTestParallelGateway11 {
     public void completeTask(){
         //因为duration=2，所以直接走了行政审批的路线
         //如果参数中duration变量没有，会抛出异常
-        taskService.complete("e7a28201-076d-11ed-9c87-b6ceb7934e05");
+        taskService.complete("71e00d3a-0809-11ed-8802-00ff044bad5f");
 
     }
 
