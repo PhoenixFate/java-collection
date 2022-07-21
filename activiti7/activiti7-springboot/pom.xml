@@ -89,12 +89,77 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <environment>local</environment>
+                <mailServerPassword>ALVNLHRSXSKCDCCO</mailServerPassword>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <environment>dev</environment>
+                <mailServerPassword>ALVNLHRSXSKCDCCO</mailServerPassword>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <environment>test</environment>
+                <mailServerPassword>ALVNLHRSXSKCDCCO</mailServerPassword>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <environment>prod</environment>
+                <mailServerPassword>ALVNLHRSXSKCDCCO</mailServerPassword>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <!-- 指定过滤的表达式
+                    <delimit>@</delimit> : 表示 过滤开头为 @ 结束为 @ 的内容，例如 @project.version@
+                    <delimit>${*}</delimit> 表示 过滤${}包裹的内容，例如 ${project.vserion}
+                 -->
+                    <delimiters>@</delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                    <!--排除一些字体-->
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

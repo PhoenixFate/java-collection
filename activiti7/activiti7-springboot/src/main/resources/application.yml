@@ -29,19 +29,19 @@ spring:
     # 是否自动检查resources下的processes目录的流程定义文件
     check-process-definitions: false
     # smtp服务器地址
-    mail-server-host: smtp.qq.com
+    mail-server-host: smtp.163.com
     # SSL端口号
     mail-server-port: 465
     # 开启ssl协议
     mail-server-use-ssl: true
     # 默认的邮件发送地址（发送人），如果activiti流程定义中没有指定发送人，则取这个值
-    mail-server-default-from: w736486962@qq.com
+    mail-server-default-from: sm516116978@163.com
     # 邮件的用户名
-    mail-server-user-name: w736486962@qq.com
+    mail-server-user-name: sm516116978@163.com
     # qq的smtp服务相关的授权码
-    mail-server-password: xxx填写自己qq邮箱的smtp授权码
+    mail-server-password: @mailServerPassword@
     # 每次启动项目，默认会向 act_re_deployment 表插入一条 SpringAutoDeployment 数据，指定never-fail 可关闭插入
-    #deployment-mode: never-fail
+    deployment-mode: never-fail
 
 # 日志级别是debug才能显示SQL日志
 logging:
