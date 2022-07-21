@@ -14,6 +14,7 @@
     <modules>
         <module>activiti7-demo01</module>
         <module>activiti7-springboot</module>
+        <module>activiti7-springboot-m5</module>
     </modules>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

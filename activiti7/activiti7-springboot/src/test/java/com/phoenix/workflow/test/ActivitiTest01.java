@@ -4,12 +4,14 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.util.ReflectUtil;
 import org.activiti.engine.repository.Deployment;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cglib.core.ReflectUtils;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.InputStream;
 import java.util.zip.ZipInputStream;
@@ -19,6 +21,7 @@ import java.util.zip.ZipInputStream;
  * @version 1.0.0
  * @date 2022/7/15 14:53
  */
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ActivitiTest01 {
 

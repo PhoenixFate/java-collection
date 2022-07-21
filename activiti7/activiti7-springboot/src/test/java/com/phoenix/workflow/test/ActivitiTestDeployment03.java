@@ -2,17 +2,20 @@ package com.phoenix.workflow.test;
 
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.zip.ZipInputStream;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ActivitiTestDeployment03 {
 

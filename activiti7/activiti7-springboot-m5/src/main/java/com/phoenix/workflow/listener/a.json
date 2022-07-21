@@ -1,0 +1,230 @@
+{
+  "resourceId": "2efead1c-06ab-11ed-bd2a-d653185d896a",
+  "properties": {
+    "process_id": "leaveProcessCandidate3",
+    "name": "请假流程-多候选人3",
+    "documentation": "",
+    "process_author": "phoenix",
+    "process_version": "",
+    "process_namespace": "http://www.activiti.org/processdef",
+    "executionlisteners": "",
+    "eventlisteners": "",
+    "signaldefinitions": "",
+    "messagedefinitions": ""
+  },
+  "stencil": {
+    "id": "BPMNDiagram"
+  },
+  "childShapes": [
+    {
+      "resourceId": "sid-AF4AC00C-D7D5-4467-ACD8-4F83409A2EEC",
+      "properties": {
+        "overrideid": "",
+        "name": "",
+        "documentation": "",
+        "executionlisteners": "",
+        "initiator": "",
+        "formkeydefinition": "",
+        "formproperties": ""
+      },
+      "stencil": {
+        "id": "StartNoneEvent"
+      },
+      "childShapes": [],
+      "outgoing": [
+        {
+          "resourceId": "sid-F6EEE2C1-5DAD-4A8E-BD85-756F270BA809"
+        }
+      ],
+      "bounds": {
+        "lowerRight": {
+          "x": 246.60000610351562,
+          "y": 135
+        },
+        "upperLeft": {
+          "x": 216.60000610351562,
+          "y": 105
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "sid-B0F59A5E-410E-4732-9350-8EFC2A410F31",
+      "properties": {
+        "overrideid": "",
+        "name": "多候选审批",
+        "documentation": "",
+        "asynchronousdefinition": "false",
+        "exclusivedefinition": "false",
+        "executionlisteners": "",
+        "multiinstance_type": "None",
+        "multiinstance_cardinality": "",
+        "multiinstance_collection": "",
+        "multiinstance_variable": "",
+        "multiinstance_condition": "",
+        "isforcompensation": "false",
+        "usertaskassignment": {
+          "assignment": {
+            "candidateUsers": [
+              {
+                "value": "meng,xue,gu",
+                "$$hashKey": "0UM"
+              }
+            ]
+          }
+        },
+        "formkeydefinition": "",
+        "duedatedefinition": "",
+        "prioritydefinition": "",
+        "formproperties": "",
+        "tasklisteners": ""
+      },
+      "stencil": {
+        "id": "UserTask"
+      },
+      "childShapes": [],
+      "outgoing": [
+        {
+          "resourceId": "sid-3D746832-191E-45A0-B5D8-D39184289453"
+        }
+      ],
+      "bounds": {
+        "lowerRight": {
+          "x": 445,
+          "y": 160
+        },
+        "upperLeft": {
+          "x": 345,
+          "y": 80
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "sid-D02B39A3-0647-4501-84FE-BE5B833AF760",
+      "properties": {
+        "overrideid": "",
+        "name": "",
+        "documentation": "",
+        "executionlisteners": ""
+      },
+      "stencil": {
+        "id": "EndNoneEvent"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 518,
+          "y": 134
+        },
+        "upperLeft": {
+          "x": 490,
+          "y": 106
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "sid-3D746832-191E-45A0-B5D8-D39184289453",
+      "properties": {
+        "overrideid": "",
+        "name": "",
+        "documentation": "",
+        "conditionsequenceflow": "",
+        "executionlisteners": "",
+        "defaultflow": "false"
+      },
+      "stencil": {
+        "id": "SequenceFlow"
+      },
+      "childShapes": [],
+      "outgoing": [
+        {
+          "resourceId": "sid-D02B39A3-0647-4501-84FE-BE5B833AF760"
+        }
+      ],
+      "bounds": {
+        "lowerRight": {
+          "x": 489.375,
+          "y": 120
+        },
+        "upperLeft": {
+          "x": 445.390625,
+          "y": 120
+        }
+      },
+      "dockers": [
+        {
+          "x": 50,
+          "y": 40
+        },
+        {
+          "x": 14,
+          "y": 14
+        }
+      ],
+      "target": {
+        "resourceId": "sid-D02B39A3-0647-4501-84FE-BE5B833AF760"
+      }
+    },
+    {
+      "resourceId": "sid-F6EEE2C1-5DAD-4A8E-BD85-756F270BA809",
+      "properties": {
+        "overrideid": "",
+        "name": "",
+        "documentation": "",
+        "conditionsequenceflow": "",
+        "executionlisteners": "",
+        "defaultflow": "false"
+      },
+      "stencil": {
+        "id": "SequenceFlow"
+      },
+      "childShapes": [],
+      "outgoing": [
+        {
+          "resourceId": "sid-B0F59A5E-410E-4732-9350-8EFC2A410F31"
+        }
+      ],
+      "bounds": {
+        "lowerRight": {
+          "x": 344.2140643596649,
+          "y": 120
+        },
+        "upperLeft": {
+          "x": 246.64219307899475,
+          "y": 120
+        }
+      },
+      "dockers": [
+        {
+          "x": 15,
+          "y": 15
+        },
+        {
+          "x": 50,
+          "y": 40
+        }
+      ],
+      "target": {
+        "resourceId": "sid-B0F59A5E-410E-4732-9350-8EFC2A410F31"
+      }
+    }
+  ],
+  "bounds": {
+    "lowerRight": {
+      "x": 1200,
+      "y": 1050
+    },
+    "upperLeft": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "stencilset": {
+    "url": "stencilsets/bpmn2.0/bpmn2.0.json",
+    "namespace": "http://b3mn.org/stencilset/bpmn2.0#"
+  },
+  "ssextensions": []
+}

@@ -2,11 +2,13 @@ package com.phoenix.workflow.test;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.history.*;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
  * @version 1.0.0
  * @date 2022/7/19 10:15
  */
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ActivitiTestHistory09 {
 
