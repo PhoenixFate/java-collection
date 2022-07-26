@@ -37,7 +37,7 @@ public class Result implements Serializable {
     }
 
     public static Result ok(String message, Object data) {
-        return new Result(200, message, data);
+        return new Result(20000, message, data);
     }
 
     public static Result error(String message) {

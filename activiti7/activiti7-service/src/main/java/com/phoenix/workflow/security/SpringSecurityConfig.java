@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.FormLoginC
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -43,6 +44,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("customLogoutSuccessHandler")
     private LogoutSuccessHandler logoutSuccessHandler;
 
+    @Autowired
+    @Qualifier("customAuthenticationEntryPoint")
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     /**
      * 密码加密器
@@ -78,7 +82,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated() //所有请求都需要通过认证才能范围
                 .and()
-                .csrf().disable(); //禁止跨站伪造访问
-
+                .csrf().disable() //禁止跨站伪造访问
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint); //处理默认的302状态
     }
 }
