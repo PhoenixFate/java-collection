@@ -23,7 +23,6 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        super.onAuthenticationFailure(request, response, exception);
         response.setContentType("application/json;charset=UTF-8");
         //401 认证失败
         Result result = Result.build(HttpStatus.UNAUTHORIZED.value(), exception.getMessage());

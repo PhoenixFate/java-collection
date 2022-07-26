@@ -26,7 +26,6 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
-        super.onAuthenticationSuccess(request, response, authentication);
         response.setContentType("application/json;charset=UTF-8");
         Result result = Result.ok("认证成功！");
         String json = objectMapper.writeValueAsString(result);
