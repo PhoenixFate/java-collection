@@ -81,7 +81,7 @@ public class ActivitiTestDeployment03 {
         repositoryService.deleteDeployment(deploymentId);
 
         //如果为true则是及联操作，如果流程定义启动来对应的流程实例，也可以进行删除，并且会删除历史数据
-        repositoryService.deleteDeployment(deploymentId,true);
+        //repositoryService.deleteDeployment(deploymentId,true);
         LOGGER.info("删除流程定义数据成功！");
 
     }
