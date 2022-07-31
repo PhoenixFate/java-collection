@@ -27,4 +27,11 @@ public interface IProcessConfigService extends IService<ProcessConfig> {
      */
     Result deleteByProcessKey(String processKey);
 
+    /**
+     * 通过业务路由名查询流程定义的配置信息（目前查询获取流程定义key）
+     * @param businessRoute 业务路由
+     * @return
+     */
+    ProcessConfig getByBusinessRoute(String businessRoute);
+
 }

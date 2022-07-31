@@ -9,6 +9,9 @@ import com.phoenix.workflow.mapper.SysUserMapper;
 import com.phoenix.workflow.service.IProcessConfigService;
 import com.phoenix.workflow.utils.Result;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @author phoenix
@@ -17,7 +20,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ProcessConfigService extends ServiceImpl<ProcessConfigMapper, ProcessConfig> implements IProcessConfigService {
-
 
     @Override
     public ProcessConfig getByProcessKey(String processKey) {
@@ -31,5 +33,16 @@ public class ProcessConfigService extends ServiceImpl<ProcessConfigMapper, Proce
         queryWrapper.eq("process_key", processKey);
         baseMapper.delete(queryWrapper);
         return Result.ok();
+    }
+
+    @Override
+    public ProcessConfig getByBusinessRoute(String businessRoute) {
+        QueryWrapper<ProcessConfig> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("business_route", businessRoute);
+        List<ProcessConfig> processConfigList = baseMapper.selectList(queryWrapper);
+        if(CollectionUtils.isEmpty(processConfigList)){
+            return null;
+        }
+        return processConfigList.get(0);
     }
 }

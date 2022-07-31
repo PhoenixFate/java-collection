@@ -2,7 +2,7 @@
     <el-dialog title="确认撤回申请" :visible.sync="visible" width="600px" >
         <el-form v-loading="loading" :rules="rules" ref="formData" :model="formData" status-icon>
             <el-form-item label="撤回原因" prop="message" label-width="120px">
-                <el-input type="textarea" v-model="formData.message" maxlength="300"  
+                <el-input type="textarea" v-model="formData.message" maxlength="300"
                     placeholder="请输入撤回原因" :autosize="{ minRows: 4}" show-word-limit></el-input>
             </el-form-item>
             <el-form-item align="center">
@@ -43,7 +43,7 @@ export default {
                       // 审批人转为数组
                       const params = {
                             businessKey: this.businessKey,
-                            procInstId: this.procInstId,
+                            processInstanceId: this.procInstId,
                             message: this.formData.message
                       }
                       let response = await api.cancelApply(params)
