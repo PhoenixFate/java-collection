@@ -23,11 +23,24 @@ public class TaskCompleteRequest extends BaseRequest implements Serializable {
     @ApiModelProperty("审批意见")
     private String message;
 
-    @ApiModelProperty("下一个节点审批，key:节点id,value: 审批人集合")
-    private Map<String, Object> assigneeMap;
+    @ApiModelProperty("下一个节点审批，key:节点id,value: 审批人集合, 多个人使用英文，分割")
+    private Map<String, String> assigneeMap;
 
     public String getMessage() {
         return StringUtils.isEmpty(message) ? "同意" : message;
+    }
+
+    /**
+     * 通过节点id获取审批人集合
+     *
+     * @param key
+     * @return
+     */
+    public String[] getAssignees(String key) {
+        if (assigneeMap == null) {
+            return null;
+        }
+        return assigneeMap.get(key).split(",");
     }
 
 

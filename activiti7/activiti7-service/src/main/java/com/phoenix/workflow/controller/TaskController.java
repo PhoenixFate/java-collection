@@ -1,6 +1,9 @@
 package com.phoenix.workflow.controller;
 
+import com.phoenix.workflow.enums.BusinessStatusEnum;
+import com.phoenix.workflow.request.TaskCompleteRequest;
 import com.phoenix.workflow.request.TaskRequest;
+import com.phoenix.workflow.service.IBusinessStatusService;
 import com.phoenix.workflow.utils.DateUtils;
 import com.phoenix.workflow.utils.Result;
 import com.phoenix.workflow.utils.UserUtils;
@@ -8,15 +11,21 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.activiti.api.task.model.builders.TaskPayloadBuilder;
+import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.bpmn.model.*;
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -36,6 +45,12 @@ public class TaskController {
     private final RuntimeService runtimeService;
 
     private final RepositoryService repositoryService;
+
+    private final TaskRuntime taskRuntime;
+
+    private final HistoryService historyService;
+
+    private final IBusinessStatusService businessStatusService;
 
     @ApiOperation("查询当前用户的待办任务")
     @PostMapping("/list/wait")
@@ -126,6 +141,72 @@ public class TaskController {
             }
         }
 
+    }
+
+
+    @ApiOperation("完成任务")
+    @PostMapping("/complete")
+    public Result completeTask(@RequestBody TaskCompleteRequest request) {
+        String taskId = request.getTaskId();
+        //1.查询任务信息
+        org.activiti.api.task.model.Task task = taskRuntime.task(taskId);
+        if (task == null) {
+            return Result.error("任务不存在或者该任务不你的任务");
+        }
+        String processInstanceId = task.getProcessInstanceId();
+
+        //2.指定任务审批意见
+        taskService.addComment(taskId, processInstanceId, request.getMessage());
+
+        //3.完成任务
+        taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskId).build());
+
+        //4.查询下一个任务
+        List<Task> taskList = taskService.createTaskQuery().processInstanceId(processInstanceId).list();
+
+        if (CollectionUtils.isEmpty(taskList)) {
+            //task.getBusinessKey() //m5的bug，应该是有值的，但是没有值
+            HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+            //更新业务状态为已完成
+            return businessStatusService.updateState(historicProcessInstance.getBusinessKey(), BusinessStatusEnum.FINISH);
+        } else {
+            Map<String, String> assigneeMap = request.getAssigneeMap();
+            if (assigneeMap == null) {
+                //如果没有办理人，直接将流程实例删除（非法删除）
+                return deleteProcessInstance(processInstanceId);
+            }
+            //有办理人
+            for (Task task1 : taskList) {
+                if (StringUtils.isNotEmpty(task1.getAssignee())) {
+                    //如果当前任务有办理人，则直接忽略，不用指定办理人
+                    continue;
+                }
+                //根据当前任务节点id获取办理人
+                String[] assignees = request.getAssignees(task1.getTaskDefinitionKey());
+                if (ArrayUtils.isEmpty(assignees)) {
+                    //没有办理人
+                    return deleteProcessInstance(processInstanceId);
+                }
+                if (assignees.length == 1) {
+                    //设置办理人
+                    taskService.setAssignee(task1.getId(), assignees[0]);
+                } else {
+                    //多个人设置候选人
+                    for (String assginee : assignees) {
+                        taskService.addCandidateUser(task1.getId(), assginee);
+                    }
+                }
+            }
+        }
+        return Result.ok();
+    }
+
+    private Result deleteProcessInstance(String processInstanceId) {
+        runtimeService.deleteProcessInstance(processInstanceId, "审批节点未分配审批人，流程直接中断取消");
+        HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
+                .processInstanceId(processInstanceId).singleResult();
+        businessStatusService.updateState(historicProcessInstance.getBusinessKey(), BusinessStatusEnum.CANCEL);
+        return Result.ok("审批节点未分配审批人，流程直接中断取消");
     }
 
 
