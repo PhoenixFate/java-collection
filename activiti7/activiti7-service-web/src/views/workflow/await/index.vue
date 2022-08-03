@@ -1,6 +1,6 @@
 <template>
     <div class="app-container" v-loading="loading">
-        <!-- 条件查询 -->        
+        <!-- 条件查询 -->
         <el-form :inline="true" :model="query" size="mini">
             <el-form-item label="任务名称:">
                 <el-input v-model.trim="query.taskName" ></el-input>
@@ -31,6 +31,7 @@
                     </el-popconfirm>
                     <el-button v-else type="text" @click="clickComplete(row)">通过</el-button>
                     <el-button v-if="row.taskAssignee" type="text" @click="clickBack(row)">驳回</el-button>
+                    <!--未签收的，就是没有办理人的，无法转办，只有自己的任务才能转办-->
                     <el-button v-if="row.taskAssignee" type="text" @click="clickTurn(row)">转办</el-button>
                     <el-button type="text" @click="clickProcessHistory(row)">审批历史</el-button>
                 </template>
@@ -47,10 +48,10 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="page.total">
         </el-pagination>
-        
+
         <!-- 通过 -->
         <verify ref="verifyRef" :taskId="row.taskId"></verify>
-        
+
         <!-- 转办 -->
         <turn ref="turnRef" :taskId="row.taskId"></turn>
 
@@ -143,7 +144,7 @@ export default {
             this.query = {}
             this.fetchData()
         },
-        
+
         // 点击通过
         clickComplete(row) {
             if (this.checkProcessTask(row)) {
@@ -197,7 +198,7 @@ export default {
            }
         },
 
-        
+
     }
 }
 </script>

@@ -19,7 +19,9 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang3.ArrayUtils;
@@ -209,5 +211,70 @@ public class TaskController {
         return Result.ok("审批节点未分配审批人，流程直接中断取消");
     }
 
+    @ApiOperation("签收（拾取）任务")
+    @PostMapping("/claim")
+    public Result claimTask(@RequestParam String taskId){
+        //只能签收属于自己的任务，自己不在候选组中签收任务会抛出异常
+        taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(taskId).build());
+        return Result.ok();
+    }
 
+    /**
+     * 转办任务给别人办理
+     * @param taskId 任务id
+     * @param assigneeUserKey 转办对象userId
+     * @return 是否成功
+     */
+    @ApiOperation("转办任务给别人办理")
+    @PostMapping("/turn")
+    public Result turnTask(@RequestParam String taskId, @RequestParam String assigneeUserKey){
+        org.activiti.api.task.model.Task task = taskRuntime.task(taskId);
+        //转办
+        taskService.setAssignee(taskId,assigneeUserKey);
+        String message=String.format("%s 转办任务 [%s] 给 %s 办理",UserUtils.getUsername(),task.getName(),assigneeUserKey);
+        //处理意见
+        taskService.addComment(taskId,task.getProcessInstanceId(),message);
+        return Result.ok();
+    }
+    
+    @ApiOperation("获取历史任务节点，用于驳回功能")
+    @GetMapping("/back/nodes")
+    public Result getBackNodes(@RequestParam String taskId){
+        Task task = taskService.createTaskQuery()
+                .taskId(taskId)
+                .taskAssignee(UserUtils.getUsername()).singleResult();
+        if(task==null){
+            return Result.error("没有次任务或者不是该任务办理人");
+        }
+        //查询历史任务节点(当前节点也会查询出来)
+        // List<HistoricTaskInstance> historicTaskInstanceList = historyService.createHistoricTaskInstanceQuery()
+        //         .processInstanceId(task.getProcessInstanceId())
+        //         .list();
+        // 不把当前节点查询出来, 没有办理完的节点不查询，每条数据都有一个唯一值，我们使用随机数
+        String sql =  "select rand() AS ID_, t2.* from " +
+                " ( select distinct t1.TASK_DEF_KEY_, t1.NAME_ from " +
+                "  ( select ID_, RES.TASK_DEF_KEY_, RES.NAME_, RES.START_TIME_, RES.END_TIME_ " +
+                "   from ACT_HI_TASKINST RES " +
+                "   WHERE RES.PROC_INST_ID_ = #{processInstanceId} and TASK_DEF_KEY_ != #{taskDefKey}" +
+                "   and RES.END_TIME_ is not null order by RES.START_TIME_ asc " +
+                "  ) t1 " +
+                " ) t2";
+
+        List<HistoricTaskInstance> historicTaskInstanceList = historyService.createNativeHistoricTaskInstanceQuery()
+                .sql(sql)
+                .parameter("processInstanceId", task.getProcessInstanceId())
+                .parameter("taskDefKey", task.getTaskDefinitionKey()) // 不把当前节点查询出来
+                .list();
+
+        List<Map<String,Object>> records=new ArrayList<>();
+        for (HistoricTaskInstance historicProcessInstance : historicTaskInstanceList) {
+            Map<String,Object> data=new HashMap<>();
+            data.put("activityId",historicProcessInstance.getTaskDefinitionKey());
+            data.put("activityName",historicProcessInstance.getName());
+            records.add(data);
+        }
+        return Result.ok(records);
+    }
+    
+    
 }
