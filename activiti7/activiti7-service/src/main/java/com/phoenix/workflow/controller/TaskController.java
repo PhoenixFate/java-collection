@@ -30,10 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/task")
@@ -275,6 +272,95 @@ public class TaskController {
         }
         return Result.ok(records);
     }
-    
+
+    @ApiOperation("驳回历史节点")
+    @PostMapping("/back")
+    public Result backSuccess(@RequestParam String taskId,@RequestParam String targetActivityId){
+
+        //1.查询当前任务信息
+        Task task = taskService.createTaskQuery().taskId(taskId)
+                .taskAssignee(UserUtils.getUsername())
+                .singleResult();
+        if(task==null){
+            return Result.error("当前任务不存在或者当前用户不是任务办理人");
+        }
+        String processInstanceId = task.getProcessInstanceId();
+
+        //2.获取流程模型实例 BpmnModel
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(task.getProcessDefinitionId());
+
+        //3.获取当前节点信息
+        FlowNode currentFlowElement = (FlowNode)bpmnModel.getMainProcess().getFlowElement(task.getTaskDefinitionKey());
+
+        //4.获取当前节点的原出口连线
+        List<SequenceFlow> outgoingFlows = currentFlowElement.getOutgoingFlows();
+
+        //5.临时存储当前节点的原出口连线
+        List<SequenceFlow> originalSequenceFlowList=new ArrayList<>();
+        originalSequenceFlowList.addAll(outgoingFlows);
+
+        //6.将当前节点的原出口清空
+        outgoingFlows.clear();
+
+        //7.获取目标节点信息
+        FlowNode targetFlowNode = (FlowNode)bpmnModel.getFlowElement(targetActivityId);
+
+        //8.获取驳回的新流向节点
+        //获取目标节点的入口连线
+        List<SequenceFlow> incomingFlows=targetFlowNode.getIncomingFlows();
+        //存储所有目标出口
+        List<SequenceFlow> allSequenceFlow=new ArrayList<>();
+        for (SequenceFlow incomingFlow : incomingFlows) {
+            //找到入口连线的源头（父节点）
+            FlowNode sourceFlowElement = (FlowNode)incomingFlow.getSourceFlowElement();
+            //获取目标节点的父组件的所有出口
+            List<SequenceFlow> outgoingFlows1 = sourceFlowElement.getOutgoingFlows();
+            allSequenceFlow.addAll(outgoingFlows1);
+        }
+        //9.将当前节点的出口设置为新节点
+        currentFlowElement.setOutgoingFlows(allSequenceFlow);
+
+        //10.完成当前任务，流程就会流向目标节点创建新目标任务
+        //   删除已完成任务，删除已完成并执行任务的执行数据 act_ru_execution
+        List<Task> taskList = taskService.createTaskQuery().processInstanceId(processInstanceId).list();
+        for (Task task1 : taskList) {
+            if(taskId.equals(task1.getId())){
+                //当前任务，完成当前任务
+                String message = String.format("【%s 驳回任务 %s => %s】", UserUtils.getUsername(), task.getName(), targetFlowNode.getName());
+                taskService.addComment(task1.getId(),processInstanceId,message);
+                //完成任务，就会进行驳回到目标节点
+                taskService.complete(taskId);
+                //删除执行表中 is_active_=0到执行数据 使用command自定义模型
+            }else {
+                //删除其他未完成的并行任务
+                //taskService.delegateTask(taskId); //注意这种方式删除不掉，会报错：流程正在运行中，无法删除
+                //使用command自定义命令模型来删除，直接操作底层的删除表对应的方法
+            }
+        }
+
+        //11.完成驳回功能后，将当前节点的原出口方向进行修复
+        currentFlowElement.setOutgoingFlows(originalSequenceFlowList);
+
+        //12.查询目标任务节点历史办理人
+        List<Task> newTaskList = taskService.createTaskQuery().processInstanceId(processInstanceId).list();
+        for (Task newTask : newTaskList) {
+            //取之前到历史办理人
+            HistoricTaskInstance oldTargetTask = historyService.createHistoricTaskInstanceQuery()
+                    .taskDefinitionKey(newTask.getTaskDefinitionKey()) //节点id
+                    .processInstanceId(processInstanceId)
+                    .finished()  //已完成的才是历史
+                    .orderByTaskCreateTime().desc() //最新办理的在最前面
+                    .list().get(0);
+            taskService.setAssignee(newTask.getId(),oldTargetTask.getAssignee());
+        }
+
+
+        return Result.ok();
+    }
+
+
+
+
+
     
 }
