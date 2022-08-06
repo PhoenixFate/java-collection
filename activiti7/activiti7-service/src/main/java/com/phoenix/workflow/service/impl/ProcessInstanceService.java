@@ -1,22 +1,27 @@
 package com.phoenix.workflow.service.impl;
 
 import com.phoenix.workflow.activiti.image.CustomProcessDiagramGenerator;
+import com.phoenix.workflow.entity.BusinessStatus;
 import com.phoenix.workflow.entity.ProcessConfig;
 import com.phoenix.workflow.enums.BusinessStatusEnum;
+import com.phoenix.workflow.request.ProcessInstanceRequest;
 import com.phoenix.workflow.request.StartProcessInstanceRequest;
 import com.phoenix.workflow.service.IBusinessStatusService;
 import com.phoenix.workflow.service.IProcessConfigService;
 import com.phoenix.workflow.service.IProcessInstanceService;
+import com.phoenix.workflow.utils.DateUtils;
 import com.phoenix.workflow.utils.Result;
 import com.phoenix.workflow.utils.UserUtils;
 import lombok.AllArgsConstructor;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.apache.commons.io.IOUtils;
@@ -28,10 +33,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,6 +62,8 @@ public class ProcessInstanceService extends ActivitiService implements IProcessI
         Authentication.setAuthenticatedUserId(UserUtils.getUsername());
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processConfig.getProcessKey(),
                 request.getBusinessKey(), variables);
+        //将流程定义名称 作为 流程实例名称
+        runtimeService.setProcessInstanceName(processInstance.getProcessInstanceId(),processInstance.getProcessDefinitionName());
         //4.设置任务办理人
         List<Task> taskList = taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
         for (Task task : taskList) {
@@ -170,5 +174,109 @@ public class ProcessInstanceService extends ActivitiService implements IProcessI
         outputStream.write(bytes);
         outputStream.flush();
         outputStream.close();
+    }
+
+    @Override
+    public Result getProcessInstanceRunning(ProcessInstanceRequest request) {
+        ProcessInstanceQuery processInstanceQuery = runtimeService.createProcessInstanceQuery();
+        if(StringUtils.isNotEmpty(request.getProcessName())){
+            processInstanceQuery.processInstanceNameLikeIgnoreCase(request.getProcessName());
+        }
+        if(StringUtils.isNotEmpty(request.getProposer())){
+            processInstanceQuery.startedBy(request.getProposer());
+        }
+        List<ProcessInstance> processInstanceList = processInstanceQuery.listPage(request.getFirstResult(), request.getSize());
+        long total = processInstanceQuery.count();
+        List<Map<String,Object>> records=new ArrayList<>();
+        for (ProcessInstance processInstance : processInstanceList) {
+            Map<String,Object> result=new HashMap<>();
+            result.put("processInstanceId",processInstance.getId());
+            result.put("processInstanceName",processInstance.getName());
+            result.put("processKey",processInstance.getProcessDefinitionKey());
+            result.put("version",processInstance.getProcessDefinitionVersion());
+            result.put("proposer",processInstance.getStartUserId());
+            result.put("processStatus",processInstance.isSuspended()?"已暂停":"已启动");
+            result.put("businessKey",processInstance.getBusinessKey());
+            result.put("startTime", DateUtils.format(processInstance.getStartTime()));
+            //查询当前实例的当前任务
+            List<Task> taskList = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).list();
+            StringBuilder currentTaskInfo= new StringBuilder();
+            for (Task task : taskList) {
+                currentTaskInfo.append("任务名[").append(task.getName()).append("], 办理人[").append(task.getAssignee()).append("]<br>");
+            }
+            result.put("currTaskInfo", currentTaskInfo.toString());
+            records.add(result);
+        }
+
+        Collections.sort(records, new Comparator<Map<String, Object>>() {
+            @Override
+            public int compare(Map<String, Object> m1, Map<String, Object> m2) {
+                String startTime1 = (String)m1.get("startTime");
+                String startTime2 = (String)m2.get("startTime");
+                return startTime2.compareTo(startTime1);
+            }
+        });
+        Map<String,Object> result=new HashMap<>();
+        result.put("total",total);
+        result.put("records",records);
+
+        return Result.ok(result);
+    }
+
+    @Override
+    public Result getProcessInstanceFinish(ProcessInstanceRequest request) {
+        HistoricProcessInstanceQuery historicProcessInstanceQuery = historyService.createHistoricProcessInstanceQuery()
+                .finished()
+                .orderByProcessInstanceEndTime().desc();
+        if(StringUtils.isNotEmpty(request.getProcessName())){
+            historicProcessInstanceQuery.processInstanceNameLikeIgnoreCase(request.getProcessName());
+        }
+        if(StringUtils.isNotEmpty(request.getProposer())){
+            historicProcessInstanceQuery.startedBy(request.getProposer());
+        }
+
+        List<HistoricProcessInstance> historicProcessInstanceList = historicProcessInstanceQuery.listPage(request.getFirstResult(), request.getSize());
+        long total = historicProcessInstanceQuery.count();
+        List<Map<String,Object>> records=new ArrayList<>();
+        for(HistoricProcessInstance historicProcessInstance:historicProcessInstanceList){
+            Map<String,Object> result=new HashMap<>();
+            result.put("processInstanceId",historicProcessInstance.getId());
+            result.put("processInstanceName",historicProcessInstance.getName());
+            result.put("processKey",historicProcessInstance.getProcessDefinitionKey());
+            result.put("version",historicProcessInstance.getProcessDefinitionVersion());
+            result.put("proposer",historicProcessInstance.getStartUserId());
+            result.put("businessKey",historicProcessInstance.getBusinessKey());
+            result.put("startTime",DateUtils.format(historicProcessInstance.getStartTime()));
+            result.put("endTime",DateUtils.format(historicProcessInstance.getEndTime()));
+            //删除原因
+            result.put("deleteReason",historicProcessInstance.getDeleteReason());
+            //业务状态
+            BusinessStatus businessStatus = businessStatusService.getById(historicProcessInstance.getBusinessKey());
+            if(businessStatus!=null){
+                result.put("status",BusinessStatusEnum.getEumByCode(businessStatus.getStatus()).getDesc());
+            }
+            records.add(result);
+        }
+
+        Map<String,Object> result=new HashMap<>();
+        result.put("total",total);
+        result.put("records",records);
+        return Result.ok(result);
+    }
+
+    @Override
+    public Result deleteProcessInstanceAndHistory(String procInstId) {
+        //1.查询历史流程实例
+        HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
+                .processInstanceId(procInstId)
+                .singleResult();
+
+        //2.删除历史流程实例
+        historyService.deleteHistoricProcessInstance(procInstId);
+        historyService.deleteHistoricTaskInstance(procInstId);
+
+        //3.更新流程业务状态，注意：流程实例id传递一个空字符串以更新数据
+        businessStatusService.updateState(historicProcessInstance.getBusinessKey(),BusinessStatusEnum.DELETE,"");
+        return Result.ok();
     }
 }

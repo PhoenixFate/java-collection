@@ -1,5 +1,6 @@
 package com.phoenix.workflow.service;
 
+import com.phoenix.workflow.request.ProcessInstanceRequest;
 import com.phoenix.workflow.request.StartProcessInstanceRequest;
 import com.phoenix.workflow.utils.Result;
 
@@ -45,4 +46,10 @@ public interface IProcessInstanceService {
      */
     void getHistoryProcessImage(String processInstanceId, HttpServletResponse response) throws IOException;
 
+
+    Result getProcessInstanceRunning(ProcessInstanceRequest request);
+
+    Result getProcessInstanceFinish(ProcessInstanceRequest request);
+
+    Result deleteProcessInstanceAndHistory(String procInstId);
 }

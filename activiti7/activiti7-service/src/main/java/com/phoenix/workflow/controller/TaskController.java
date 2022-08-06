@@ -1,5 +1,7 @@
 package com.phoenix.workflow.controller;
 
+import com.phoenix.workflow.cmd.DeleteExecutionCommand;
+import com.phoenix.workflow.cmd.DeleteTaskCommand;
 import com.phoenix.workflow.enums.BusinessStatusEnum;
 import com.phoenix.workflow.request.TaskCompleteRequest;
 import com.phoenix.workflow.request.TaskRequest;
@@ -14,12 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.bpmn.model.*;
-import org.activiti.engine.HistoryService;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricTaskInstanceQuery;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
@@ -50,6 +50,8 @@ public class TaskController {
     private final HistoryService historyService;
 
     private final IBusinessStatusService businessStatusService;
+
+    private final ManagementService managementService;
 
     @ApiOperation("查询当前用户的待办任务")
     @PostMapping("/list/wait")
@@ -311,11 +313,17 @@ public class TaskController {
         //存储所有目标出口
         List<SequenceFlow> allSequenceFlow=new ArrayList<>();
         for (SequenceFlow incomingFlow : incomingFlows) {
-            //找到入口连线的源头（父节点）
+            //找到入口连线的源头（获取目标节点的父节点）
             FlowNode sourceFlowElement = (FlowNode)incomingFlow.getSourceFlowElement();
-            //获取目标节点的父组件的所有出口
-            List<SequenceFlow> outgoingFlows1 = sourceFlowElement.getOutgoingFlows();
-            allSequenceFlow.addAll(outgoingFlows1);
+            List<SequenceFlow> sequenceFlowList;
+            if(sourceFlowElement instanceof ParallelGateway){
+                //并行网关，则获取目标节点的父组件的所有出口
+                sequenceFlowList=sourceFlowElement.getOutgoingFlows();
+            }else {
+                //其他类型父节点，则获取目标节点的入口连线
+                sequenceFlowList=targetFlowNode.getIncomingFlows();
+            }
+            allSequenceFlow.addAll(sequenceFlowList);
         }
         //9.将当前节点的出口设置为新节点
         currentFlowElement.setOutgoingFlows(allSequenceFlow);
@@ -331,10 +339,14 @@ public class TaskController {
                 //完成任务，就会进行驳回到目标节点
                 taskService.complete(taskId);
                 //删除执行表中 is_active_=0到执行数据 使用command自定义模型
+                DeleteExecutionCommand deleteExecutionCommand = new DeleteExecutionCommand(task.getExecutionId());
+                managementService.executeCommand(deleteExecutionCommand);
             }else {
                 //删除其他未完成的并行任务
                 //taskService.delegateTask(taskId); //注意这种方式删除不掉，会报错：流程正在运行中，无法删除
                 //使用command自定义命令模型来删除，直接操作底层的删除表对应的方法
+                DeleteTaskCommand deleteTaskCommand=new DeleteTaskCommand(task1.getId());
+                managementService.executeCommand(deleteTaskCommand);
             }
         }
 
@@ -353,13 +365,52 @@ public class TaskController {
                     .list().get(0);
             taskService.setAssignee(newTask.getId(),oldTargetTask.getAssignee());
         }
-
-
         return Result.ok();
     }
 
 
-
+    @ApiOperation("查询当前登录用户已完成的任务信息")
+    @PostMapping("/list/complete")
+    public Result findCompleteTask(@RequestBody TaskRequest taskRequest){
+        HistoricTaskInstanceQuery historicTaskInstanceQuery = historyService.createHistoricTaskInstanceQuery()
+                .taskAssignee(UserUtils.getUsername())
+                .orderByTaskCreateTime()
+                .desc()
+                .finished();//已办理的任务
+        if(StringUtils.isNotEmpty(taskRequest.getTaskName())){
+            historicTaskInstanceQuery.taskNameLike("%"+taskRequest.getTaskName()+"%");
+        }
+        //分页查询
+        List<HistoricTaskInstance> historicTaskInstanceList = historicTaskInstanceQuery.
+                listPage(taskRequest.getFirstResult(), taskRequest.getSize());
+        long count = historicTaskInstanceQuery.count();
+        List<Map<String,Object>> records=new ArrayList<>();
+        for (HistoricTaskInstance historicTaskInstance : historicTaskInstanceList) {
+            Map<String,Object> result=new HashMap<>();
+            result.put("taskId",historicTaskInstance.getId());
+            result.put("taskName",historicTaskInstance.getName());
+            result.put("taskStartTime",DateUtils.format(historicTaskInstance.getStartTime()));
+            result.put("taskEndTime",DateUtils.format(historicTaskInstance.getEndTime()));
+            result.put("processInstanceId",historicTaskInstance.getProcessInstanceId());
+            result.put("executionId",historicTaskInstance.getExecutionId());
+            result.put("processDefinitionId",historicTaskInstance.getProcessDefinitionId());
+            //任务办理人：如果是候选人则没有值
+            result.put("taskAssignee",historicTaskInstance.getAssignee());
+            //查询流程实例
+            ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(historicTaskInstance.getProcessInstanceId()).singleResult();
+            if(processInstance!=null){
+                result.put("processName",processInstance.getProcessDefinitionName());
+                result.put("version",processInstance.getProcessDefinitionVersion());
+                result.put("proposer",processInstance.getStartUserId());
+                result.put("businessKey",processInstance.getBusinessKey());
+            }
+            records.add(result);
+        }
+        Map<String,Object> result=new HashMap<>();
+        result.put("total",count);
+        result.put("records",records);
+        return Result.ok(result);
+    }
 
 
     
