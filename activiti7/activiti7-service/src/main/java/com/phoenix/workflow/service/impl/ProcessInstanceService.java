@@ -146,13 +146,15 @@ public class ProcessInstanceService extends ActivitiService implements IProcessI
                 .processInstanceId(processInstanceId).singleResult();
         //2.查询流程中已执行的节点，按照执行先后排序
         List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery()
+                .processInstanceId(processInstanceId)
                 .orderByHistoricActivityInstanceStartTime().desc()
                 .list();
         //3。单独提取的高亮节点id（绿色的，已经结束的）
         List<String> highLightedActivityIdList = historicActivityInstanceList.stream()
                 .map(HistoricActivityInstance::getActivityId).collect(Collectors.toList());
         //4.正在执行的节点（红色的，已经完成的）
-        List<Execution> runningActivityInstanceList = runtimeService.createExecutionQuery().processInstanceId(processInstanceId).list();
+        List<Execution> runningActivityInstanceList = runtimeService.createExecutionQuery()
+                .processInstanceId(processInstanceId).list();
         List<String> runningActivityIdList=new ArrayList<>();
         for (Execution execution : runningActivityInstanceList) {
             if(StringUtils.isNotEmpty(execution.getActivityId())){

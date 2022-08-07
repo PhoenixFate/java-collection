@@ -75,7 +75,7 @@ public class ProcessInstanceController {
 
     @ApiOperation("挂起或者激活流程实例")
     @PutMapping("/state/{procInstId}")
-    public Result udpateProcessInstanceState(@PathVariable("procInstId") String processInstanceId) {
+    public Result updateProcessInstanceState(@PathVariable("procInstId") String processInstanceId) {
         //1.查询指定流程实例的数据
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
                 .processInstanceId(processInstanceId)

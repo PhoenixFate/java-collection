@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.phoenix.workflow.mapper.LoanMapper">
+
+    <resultMap id="LoanAndStatus" type="com.phoenix.workflow.entity.Loan">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="nick_name" property="nickName" />
+        <result column="money" property="money" />
+        <result column="purpose" property="purpose" />
+        <result column="remark" property="remark" />
+        <result column="load_date" property="loadDate" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+        <result column="process_instance_id" property="processInstanceId" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <select id="getLoanAndStatusList" resultMap="LoanAndStatus">
+        select t1.*, t2.*
+        from mxg_loan t1
+        left join mxg_business_status t2
+        on t1.id=t2.business_key
+        where 1=1
+        <if test="request.purpose !=null and request.purpose!=''">
+            and t1.purpose like CONCAT('%' , #{purpose} , '%')
+        </if>
+        <if test="request.status!=null">
+            and t2.status = #{request.status}
+        </if>
+        order by t1.create_date desc
+    </select>
+
+</mapper>

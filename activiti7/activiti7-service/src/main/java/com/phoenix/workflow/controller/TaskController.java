@@ -397,12 +397,12 @@ public class TaskController {
             //任务办理人：如果是候选人则没有值
             result.put("taskAssignee",historicTaskInstance.getAssignee());
             //查询流程实例
-            ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(historicTaskInstance.getProcessInstanceId()).singleResult();
-            if(processInstance!=null){
-                result.put("processName",processInstance.getProcessDefinitionName());
-                result.put("version",processInstance.getProcessDefinitionVersion());
-                result.put("proposer",processInstance.getStartUserId());
-                result.put("businessKey",processInstance.getBusinessKey());
+            HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(historicTaskInstance.getProcessInstanceId()).singleResult();
+            if(historicProcessInstance!=null){
+                result.put("processName",historicProcessInstance.getProcessDefinitionName());
+                result.put("version",historicProcessInstance.getProcessDefinitionVersion());
+                result.put("proposer",historicProcessInstance.getStartUserId());
+                result.put("businessKey",historicProcessInstance.getBusinessKey());
             }
             records.add(result);
         }

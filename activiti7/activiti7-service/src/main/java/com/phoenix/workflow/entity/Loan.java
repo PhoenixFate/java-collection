@@ -45,7 +45,6 @@ public class Loan implements Serializable {
     @ApiModelProperty("更新时间")
     private Date updateDate;
 
-
     @TableField(exist = false)
     @ApiModelProperty("流程实例id")
     private String processInstanceId;
