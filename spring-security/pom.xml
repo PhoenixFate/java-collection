@@ -11,9 +11,15 @@
 
     <artifactId>spring-security</artifactId>
     <packaging>pom</packaging>
+
+    <modules>
+        <module>mine-spring-security-parent</module>
+    </modules>
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
 
 </project>

@@ -1,5 +1,8 @@
 # java-技术合集
 
+## idea设置自动导包
+file->settings->editor->general->auto import-> 勾选 add  unambiguous imports on the fly 和 optimize imports on the fly
+
 ## idea快捷键
 ctrl+alt+b 当前接口的实现类有哪些
 ctrl+h 打开当前类的实现类窗口

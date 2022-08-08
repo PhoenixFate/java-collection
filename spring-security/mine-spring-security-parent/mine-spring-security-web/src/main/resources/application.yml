@@ -1,0 +1,7 @@
+server:
+  port: 9354
+
+spring:
+  thymeleaf:
+    # 默认为true，关闭thymeleaf缓存
+    cache: false
