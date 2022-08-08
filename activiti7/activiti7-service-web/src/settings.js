@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '梦学谷Activiti流程管理系统',
+  title: 'SpringSecurityActiviti流程管理系统',
 
   /**
    * @type {boolean} true | false

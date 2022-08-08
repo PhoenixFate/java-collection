@@ -9,10 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2022/7/15 14:50
  */
 @SpringBootApplication
-public class WorkflowApplicationM5 {
+public class Activity7WorkflowDemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WorkflowApplicationM5.class, args);
+        SpringApplication.run(Activity7WorkflowDemoApplication.class, args);
     }
 
 }
