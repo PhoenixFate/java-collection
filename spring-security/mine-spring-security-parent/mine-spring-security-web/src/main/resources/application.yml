@@ -5,3 +5,15 @@ spring:
   thymeleaf:
     # 默认为true，关闭thymeleaf缓存
     cache: false
+
+mine:
+  security:
+    authentication:
+      loginPage: /login/page # 响应认证（登录）页面的url
+      loginProcessingUrl: /login/form # 登录表单提交处理的url
+      usernameParameter: username # 登录表单提交的用户名的属性名
+      passwordParameter: password # 登录表单提交的密码的属性名
+      staticPath: # 静态资源路径 /dist/** /modules/** /plugins/**
+        - /dist/**
+        - /modules/**
+        - /plugins/**
