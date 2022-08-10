@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * 一个配置，指定为springSecurity的配置，需要继承WebSecurityConfigurerAdapter
@@ -35,6 +37,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService customUserDetailsService;
 
+    @Autowired
+    private AuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    @Autowired
+    private AuthenticationFailureHandler customAuthenticationFailureHandler;
 
     /**
      * 认证管理器：
@@ -84,6 +91,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl(springSecurityProperties.getAuthentication().getLoginProcessingUrl()) //登录表单提交处理url，默认是/login
                 .usernameParameter(springSecurityProperties.getAuthentication().getUsernameParameter())//登录用户名的参数名
                 .passwordParameter(springSecurityProperties.getAuthentication().getPasswordParameter())//登录密码的参数名
+                .successHandler(customAuthenticationSuccessHandler) //认证成功处理器
+                .failureHandler(customAuthenticationFailureHandler) //认证失败处理器
                 .and()
                 .authorizeRequests() //认证请求
                 .antMatchers(springSecurityProperties.getAuthentication().getLoginPage()).permitAll() //放行/login/page 不需要认证访问
@@ -93,6 +102,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 针对静态资源进行放行
+     *
      * @param web web
      */
     @Override
