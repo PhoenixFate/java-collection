@@ -4,7 +4,6 @@ import com.phoenix.core.filter.ImageCodeValidateFilter;
 import com.phoenix.core.property.SpringSecurityProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+
+import javax.sql.DataSource;
 
 /**
  * 一个配置，指定为springSecurity的配置，需要继承WebSecurityConfigurerAdapter
@@ -71,6 +73,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(customUserDetailsService);
     }
 
+    private DataSource dataSource;
+
+    @Bean
+    public JdbcTokenRepositoryImpl jdbcTokenRepository(){
+        JdbcTokenRepositoryImpl jdbcTokenRepository=new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        //是否启动项目的时候自动创建表，true为自动创建表
+        //jdbcTokenRepository.setCreateTableOnStartup(true);
+        return jdbcTokenRepository;
+    }
+
+
     /**
      * 当认证成功之后，SpringSecurity会重定向到上一次的请求路径上
      * 资源权限配置
@@ -101,8 +115,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(springSecurityProperties.getAuthentication().getLoginPage(),
                         "/code/image"
                 ).permitAll() //放行/login/page 不需要认证访问
-                .anyRequest().authenticated(); //所有访问该应用的http请求都需要通过身份认证才可以访问
-
+                .anyRequest().authenticated() //所有访问该应用的http请求都需要通过身份认证才可以访问
+                .and()
+                .rememberMe() //开启rememberMe
+                .tokenRepository(jdbcTokenRepository()) //使用jdbcTokenRepository保存登录信息
+                .tokenValiditySeconds(60*60*24*7) //rememberMe的有效时长：7天
+        ;
     }
 
     /**
