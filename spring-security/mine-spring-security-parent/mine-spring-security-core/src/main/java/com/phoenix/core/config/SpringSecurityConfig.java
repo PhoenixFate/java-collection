@@ -1,6 +1,8 @@
 package com.phoenix.core.config;
 
+import com.phoenix.core.filter.ImageCodeValidateFilter;
 import com.phoenix.core.property.SpringSecurityProperties;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * 一个配置，指定为springSecurity的配置，需要继承WebSecurityConfigurerAdapter
@@ -22,6 +25,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 @Slf4j
 @EnableWebSecurity //开启spring security过滤器链 filter
+@AllArgsConstructor
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -31,17 +35,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     //从application.yml中读取配置信息
-    @Autowired
     private SpringSecurityProperties springSecurityProperties;
-
-    @Autowired
+    //自定义的userDetailsService
     private UserDetailsService customUserDetailsService;
-
-    @Autowired
+    //spring security 认证成功处理器
     private AuthenticationSuccessHandler customAuthenticationSuccessHandler;
-
-    @Autowired
+    //spring security 认证失败处理器
     private AuthenticationFailureHandler customAuthenticationFailureHandler;
+    //验证码校验过滤器
+    private ImageCodeValidateFilter imageCodeValidateFilter;
 
     /**
      * 认证管理器：
@@ -86,7 +88,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //        .anyRequest().authenticated(); //所有访问该应用的http请求都需要通过身份认证才可以访问
 
         //httpForm认证方式(表单登录方式)(默认就是表单登录方式)
-        http.formLogin() //采用httpForm认证方式
+        http.addFilterBefore(imageCodeValidateFilter, UsernamePasswordAuthenticationFilter.class) //将验证码过滤器添加到用户名密码过滤器之前
+                .formLogin() //采用httpForm认证方式
                 .loginPage(springSecurityProperties.getAuthentication().getLoginPage()) //自定义登录页面
                 .loginProcessingUrl(springSecurityProperties.getAuthentication().getLoginProcessingUrl()) //登录表单提交处理url，默认是/login
                 .usernameParameter(springSecurityProperties.getAuthentication().getUsernameParameter())//登录用户名的参数名
@@ -95,7 +98,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(customAuthenticationFailureHandler) //认证失败处理器
                 .and()
                 .authorizeRequests() //认证请求
-                .antMatchers(springSecurityProperties.getAuthentication().getLoginPage()).permitAll() //放行/login/page 不需要认证访问
+                .antMatchers(springSecurityProperties.getAuthentication().getLoginPage(),
+                        "/code/image"
+                ).permitAll() //放行/login/page 不需要认证访问
                 .anyRequest().authenticated(); //所有访问该应用的http请求都需要通过身份认证才可以访问
 
     }

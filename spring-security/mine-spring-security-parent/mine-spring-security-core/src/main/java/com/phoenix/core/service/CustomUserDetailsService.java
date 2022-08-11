@@ -1,4 +1,4 @@
-package com.phoenix.web.service;
+package com.phoenix.core.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,6 @@ import org.springframework.stereotype.Service;
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("--------- 请求认证的用户名： "+username);
@@ -30,9 +28,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("用户名或者密码错误");
         }
         //这里面模拟查询数据库中的加密后的密码
-        String password=passwordEncoder.encode("123456");
+        String password=new BCryptPasswordEncoder().encode("123456");
         //构建UserDetails
-
         //2.查询该用户的所有权限
 
         //3.封装用户信息和权限信息
