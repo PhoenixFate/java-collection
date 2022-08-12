@@ -76,8 +76,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Bean
-    public JdbcTokenRepositoryImpl jdbcTokenRepository(){
-        JdbcTokenRepositoryImpl jdbcTokenRepository=new JdbcTokenRepositoryImpl();
+    public JdbcTokenRepositoryImpl jdbcTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
         jdbcTokenRepository.setDataSource(dataSource);
         //是否启动项目的时候自动创建表，true为自动创建表
         //jdbcTokenRepository.setCreateTableOnStartup(true);
@@ -113,13 +113,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests() //认证请求
                 .antMatchers(springSecurityProperties.getAuthentication().getLoginPage(),
-                        "/code/image"
+                        "/favicon.ico",
+                        "/code/image",
+                        "/mobile/page"
                 ).permitAll() //放行/login/page 不需要认证访问
                 .anyRequest().authenticated() //所有访问该应用的http请求都需要通过身份认证才可以访问
                 .and()
                 .rememberMe() //开启rememberMe
                 .tokenRepository(jdbcTokenRepository()) //使用jdbcTokenRepository保存登录信息
-                .tokenValiditySeconds(60*60*24*7) //rememberMe的有效时长：7天
+                .tokenValiditySeconds(60 * 60 * 24 * 7) //rememberMe的有效时长：7天
         ;
     }
 
