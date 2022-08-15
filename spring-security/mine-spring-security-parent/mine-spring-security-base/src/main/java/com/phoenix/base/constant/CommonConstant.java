@@ -9,4 +9,6 @@ public class CommonConstant {
 
     public static final String SESSION_KEY_IMAGE_CODE = "SESSION_KEY_IMAGE_CODE";
 
+    public static final String SESSION_KEY_MOBILE_CODE = "SESSION_KEY_MOBILE_CODE";
+
 }
