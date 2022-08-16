@@ -7,6 +7,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +35,7 @@ public class MobileLoginController {
         return "login-mobile";
     }
 
+    @ResponseBody
     @GetMapping("/code/mobile")
     public RequestResult sendMobileCode(HttpServletRequest request) {
         //1.生成一个手机验证码
