@@ -58,6 +58,13 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <!--解决找不到 javax.annotation.meta.When.MAYBE-->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
 
         <!--采用redis来管理session
         <dependency>
@@ -70,13 +77,7 @@
         </dependency>
         -->
 
-        <!--解决找不到 javax.annotation.meta.When.MAYBE
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-		-->
+
     </dependencies>
 
 </project>

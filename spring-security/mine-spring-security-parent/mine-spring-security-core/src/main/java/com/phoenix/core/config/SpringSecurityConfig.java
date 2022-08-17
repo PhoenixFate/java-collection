@@ -1,6 +1,8 @@
 package com.phoenix.core.config;
 
 import com.phoenix.core.filter.ImageCodeValidateFilter;
+import com.phoenix.core.mobile.MobileAuthenticationConfig;
+import com.phoenix.core.mobile.MobileValidateFilter;
 import com.phoenix.core.property.SpringSecurityProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +48,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationFailureHandler customAuthenticationFailureHandler;
     //验证码校验过滤器
     private ImageCodeValidateFilter imageCodeValidateFilter;
+
+    //手机登录，手机验证码过滤器: 校验手机验证码
+    private MobileValidateFilter mobileValidateFilter;
+    //校验手机号是否存在，就是手机号认证
+    private MobileAuthenticationConfig mobileAuthenticationConfig;
 
     /**
      * 认证管理器：
@@ -102,7 +109,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //        .anyRequest().authenticated(); //所有访问该应用的http请求都需要通过身份认证才可以访问
 
         //httpForm认证方式(表单登录方式)(默认就是表单登录方式)
-        http.addFilterBefore(imageCodeValidateFilter, UsernamePasswordAuthenticationFilter.class) //将验证码过滤器添加到用户名密码过滤器之前
+        http.addFilterBefore(mobileValidateFilter, UsernamePasswordAuthenticationFilter.class) //将手机验证码过滤器添加到用户名密码过滤器之前
+                .addFilterBefore(imageCodeValidateFilter, UsernamePasswordAuthenticationFilter.class) //将验证码过滤器添加到用户名密码过滤器之前
                 .formLogin() //采用httpForm认证方式
                 .loginPage(springSecurityProperties.getAuthentication().getLoginPage()) //自定义登录页面
                 .loginProcessingUrl(springSecurityProperties.getAuthentication().getLoginProcessingUrl()) //登录表单提交处理url，默认是/login
@@ -124,6 +132,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenRepository(jdbcTokenRepository()) //使用jdbcTokenRepository保存登录信息
                 .tokenValiditySeconds(60 * 60 * 24 * 7) //rememberMe的有效时长：7天
         ;
+
+        //将手机认证添加到过滤器链上
+        http.apply(mobileAuthenticationConfig);
+
     }
 
     /**
