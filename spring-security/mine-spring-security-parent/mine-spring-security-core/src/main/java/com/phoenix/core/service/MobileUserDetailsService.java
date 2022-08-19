@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,11 +22,11 @@ public class MobileUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String mobile) throws UsernameNotFoundException {
         //1.通过手机号查询用户信息
-
+        String username = "phoenix";
         //2.如果有用户信息，则再获取权限资源
 
         //3.封装用户信息
-        return new User(mobile, "", true, true, true, true,
+        return new User(username, "", true, true, true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("ADMIN"));
     }
 }

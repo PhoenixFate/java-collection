@@ -9,7 +9,7 @@ spring:
   datasource:
     username: root
     password: centos123qwer
-    url: jdbc:mysql://www.bytes-space.com:63306/spring_security?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://www.bytes-space.com:10306/spring_security?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     # mysql8版本以上驱动包指定新的驱动类
     driver-class-name: com.mysql.cj.jdbc.Driver
 
