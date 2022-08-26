@@ -54,7 +54,7 @@ public class MainController {
     }
 
     /**
-     * 方式三
+     * 方式三 (推荐)
      * 通过@AuthenticationPrincipal注解，直接注入UserDetails对象
      * userDetails对象即用户信息对象
      *
