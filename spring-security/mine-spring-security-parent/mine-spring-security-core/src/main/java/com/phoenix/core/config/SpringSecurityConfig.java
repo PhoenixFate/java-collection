@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.session.InvalidSessionStrategy;
 
 import javax.sql.DataSource;
 
@@ -53,6 +54,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private MobileValidateFilter mobileValidateFilter;
     //校验手机号是否存在，就是手机号认证
     private MobileAuthenticationConfig mobileAuthenticationConfig;
+
+    private InvalidSessionStrategy invalidSessionStrategy;
 
     /**
      * 认证管理器：
@@ -121,16 +124,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests() //认证请求
                 .antMatchers(springSecurityProperties.getAuthentication().getLoginPage(),
-                        "/favicon.ico",
-                        "/code/image",
-                        "/mobile/page",
-                        "/code/mobile"
+                        springSecurityProperties.getAuthentication().getImageCodeUrl(),
+                        springSecurityProperties.getAuthentication().getMobileCodeUrl(),
+                        springSecurityProperties.getAuthentication().getMobilePage()
                 ).permitAll() //放行/login/page 不需要认证访问
                 .anyRequest().authenticated() //所有访问该应用的http请求都需要通过身份认证才可以访问
                 .and()
                 .rememberMe() //开启rememberMe
                 .tokenRepository(jdbcTokenRepository()) //使用jdbcTokenRepository保存登录信息
                 .tokenValiditySeconds(60 * 60 * 24 * 7) //rememberMe的有效时长：7天
+                .and()
+                .sessionManagement()//session管理
+                .invalidSessionStrategy(invalidSessionStrategy) //当session失效后的处理类
+
         ;
 
         //将手机认证添加到过滤器链上

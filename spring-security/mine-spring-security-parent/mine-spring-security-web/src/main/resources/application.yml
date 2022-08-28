@@ -1,5 +1,9 @@
 server:
   port: 9354
+  servlet:
+    session:
+      # session会话默认超时时间，默认是30分钟 30，最小为1分钟 1m
+      timeout: 2h
 
 spring:
   thymeleaf:
@@ -21,7 +25,13 @@ mine:
       usernameParameter: username # 登录表单提交的用户名的属性名
       passwordParameter: password # 登录表单提交的密码的属性名
       staticPath: # 静态资源路径 /dist/** /modules/** /plugins/**
+        - /favicon.ico
         - /dist/**
         - /modules/**
         - /plugins/**
       loginReturnType: REDIRECT # 认证之后 响应的类型 JSON/REDIRECT
+      imageCodeUrl: /code/image # 获取图形验证码地址
+      mobileCodeUrl: /code/mobile #发送手机验证码地址
+      mobilePage: /mobile/page # 前往手机登录页面
+      # 60*60*24*7 7天
+      tokenValiditySeconds: 604800 # 记住我功能有效时长
