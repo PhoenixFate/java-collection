@@ -6,7 +6,6 @@ import com.phoenix.core.property.SpringSecurityProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -52,7 +51,10 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
             String referer = request.getHeader("Referer");
             log.info("-------------------- referer: {}", referer);
 
-            String lastUrl = StringUtils.substringBefore(referer, "?");
+            //根据request传入的参数，判断是返回上一次的请求路径，还是跳转到登录页面
+            Object toAuthentication = request.getAttribute("toAuthentication");
+
+            String lastUrl = toAuthentication != null ? springSecurityProperties.getAuthentication().getLoginPage() : StringUtils.substringBefore(referer, "?");
             log.info("上一次请求的路径： {}", lastUrl);
             if (StringUtils.isNotBlank(lastUrl)) {
                 super.setDefaultFailureUrl(lastUrl + "?error");

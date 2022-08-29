@@ -1,12 +1,14 @@
 package com.phoenix.core.config;
 
 import com.phoenix.core.authentication.CustomInvalidSessionStrategy;
+import com.phoenix.core.authentication.CustomSessionInformationExpiredStrategy;
 import com.phoenix.core.mobile.SmsCodeSender;
 import com.phoenix.core.mobile.SmsSend;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
 /**
  * 主要为容器中添加bean实例
@@ -41,6 +43,12 @@ public class SecurityConfigBean {
     @ConditionalOnMissingBean(InvalidSessionStrategy.class)
     public InvalidSessionStrategy InvalidSessionStrategy() {
         return new CustomInvalidSessionStrategy();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SessionInformationExpiredStrategy.class)
+    public SessionInformationExpiredStrategy sessionInformationExpiredStrategy() {
+        return new CustomSessionInformationExpiredStrategy();
     }
 
 }
