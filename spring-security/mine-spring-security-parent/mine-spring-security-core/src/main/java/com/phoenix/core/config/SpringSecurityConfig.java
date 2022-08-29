@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
 import javax.sql.DataSource;
 
@@ -52,17 +53,25 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //手机登录，手机验证码过滤器: 校验手机验证码
     private MobileValidateFilter mobileValidateFilter;
-    //校验手机号是否存在，就是手机号认证
+    //手机号认证配置：校验手机号是否存在，就是手机号认证
     private MobileAuthenticationConfig mobileAuthenticationConfig;
-
-    private InvalidSessionStrategy invalidSessionStrategy;
+    /**
+     * 自定义session失效的返回策略:
+     * 1.可以重定向到登录页面
+     * 2.也可以返回json数据
+     */
+    private InvalidSessionStrategy customInvalidSessionStrategy;
+    /**
+     * 用户在系统中的session数量超过最大数所执行的策略
+     */
+    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
 
     /**
      * 认证管理器：
      * 1.认证信息（用户名、密码）
      *
-     * @param auth
-     * @throws Exception
+     * @param auth AuthenticationManagerBuilder
+     * @throws Exception e
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -100,8 +109,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
      * 资源权限配置
      * 1.被拦截的资源
      *
-     * @param http
-     * @throws Exception
+     * @param http HttpSecurity
+     * @throws Exception e
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -135,8 +144,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenValiditySeconds(60 * 60 * 24 * 7) //rememberMe的有效时长：7天
                 .and()
                 .sessionManagement()//session管理
-                .invalidSessionStrategy(invalidSessionStrategy) //当session失效后的处理类
-
+                .invalidSessionStrategy(customInvalidSessionStrategy) //当session失效后的处理类
+                .maximumSessions(1) //每个用户在系统中最多有多少个session
+                .expiredSessionStrategy(sessionInformationExpiredStrategy)//用户在系统中的session数量超过最大数所执行的策略
         ;
 
         //将手机认证添加到过滤器链上
