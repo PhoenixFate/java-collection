@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.stereotype.Component;
 
 /**
@@ -39,6 +40,10 @@ public class MobileAuthenticationConfig extends SecurityConfigurerAdapter<Defaul
         //容器中默认有一个PersistentTokenBasedRememberMeService实例
         //添加手机登录的记住我功能
         mobileAuthenticationFilter.setRememberMeServices(builder.getSharedObject(RememberMeServices.class));
+
+        //添加手机登录的session认证策略，默认是 private SessionAuthenticationStrategy sessionStrategy = new NullAuthenticatedSessionStrategy()
+        //需要自己赋值一个session认证策略, 用于管理用户session重复登录的限制
+        mobileAuthenticationFilter.setSessionAuthenticationStrategy(builder.getSharedObject(SessionAuthenticationStrategy.class));
 
         //设置失败处理器
         mobileAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
