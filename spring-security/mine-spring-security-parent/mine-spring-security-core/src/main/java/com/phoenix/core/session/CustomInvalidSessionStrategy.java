@@ -1,4 +1,4 @@
-package com.phoenix.core.authentication;
+package com.phoenix.core.session;
 
 import com.phoenix.base.result.RequestResult;
 import org.springframework.http.HttpStatus;
