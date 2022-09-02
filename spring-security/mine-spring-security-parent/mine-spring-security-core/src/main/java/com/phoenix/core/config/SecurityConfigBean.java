@@ -1,7 +1,7 @@
 package com.phoenix.core.config;
 
-import com.phoenix.core.authentication.CustomInvalidSessionStrategy;
-import com.phoenix.core.authentication.CustomSessionInformationExpiredStrategy;
+import com.phoenix.core.session.CustomInvalidSessionStrategy;
+import com.phoenix.core.session.CustomSessionInformationExpiredStrategy;
 import com.phoenix.core.mobile.SmsCodeSender;
 import com.phoenix.core.mobile.SmsSend;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

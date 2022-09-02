@@ -1,6 +1,7 @@
-package com.phoenix.core.authentication;
+package com.phoenix.core.session;
 
 import com.alibaba.fastjson.JSONObject;
+import com.phoenix.core.authentication.CustomAuthenticationFailureHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;

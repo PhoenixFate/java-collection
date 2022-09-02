@@ -4,6 +4,7 @@ import com.phoenix.core.filter.ImageCodeValidateFilter;
 import com.phoenix.core.mobile.MobileAuthenticationConfig;
 import com.phoenix.core.mobile.MobileValidateFilter;
 import com.phoenix.core.property.SpringSecurityProperties;
+import com.phoenix.core.session.CustomLogoutHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -65,6 +68,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
      * 用户在系统中的session数量超过最大数所执行的策略
      */
     private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
+    /**
+     * 登录退出handler，用于清除缓存
+     */
+    private CustomLogoutHandler customLogoutHandler;
+
 
     /**
      * 认证管理器：
@@ -148,12 +157,32 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .maximumSessions(1) //每个用户在系统中最多有多少个session
                 .expiredSessionStrategy(sessionInformationExpiredStrategy)//用户在系统中的session数量超过最大数所执行的策略
                 .maxSessionsPreventsLogin(true) //当一个用户达到最大session数量，则不允许后面再登录
+                .sessionRegistry(sessionRegistry()) //session注册机制，默认也是SessionRegistryImpl
+                .and().and().logout().addLogoutHandler(customLogoutHandler)//spring security会将customerLogoutHandler放入CompositeLogoutHandler中的logoutHandlers里面
         ;
+
+        //关闭csrf（跨站）CSRF（Cross-site request forgery），中文名称：跨站请求伪造，也被称为：one click attack/session riding，缩写为：CSRF/XSRF。
+        //spring security默认开启了csrf跨站请求伪造，使得logout需要使用post方法
+        //关闭csrf之后，logout就可以使用get方法
+        //LogoutFilter默认接受/logout路径，所以不需要特别配置/logout放行
+        http.csrf().disable();
 
         //将手机认证添加到过滤器链上
         http.apply(mobileAuthenticationConfig);
 
     }
+
+    /**
+     * 为了解决退出重新登录的问题
+     * session 注册,spring security 中默认也是SessionRegistryImpl
+     *
+     * @return SessionRegistryImpl
+     */
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
 
     /**
      * 针对静态资源进行放行
