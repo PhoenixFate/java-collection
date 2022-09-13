@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -73,7 +74,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
      * 登录退出handler，用于清除缓存
      */
     private CustomLogoutHandler customLogoutHandler;
-
+    /**
+     * 为了解决退出重新登录的问题
+     * session 注册,spring security 中默认也是SessionRegistryImpl
+     *
+     */
+    private SessionRegistry sessionRegistry;
 
     /**
      * 认证管理器：
@@ -156,8 +162,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidSessionStrategy(customInvalidSessionStrategy) //当session失效后的处理类
                 .maximumSessions(1) //每个用户在系统中最多有多少个session
                 .expiredSessionStrategy(sessionInformationExpiredStrategy)//用户在系统中的session数量超过最大数所执行的策略
-                .maxSessionsPreventsLogin(true) //当一个用户达到最大session数量，则不允许后面再登录
-                .sessionRegistry(sessionRegistry()) //session注册机制，默认也是SessionRegistryImpl
+                .maxSessionsPreventsLogin(true) //当一个用户达到最大session数量，则不允许后面再登录；maxSessionsPreventsLogin为true时，expiredSessionStrategy(sessionInformationExpiredStrategy)不再执行
+                .sessionRegistry(sessionRegistry) //session注册机制，默认也是SessionRegistryImpl
                 .and().and().logout().addLogoutHandler(customLogoutHandler)//spring security会将customerLogoutHandler放入CompositeLogoutHandler中的logoutHandlers里面
         ;
 
@@ -170,17 +176,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //将手机认证添加到过滤器链上
         http.apply(mobileAuthenticationConfig);
 
-    }
-
-    /**
-     * 为了解决退出重新登录的问题
-     * session 注册,spring security 中默认也是SessionRegistryImpl
-     *
-     * @return SessionRegistryImpl
-     */
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
     }
 
 

@@ -3,7 +3,7 @@ server:
   servlet:
     session:
       # session会话默认超时时间，默认是30分钟 30，最小为1分钟 1m
-      timeout: 2h
+      timeout: 1m
       cookie:
         name: JSESSIONID # 指定浏览器cookie中关于SessionID保存的名称；默认为JSESSIONID，store-type为redis时，默认为SESSION
 
@@ -12,7 +12,7 @@ spring:
     # store-type: none 默认服务器存储session，前端cookie中的key为JSESSIONID
     # store-type: redis 使用redis存储session，前端cookie中的key为SESSION
     # 需要统一session名称
-    store-type: redis # 使用redis存储session
+    # store-type: redis # 使用redis存储session
   thymeleaf:
     # 默认为true，关闭thymeleaf缓存
     cache: false

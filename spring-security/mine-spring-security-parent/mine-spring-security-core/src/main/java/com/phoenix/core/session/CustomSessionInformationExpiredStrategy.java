@@ -24,15 +24,18 @@ import java.util.Map;
 
 public class CustomSessionInformationExpiredStrategy implements SessionInformationExpiredStrategy {
 
-    @Autowired
-    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
+    public CustomSessionInformationExpiredStrategy(CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
+    }
 
     @Override
     public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException {
         //1.获取用户名
         UserDetails principal = (UserDetails) event.getSessionInformation().getPrincipal();
         //新建一个spring security AuthenticationException 异常类，用于给自定义的失败处理器
-        AuthenticationException authenticationException = new AuthenticationServiceException(String.format("[%s] 该用户在另一台电脑上登录，您已被下线", principal.getUsername()));
+        AuthenticationException authenticationException = new AuthenticationServiceException(String.format("[%s] 您的账号已经在别的地方登录，当前登录已失效。如果密码遭到泄露，请立即修改密码！", principal.getUsername()));
         try {
             event.getRequest().setAttribute("toAuthentication", true);
             customAuthenticationFailureHandler.onAuthenticationFailure(event.getRequest(), event.getResponse(), authenticationException);
@@ -41,13 +44,5 @@ public class CustomSessionInformationExpiredStrategy implements SessionInformati
         }
     }
 
-    public static void main(String[] args) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("name", "老王");
-        map.put("id", "195");
-
-        String s = JSONObject.toJSONString(map);
-        System.out.println(s);
-    }
 
 }
