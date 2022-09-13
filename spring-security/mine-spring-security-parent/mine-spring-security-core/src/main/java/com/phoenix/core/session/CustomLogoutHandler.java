@@ -25,7 +25,7 @@ public class CustomLogoutHandler implements LogoutHandler {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         //退出登录，调用自定义退出登录handler，清除缓存中的数据，防止出现N台电脑登录退出后无法再次登录
-        //退出登录之后，将对应的session从缓存(sessionRegistryImpl.principals) 中删除
+        //退出登录之后，将对应的session从缓存(SessionRegistryImpl.principals) 中删除
         sessionRegistry.removeSessionInformation(request.getSession().getId());
     }
 }

@@ -9,14 +9,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -77,7 +75,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 为了解决退出重新登录的问题
      * session 注册,spring security 中默认也是SessionRegistryImpl
-     *
      */
     private SessionRegistry sessionRegistry;
 
@@ -162,9 +159,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidSessionStrategy(customInvalidSessionStrategy) //当session失效后的处理类
                 .maximumSessions(1) //每个用户在系统中最多有多少个session
                 .expiredSessionStrategy(sessionInformationExpiredStrategy)//用户在系统中的session数量超过最大数所执行的策略
-                .maxSessionsPreventsLogin(true) //当一个用户达到最大session数量，则不允许后面再登录；maxSessionsPreventsLogin为true时，expiredSessionStrategy(sessionInformationExpiredStrategy)不再执行
+                // .maxSessionsPreventsLogin(true) //当一个用户达到最大session数量，则不允许后面再登录；maxSessionsPreventsLogin为true时， (sessionInformationExpiredStrategy)不再执行；并且这个功能开启之后，rememberMe会失效
                 .sessionRegistry(sessionRegistry) //session注册机制，默认也是SessionRegistryImpl
-                .and().and().logout().addLogoutHandler(customLogoutHandler)//spring security会将customerLogoutHandler放入CompositeLogoutHandler中的logoutHandlers里面
+                .and().and()
+                .logout().addLogoutHandler(customLogoutHandler)//退出清除缓存中的当前session spring security会将customerLogoutHandler放入CompositeLogoutHandler中的logoutHandlers里面
+                .logoutUrl(springSecurityProperties.getAuthentication().getLogoutProcessingUrl()) //自定义退出登录url
+                .logoutSuccessUrl(springSecurityProperties.getAuthentication().getLogoutSuccessUrl())  //自定义退出成功后的跳转地址
+                .deleteCookies(springSecurityProperties.getAuthentication().getDeleteCookies()) //退出后删除指定cookie
         ;
 
         //关闭csrf（跨站）CSRF（Cross-site request forgery），中文名称：跨站请求伪造，也被称为：one click attack/session riding，缩写为：CSRF/XSRF。

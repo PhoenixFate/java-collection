@@ -3,16 +3,14 @@ server:
   servlet:
     session:
       # session会话默认超时时间，默认是30分钟 30，最小为1分钟 1m
-      timeout: 1m
+      timeout: 1h
       cookie:
         name: JSESSIONID # 指定浏览器cookie中关于SessionID保存的名称；默认为JSESSIONID，store-type为redis时，默认为SESSION
 
 spring:
   session:
-    # store-type: none 默认服务器存储session，前端cookie中的key为JSESSIONID
-    # store-type: redis 使用redis存储session，前端cookie中的key为SESSION
-    # 需要统一session名称
-    # store-type: redis # 使用redis存储session
+    # store-type: none # 默认服务器存储session，前端cookie中的key默认为JSESSIONID
+    store-type: redis # 使用redis存储session，前端cookie中的key默认为SESSION 需要统一session名称
   thymeleaf:
     # 默认为true，关闭thymeleaf缓存
     cache: false
@@ -49,8 +47,12 @@ mine:
     authentication:
       loginPage: /login/page # 响应认证（登录）页面的url
       loginProcessingUrl: /login/form # 登录表单提交处理的url
+      logoutProcessingUrl: /user/logout # 退出登录表单处理url
+      logoutSuccessUrl: /login/page # 退出登录成功后的跳转地址
       usernameParameter: username # 登录表单提交的用户名的属性名
       passwordParameter: password # 登录表单提交的密码的属性名
+      deleteCookies: # 退出登录成功后删除的cookie
+        - JSESSIONID
       staticPath: # 静态资源路径 /dist/** /modules/** /plugins/**
         - /favicon.ico
         - /dist/**

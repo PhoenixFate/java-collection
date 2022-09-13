@@ -20,14 +20,26 @@ public class SpringSecurityAuthenticationProperties {
      *       loginType: JSON # 认证之后 响应的类型 JSON/REDIRECT
      */
     private String loginPage;
-
+    /**
+     * 登录表单提交处理的url
+     */
     private String loginProcessingUrl;
+    /**
+     * 退出登录表单处理url
+     */
+    private String logoutProcessingUrl;
+    /**
+     * 退出登录成功后的跳转地址
+     */
+    private String logoutSuccessUrl;
 
     private String usernameParameter;
 
     private String passwordParameter;
 
     private String[] staticPath;
+
+    private String[] deleteCookies;
 
     /**
      * 认证响应的类型：JSON REDIRECT
