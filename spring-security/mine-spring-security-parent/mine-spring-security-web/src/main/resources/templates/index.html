@@ -2,35 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
- <!-- 引入fragments/head.html文件中的名为 public-css的代码块-->
- <!-- th:replace="fragments/head.html意为引入该文件下所有的代码块"-->
- <th:block th:replace="fragments/head :: public-css"/>
+    <!-- 引入fragments/head.html文件中的名为 public-css的代码块-->
+    <!-- th:replace="fragments/head.html意为引入该文件下所有的代码块"-->
+    <th:block th:replace="fragments/head :: public-css"/>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed ">
 <!-- Site wrapper -->
 <div class="wrapper">
 
-  <!-- 头部区域 Navbar 开始-->
-  <th:block th:replace="fragments/main-header"/>
-  <!-- 头部区域 Navbar 结束 -->
+    <!-- 头部区域 Navbar 开始-->
+    <th:block th:replace="fragments/main-header"/>
+    <!-- 头部区域 Navbar 结束 -->
 
-  <!-- 左侧区域 Main Sidebar Container 开始-->
-  <th:block th:replace="fragments/main-sidebar"/>
-  <!-- 左侧区域 Main Sidebar Container 结束-->
+    <!-- 左侧区域 Main Sidebar Container 开始-->
+    <th:block th:replace="fragments/main-sidebar(activeUrl = '/')"/>
+    <!-- 左侧区域 Main Sidebar Container 结束-->
 
 
-  <!-- 右侧主区域 Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-      <img th:src="@{/modules/img/index.jpg}" src="../modules/img/index.jpg" width="100%" height="100%">
-  </div>
-  <!-- /.content-wrapper -->
+    <!-- 右侧主区域 Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <img th:src="@{/modules/img/index.jpg}" src="../modules/img/index.jpg" width="100%" height="100%">
+    </div>
+    <!-- /.content-wrapper -->
 
-  <!--右底部区域-->
-  <th:block th:replace="fragments/main-footer"/>
+    <!--右底部区域-->
+    <th:block th:replace="fragments/main-footer"/>
 
-  <!-- 右上角工具栏 Control Sidebar -->
-  <th:block th:replace="fragments/control-sidebar"/>
-  <!-- /.control-sidebar -->
+    <!-- 右上角工具栏 Control Sidebar -->
+    <th:block th:replace="fragments/control-sidebar"/>
+    <!-- /.control-sidebar -->
 
 </div>
 <!-- ./wrapper -->

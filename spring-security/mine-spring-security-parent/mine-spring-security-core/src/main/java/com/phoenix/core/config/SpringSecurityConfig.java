@@ -145,10 +145,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests() //认证请求
                 .antMatchers(springSecurityProperties.getAuthentication().getLoginPage(),
+                        springSecurityProperties.getAuthentication().getLogoutProcessingUrl(),
                         springSecurityProperties.getAuthentication().getImageCodeUrl(),
                         springSecurityProperties.getAuthentication().getMobileCodeUrl(),
                         springSecurityProperties.getAuthentication().getMobilePage()
                 ).permitAll() //放行/login/page 不需要认证访问
+
+                // .antMatchers("/user").hasAnyRole("ADMIN", "ROOT") //设置角色时会加上ROLE_作为前缀，所以在UserDetails中赋值role的时候需要添加前缀
+                // .antMatchers("/user").hasAnyAuthority("ADMIN", "ROOT") //有特定标识符才能访问例如 sys:user:list
+                // .antMatchers("/user").hasIpAddress("192.168.1.1/29") //限制指定ip或者指定范围内的ip才能访问
+
                 .anyRequest().authenticated() //所有访问该应用的http请求都需要通过身份认证才可以访问
                 .and()
                 .rememberMe() //开启rememberMe
@@ -172,7 +178,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //spring security默认开启了csrf跨站请求伪造，使得logout需要使用post方法
         //关闭csrf之后，logout就可以使用get方法
         //LogoutFilter默认接受/logout路径，所以不需要特别配置/logout放行
-        http.csrf().disable();
+        //http.csrf().disable();
 
         //将手机认证添加到过滤器链上
         http.apply(mobileAuthenticationConfig);
