@@ -48,21 +48,20 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!--对Thymeleaf添加Spring Security标签支持
+        <!--对Thymeleaf添加Spring Security标签支持-->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
-        -->
 
-        <!--bootstrap-table
+        <!--以jar包的方式来引入静态库文件 或者在static/plugins中引入静态文件 -start-->
+        <!--bootstrap-table-->
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>bootstrap-table</artifactId>
             <version>1.14.1</version>
         </dependency>
-        -->
-        <!--jquery-treeGrid
+        <!--jquery-treeGrid-->
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>jquery-treegrid</artifactId>
@@ -74,15 +73,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        -->
-        <!--layer
+        <!--layer-->
         <dependency>
             <groupId>org.webjars.bowergithub.sentsin</groupId>
             <artifactId>layer</artifactId>
             <version>3.1.1</version>
         </dependency>
-        -->
-
+        <!--以jar包的方式来引入静态库文件 或者在static/plugins中引入静态文件 -end-->
 
         <!-- springboot 单元测试 -->
         <dependency>
@@ -94,8 +91,5 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
-
     </dependencies>
-
-
 </project>
