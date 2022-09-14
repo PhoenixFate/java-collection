@@ -145,7 +145,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests() //认证请求
                 .antMatchers(springSecurityProperties.getAuthentication().getLoginPage(),
-                        springSecurityProperties.getAuthentication().getLogoutProcessingUrl(),
                         springSecurityProperties.getAuthentication().getImageCodeUrl(),
                         springSecurityProperties.getAuthentication().getMobileCodeUrl(),
                         springSecurityProperties.getAuthentication().getMobilePage()
