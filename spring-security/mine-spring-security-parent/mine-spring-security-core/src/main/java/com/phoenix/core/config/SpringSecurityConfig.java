@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,6 +35,7 @@ import javax.sql.DataSource;
 @Slf4j
 @EnableWebSecurity //开启spring security过滤器链 filter
 @AllArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true) //开启注解方法级别权限控制
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -151,7 +153,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll() //放行/login/page 不需要认证访问
 
                 // .antMatchers("/user").hasAnyRole("ADMIN", "ROOT") //设置角色时会加上ROLE_作为前缀，所以在UserDetails中赋值role的时候需要添加前缀
-                // .antMatchers("/user").hasAnyAuthority("ADMIN", "ROOT") //有特定标识符才能访问例如 sys:user:list
+                // .antMatchers("/user").hasAnyAuthority("sys:user", "sys:role") //有特定标识符才能访问例如 sys:user:list
                 // .antMatchers("/user").hasIpAddress("192.168.1.1/29") //限制指定ip或者指定范围内的ip才能访问
 
                 .anyRequest().authenticated() //所有访问该应用的http请求都需要通过身份认证才可以访问
