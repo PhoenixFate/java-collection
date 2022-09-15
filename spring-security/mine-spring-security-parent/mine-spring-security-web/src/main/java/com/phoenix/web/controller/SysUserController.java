@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 用户管理 web层
@@ -41,6 +42,7 @@ public class SysUserController {
     //返回值的code等于200，则调用成功有权限，否则返回403
     @PostAuthorize("returnObject.code==200")
     @GetMapping("/delete/{id}")
+    @ResponseBody
     public RequestResult deleteById(@PathVariable Long id) {
         return RequestResult.ok();
     }

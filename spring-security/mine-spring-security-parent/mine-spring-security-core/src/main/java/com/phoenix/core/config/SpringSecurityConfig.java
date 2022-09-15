@@ -1,5 +1,6 @@
 package com.phoenix.core.config;
 
+import com.phoenix.core.authorize.AuthorizeConfigureManager;
 import com.phoenix.core.filter.ImageCodeValidateFilter;
 import com.phoenix.core.mobile.MobileAuthenticationConfig;
 import com.phoenix.core.mobile.MobileValidateFilter;
@@ -81,6 +82,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private SessionRegistry sessionRegistry;
 
     /**
+     * 将所有的授权配置统一管理起来（即AuthorizeConfigureProvider的实现类统一管理起来）
+     * spring security利用authorizeConfigureManager，将所有的授权配置统一管理起来
+     */
+    private AuthorizeConfigureManager authorizeConfigureManager;
+
+    /**
      * 认证管理器：
      * 1.认证信息（用户名、密码）
      *
@@ -144,19 +151,25 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter(springSecurityProperties.getAuthentication().getPasswordParameter())//登录密码的参数名
                 .successHandler(customAuthenticationSuccessHandler) //认证成功处理器
                 .failureHandler(customAuthenticationFailureHandler) //认证失败处理器
-                .and()
-                .authorizeRequests() //认证请求
-                .antMatchers(springSecurityProperties.getAuthentication().getLoginPage(),
-                        springSecurityProperties.getAuthentication().getImageCodeUrl(),
-                        springSecurityProperties.getAuthentication().getMobileCodeUrl(),
-                        springSecurityProperties.getAuthentication().getMobilePage()
-                ).permitAll() //放行/login/page 不需要认证访问
 
-                // .antMatchers("/user").hasAnyRole("ADMIN", "ROOT") //设置角色时会加上ROLE_作为前缀，所以在UserDetails中赋值role的时候需要添加前缀
+                //----- 认证放行配置，统一移动到CustomAuthorizeConfigureProvider中  --start
+                // .and()
+                // .authorizeRequests() //认证请求
+                // .antMatchers(springSecurityProperties.getAuthentication().getLoginPage(),
+                //         springSecurityProperties.getAuthentication().getImageCodeUrl(),
+                //         springSecurityProperties.getAuthentication().getMobileCodeUrl(),
+                //         springSecurityProperties.getAuthentication().getMobilePage()
+                // ).permitAll() //放行/login/page 不需要认证访问
+                //----- 认证放行配置，统一移动到CustomAuthorizeConfigureProvider中  --end
+
+                //----- 系统模块的认证配置，统一移动到SystemAuthorizeConfigureProvider中  --start
+                // .antMatchers("/user").hasAnyRole("ADMIN", "MANAGER") //设置角色时会加上ROLE_作为前缀，所以在UserDetails中赋值role的时候需要添加前缀
                 // .antMatchers("/user").hasAnyAuthority("sys:user", "sys:role") //有特定标识符才能访问例如 sys:user:list
-                // .antMatchers("/user").hasIpAddress("192.168.1.1/29") //限制指定ip或者指定范围内的ip才能访问
+                // // .antMatchers("/user").hasIpAddress("192.168.1.1/29") //限制指定ip或者指定范围内的ip才能访问
+                // .antMatchers(HttpMethod.GET, "/permission").access("hasAuthority('sys:permission') or hasAnyRole('ADMIN')")
+                // .anyRequest().authenticated() //所有访问该应用的http请求都需要通过身份认证才可以访问
+                //----- 系统模块的认证配置，统一移动到SystemAuthorizeConfigureProvider中  --end
 
-                .anyRequest().authenticated() //所有访问该应用的http请求都需要通过身份认证才可以访问
                 .and()
                 .rememberMe() //开启rememberMe
                 .tokenRepository(jdbcTokenRepository()) //使用jdbcTokenRepository保存登录信息
@@ -183,6 +196,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //将手机认证添加到过滤器链上
         http.apply(mobileAuthenticationConfig);
+
+        //将所有的授权配置统一的管理起来
+        authorizeConfigureManager.configure(http.authorizeRequests());
 
     }
 
