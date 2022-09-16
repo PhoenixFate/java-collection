@@ -49,6 +49,10 @@
         </dependency>
 
         <!--对Thymeleaf添加Spring Security标签支持-->
+        <!--例如用于前端在thymeleaf中的认证和授权表达式
+            ep: #authentication.principal.username
+                #authorization.expression('hasAuthority('sys:user:add')')
+        -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
