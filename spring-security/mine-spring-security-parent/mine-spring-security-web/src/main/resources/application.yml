@@ -21,6 +21,15 @@ spring:
     url: jdbc:mysql://www.bytes-space.com:10306/spring_security?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     # mysql8版本以上驱动包指定新的驱动类
     driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 数据源其他配置, 在 DruidConfig配置类中手动绑定
+    initialSize: 8
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
   # redis 配置
   redis:
     # 地址
@@ -42,6 +51,17 @@ spring:
         max-active: 100
         # #连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1ms
+# mybatis-plus提供的配置
+mybatis-plus:
+  # 指定实体类所有包
+  type-aliases-package: com.phoenix.web.entity
+# 日志级别，会打印sql语句
+logging:
+  level:
+    com.phoenix.web.mapper: debug
+
+
+
 mine:
   security:
     authentication:

@@ -17,8 +17,14 @@
                 <img th:src="@{/dist/img/user2-160x160.jpg}" src="../dist/img/user2-160x160.jpg"
                      class="img-circle elevation-2" alt="User Image">
             </div>
+            <!--认证与授权表达式：pom中添加thymeleaf-extras-springsecurity5依赖，就可以直接使用#authentication-->
             <div class="info">
                 <a th:text="${#authentication.principal.username}" href="#" class="d-block"></a>
+            </div>
+            <!--认证与授权标签属性：html中添加xmlns:sec的命名空间：xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
+            <!--sec:authentication属性与#authentication表达式一样-->
+            <div class="info">
+                <a sec:authentication="principal.username" href="#" class="d-block"></a>
             </div>
         </div>
 
