@@ -1,4 +1,4 @@
-package com.phoenix.core.session;
+package com.phoenix.core.authentication.session;
 
 import com.alibaba.fastjson.JSONObject;
 import com.phoenix.core.authentication.CustomAuthenticationFailureHandler;

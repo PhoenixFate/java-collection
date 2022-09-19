@@ -1,4 +1,4 @@
-package com.phoenix.core.exception;
+package com.phoenix.core.authentication.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

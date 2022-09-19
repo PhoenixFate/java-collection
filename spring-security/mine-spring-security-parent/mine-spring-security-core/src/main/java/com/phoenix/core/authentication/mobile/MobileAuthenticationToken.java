@@ -1,4 +1,4 @@
-package com.phoenix.core.mobile;
+package com.phoenix.core.authentication.mobile;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

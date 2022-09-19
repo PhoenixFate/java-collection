@@ -1,4 +1,4 @@
-package com.phoenix.core.config;
+package com.phoenix.core.authentication.code;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.impl.DefaultKaptcha;

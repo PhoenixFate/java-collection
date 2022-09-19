@@ -1,7 +1,7 @@
-package com.phoenix.core.mobile;
+package com.phoenix.core.authentication.mobile;
 
 import com.phoenix.base.constant.CommonConstant;
-import com.phoenix.core.exception.ValidationImageCodeException;
+import com.phoenix.core.authentication.exception.ValidationImageCodeException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.AuthenticationException;

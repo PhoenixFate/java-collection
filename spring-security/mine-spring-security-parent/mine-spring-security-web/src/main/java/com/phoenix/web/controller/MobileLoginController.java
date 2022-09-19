@@ -2,7 +2,7 @@ package com.phoenix.web.controller;
 
 import com.phoenix.base.constant.CommonConstant;
 import com.phoenix.base.result.RequestResult;
-import com.phoenix.core.mobile.SmsSend;
+import com.phoenix.core.authentication.mobile.SmsSend;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

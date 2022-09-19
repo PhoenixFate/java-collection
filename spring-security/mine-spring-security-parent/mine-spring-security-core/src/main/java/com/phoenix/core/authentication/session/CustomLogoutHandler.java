@@ -1,4 +1,4 @@
-package com.phoenix.core.session;
+package com.phoenix.core.authentication.session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

@@ -1,8 +1,8 @@
-package com.phoenix.core.filter;
+package com.phoenix.core.authentication.code;
 
 import com.phoenix.base.constant.CommonConstant;
 import com.phoenix.core.authentication.CustomAuthenticationFailureHandler;
-import com.phoenix.core.exception.ValidationImageCodeException;
+import com.phoenix.core.authentication.exception.ValidationImageCodeException;
 import com.phoenix.core.property.SpringSecurityProperties;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

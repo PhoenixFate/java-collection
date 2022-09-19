@@ -1,4 +1,4 @@
-package com.phoenix.core.service;
+package com.phoenix.web.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.AuthorityUtils;

@@ -1,12 +1,12 @@
-package com.phoenix.core.mobile;
+package com.phoenix.core.authentication.mobile;
 
 import com.phoenix.core.authentication.CustomAuthenticationFailureHandler;
 import com.phoenix.core.authentication.CustomAuthenticationSuccessHandler;
-import com.phoenix.core.service.MobileUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -28,7 +28,7 @@ public class MobileAuthenticationConfig extends SecurityConfigurerAdapter<Defaul
 
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-    private MobileUserDetailsService mobileUserDetailsService;
+    private UserDetailsService mobileUserDetailsService;
 
     @Override
     public void configure(HttpSecurity builder) throws Exception {

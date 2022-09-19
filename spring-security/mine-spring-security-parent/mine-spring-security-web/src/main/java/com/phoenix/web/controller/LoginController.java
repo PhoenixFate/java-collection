@@ -43,8 +43,6 @@ public class LoginController {
         //4.将验证码图片回写出去
         ServletOutputStream outputStream = response.getOutputStream();
         ImageIO.write(bufferedImage, "jpg", outputStream);
-
-
     }
 
 }

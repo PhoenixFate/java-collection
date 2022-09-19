@@ -1,4 +1,4 @@
-package com.phoenix.core.session;
+package com.phoenix.core.authentication.session;
 
 import com.phoenix.base.result.RequestResult;
 import lombok.extern.slf4j.Slf4j;

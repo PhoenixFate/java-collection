@@ -1,7 +1,6 @@
-package com.phoenix.core.mobile;
+package com.phoenix.core.authentication.mobile;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 /**
  * 发送短信验证码，第三方的短信服务接口

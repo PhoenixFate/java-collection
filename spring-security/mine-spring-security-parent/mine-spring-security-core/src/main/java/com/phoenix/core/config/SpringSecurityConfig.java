@@ -1,11 +1,11 @@
 package com.phoenix.core.config;
 
 import com.phoenix.core.authorize.AuthorizeConfigureManager;
-import com.phoenix.core.filter.ImageCodeValidateFilter;
-import com.phoenix.core.mobile.MobileAuthenticationConfig;
-import com.phoenix.core.mobile.MobileValidateFilter;
+import com.phoenix.core.authentication.code.ImageCodeValidateFilter;
+import com.phoenix.core.authentication.mobile.MobileAuthenticationConfig;
+import com.phoenix.core.authentication.mobile.MobileValidateFilter;
 import com.phoenix.core.property.SpringSecurityProperties;
-import com.phoenix.core.session.CustomLogoutHandler;
+import com.phoenix.core.authentication.session.CustomLogoutHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

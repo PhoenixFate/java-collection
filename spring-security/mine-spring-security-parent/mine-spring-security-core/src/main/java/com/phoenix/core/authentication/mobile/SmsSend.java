@@ -1,4 +1,4 @@
-package com.phoenix.core.mobile;
+package com.phoenix.core.authentication.mobile;
 
 /**
  * 发送短信统一接口
