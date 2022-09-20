@@ -213,4 +213,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // /*表示儿子目录 /**表示所有子目录
         web.ignoring().antMatchers(springSecurityProperties.getAuthentication().getStaticPath());
     }
+
+    public static void main(String[] args) {
+        String encode = new BCryptPasswordEncoder().encode("123456");
+        System.out.println(encode);
+        //$2a$10$fLj1Qt3rynU8hvHJrx2dpO90KYvbp9oPU/wttvv/TEiKsZb9bAa.O
+        //$2a$10$3KXbDF9pch5aW1n9LrWKUOWaEn0kiIiSIgacc9xJ1o7hYNuvcrIHm
+        //$2a$10$t6.y5.Nv6cEmTxqbkB.IROusr2uKnLwCKYpFdprCtZwS1k8U8JNSm
+    }
 }

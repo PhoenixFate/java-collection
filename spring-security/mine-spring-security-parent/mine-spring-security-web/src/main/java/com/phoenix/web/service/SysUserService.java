@@ -18,4 +18,11 @@ public interface SysUserService extends IService<SysUser> {
      */
     SysUser findByUsername(String username);
 
+    /**
+     * 通过手机号 查询用户信息
+     *
+     * @param mobile 手机号
+     * @return 用户信息
+     */
+    SysUser findByMobile(String mobile);
 }

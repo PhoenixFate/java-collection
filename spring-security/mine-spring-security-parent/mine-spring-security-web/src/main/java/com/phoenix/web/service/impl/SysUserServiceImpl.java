@@ -21,4 +21,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         queryWrapper.eq("username", username);
         return baseMapper.selectOne(queryWrapper);
     }
+
+    @Override
+    public SysUser findByMobile(String mobile) {
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("mobile", mobile);
+        return baseMapper.selectOne(queryWrapper);
+    }
 }
