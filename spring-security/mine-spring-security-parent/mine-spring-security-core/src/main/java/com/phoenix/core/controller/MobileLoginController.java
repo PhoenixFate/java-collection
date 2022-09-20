@@ -1,4 +1,4 @@
-package com.phoenix.web.controller;
+package com.phoenix.core.controller;
 
 import com.phoenix.base.constant.CommonConstant;
 import com.phoenix.base.result.RequestResult;
@@ -14,16 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 关于手机登录控制层
  *
- * @author phoenix
- * @version 1.0.0
- * @date 2022/8/12 16:34
+ * @Author phoenix
+ * @Version 1.0.0
+ * @Date 2022/8/12 16:34
  */
 @Controller
 public class MobileLoginController {
 
     @Autowired
     private SmsSend smsSend;
-
 
     /**
      * 前往手机验证码登录页
@@ -47,6 +46,5 @@ public class MobileLoginController {
         smsSend.sendSms(mobile, mobileCode);
         return RequestResult.ok();
     }
-
 
 }

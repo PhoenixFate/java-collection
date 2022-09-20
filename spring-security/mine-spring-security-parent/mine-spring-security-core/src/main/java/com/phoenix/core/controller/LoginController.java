@@ -1,4 +1,4 @@
-package com.phoenix.web.controller;
+package com.phoenix.core.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.phoenix.base.constant.CommonConstant;
@@ -18,7 +18,11 @@ import java.io.IOException;
 @Slf4j
 public class LoginController {
 
-
+    /**
+     * 前往认证(登录)页面
+     *
+     * @return 路径
+     */
     @RequestMapping("/login/page")
     public String toLogin() {
         //会自动寻找classpath下面 /template/login.html页面
