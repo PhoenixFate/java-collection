@@ -14,10 +14,12 @@ public class SystemAuthorizeConfigureProvider implements AuthorizeConfigureProvi
 
     @Override
     public void configure(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
-        config.antMatchers("/user").hasAnyRole("ADMIN", "MANAGER") //设置角色时会加上ROLE_作为前缀，所以在UserDetails中赋值role的时候需要添加前缀
-                .antMatchers("/role").hasAnyAuthority("sys:user", "sys:role") //有特定标识符才能访问例如 sys:user:list
-                // .antMatchers("/user").hasIpAddress("192.168.1.1/29") //限制指定ip或者指定范围内的ip才能访问
-                .antMatchers(HttpMethod.GET, "/permission").access("hasAuthority('sys:permission') or hasAnyRole('ADMIN','MANAGER')");
+        //主要通过注解来配置访问权限  @PreAuthorize("hasAuthority('sys:user')")
+
+        //config.antMatchers("/user").hasAnyRole("ADMIN", "MANAGER") //设置角色时会加上ROLE_作为前缀，所以在UserDetails中赋值role的时候需要添加前缀
+        //        .antMatchers("/role").hasAnyAuthority("sys:user", "sys:role") //有特定标识符才能访问例如 sys:user:list
+        //        // .antMatchers("/user").hasIpAddress("192.168.1.1/29") //限制指定ip或者指定范围内的ip才能访问
+        //        .antMatchers(HttpMethod.GET, "/permission").access("hasAuthority('sys:permission') or hasAnyRole('ADMIN','MANAGER')");
 
     }
 }

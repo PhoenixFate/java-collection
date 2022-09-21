@@ -72,7 +72,7 @@ $(function() {
                     // 3. 渲染为树状列表
                     $table.treegrid({
                         initialState: 'collapsed',  // collapsed折叠, expanded展开(默认)
-                        treeColumn: 1,
+                        treeColumn: 1, //从0开始
                         onChange: function() {
                             //重新计算宽度
                             $table.bootstrapTable('resetWidth');
