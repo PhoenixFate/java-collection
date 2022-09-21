@@ -1,3 +1,4 @@
+<!--suppress ALL-->
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -84,9 +85,24 @@
 <!--权限资源列表的js-->
 <script th:src="@{/modules/js/permission/permission-list.js}"></script>
 <script th:inline="javascript">
+    function getOperationHtml(operationHtml, row) {
+        //判断是否有权限
+        if ([[${#authorization.expression('hasAuthority("sys:permission:edit")')}]]) {
+            operationHtml.push('<li><a href="' + contextPath + 'permission/form/' + row.id + '" class="dropdown-item btn btn-primary"><i class="fa fa-edit"></i>&nbsp;修改</a></li>')
+        }
+        if ([[${#authorization.expression('hasAuthority("sys:permission:delete")')}]]) {
+            operationHtml.push('<li><a class="dropdown-item btn btn-primary"><i class="fa fa-trash"></i>&nbsp;删除</a></li>')
+        }
+    }
+
     // 权限判断是否显示操作列
     function showOperation() {
-
+        //有编辑或者删除权限，显示最后一列action
+        if ([[${#authorization.expression('hasAuthority("sys:permission:edit")')}
+            or ${#authorization.expression('hasAuthority("sys:permission:delete")')}]]
+        ) {
+            $table.bootstrapTable('showColumn', 'action')
+        }
     }
 </script>
 

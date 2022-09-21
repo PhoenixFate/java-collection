@@ -85,7 +85,7 @@ $(function() {
         // 列表中的 `操作` 列
         operationFormatter: function(value, row, index) {
             // 拼接操作项
-            var operationHtml = [];
+            let operationHtml = [];
             operationHtml.push(
                 '<div class="btn-group">' +
                 '   <button type="button" class="btn btn-primary dropdown-toggle dropdown-hover dropdown-icon btn-xs" data-toggle="dropdown" >' +
@@ -125,7 +125,7 @@ $(function() {
                 dataType: dataType,
                 success: function (result) {
                     console.log(result);
-                    if(result.code == 200) {
+                    if(result.code === 200) {
                         layer.msg('操作成功', {icon: 1, time: 1000, shift: 5});
                         $table.bootstrapTable('refresh')
                     }else {

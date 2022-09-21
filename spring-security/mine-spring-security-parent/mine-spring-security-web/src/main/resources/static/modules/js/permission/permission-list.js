@@ -15,13 +15,13 @@ $(function () {
                 field: 'id', visible: false
             },
             {
-                title: '名称', field: 'name', width: '200px'
+                title: '名称', field: 'name', width: '160px'
             },
             {
-                title: '地址', field: 'url', width: '300px'
+                title: '地址', field: 'url', width: '180px'
             },
             {
-                title: '权限标识', field: 'code', width: '300px'
+                title: '权限标识', field: 'code', width: '220px'
             },
             {
                 title: '图标', field: 'icon', width: '100px', formatter: iconFormatter
@@ -32,7 +32,7 @@ $(function () {
                 }
             },
             {
-                title: '操作', visible: false, width: '100px'
+                title: '操作', field: 'action', visible: false, width: '100px', formatter: $.operationFormatter
             }
         ]
     }

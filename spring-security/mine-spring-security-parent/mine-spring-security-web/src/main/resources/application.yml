@@ -10,7 +10,7 @@ server:
 spring:
   session:
     # store-type: none # 默认服务器存储session，前端cookie中的key默认为JSESSIONID
-    store-type: none # 使用redis存储session，前端cookie中的key默认为SESSION 需要统一session名称
+    store-type: redis # 使用redis存储session，前端cookie中的key默认为SESSION 需要统一session名称
   thymeleaf:
     # 默认为true，关闭thymeleaf缓存
     cache: false

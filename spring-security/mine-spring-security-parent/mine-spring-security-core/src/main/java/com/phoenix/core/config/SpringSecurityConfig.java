@@ -1,11 +1,11 @@
 package com.phoenix.core.config;
 
-import com.phoenix.core.authorize.AuthorizeConfigureManager;
 import com.phoenix.core.authentication.code.ImageCodeValidateFilter;
 import com.phoenix.core.authentication.mobile.MobileAuthenticationConfig;
 import com.phoenix.core.authentication.mobile.MobileValidateFilter;
-import com.phoenix.core.property.SpringSecurityProperties;
 import com.phoenix.core.authentication.session.CustomLogoutHandler;
+import com.phoenix.core.authorize.AuthorizeConfigureManager;
+import com.phoenix.core.property.SpringSecurityProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +19,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -38,12 +37,6 @@ import javax.sql.DataSource;
 @AllArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启注解方法级别权限控制
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        //BCryptPasswordEncoder: 密码加密器，根据密码的值，随机生成一个盐值，然后和密码一起加密
-        return new BCryptPasswordEncoder();
-    }
 
     //从application.yml中读取配置信息
     private SpringSecurityProperties springSecurityProperties;
@@ -192,7 +185,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //spring security默认开启了csrf跨站请求伪造，使得logout需要使用post方法
         //关闭csrf之后，logout就可以使用get方法
         //LogoutFilter默认接受/logout路径，所以不需要特别配置/logout放行
-        //http.csrf().disable();
+        http.csrf().disable();
 
         //将手机认证添加到过滤器链上
         http.apply(mobileAuthenticationConfig);

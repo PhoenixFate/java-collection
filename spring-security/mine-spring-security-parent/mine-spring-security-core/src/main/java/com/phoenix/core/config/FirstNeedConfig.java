@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author phoenix
@@ -26,4 +28,9 @@ public class FirstNeedConfig {
         return new SessionRegistryImpl();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        //BCryptPasswordEncoder: 密码加密器，根据密码的值，随机生成一个盐值，然后和密码一起加密
+        return new BCryptPasswordEncoder();
+    }
 }
