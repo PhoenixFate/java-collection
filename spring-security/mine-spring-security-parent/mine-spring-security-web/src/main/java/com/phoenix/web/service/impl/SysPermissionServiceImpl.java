@@ -1,5 +1,6 @@
 package com.phoenix.web.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.phoenix.web.entity.SysPermission;
 import com.phoenix.web.mapper.SysPermissionMapper;
@@ -15,11 +16,22 @@ import java.util.List;
  */
 @Service
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
+
     @Override
     public List<SysPermission> findPermissionByUserId(Long userId) {
         if (userId == null) {
             return null;
         }
         return baseMapper.selectPermissionByUserId(userId);
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        //1.删除当前id
+        baseMapper.deleteById(id);
+        //2.删除parent_id=id
+        //delete from sys_permission where  parent_id = #{id}
+        baseMapper.delete(new LambdaQueryWrapper<SysPermission>().eq(SysPermission::getParentId, id));
+        return true;
     }
 }

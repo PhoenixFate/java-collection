@@ -55,23 +55,33 @@ public class SysPermissionController {
     public String form(@PathVariable(required = false) Long id, Model model) {
         //Model model就等价于Map<String,Object>
         log.info("------------- /permission/form/id: {}", id);
+        SysPermission sysPermission = null;
         if (id != null) {
             //1.通过id查询对应权限信息
-            SysPermission sysPermission = sysPermissionService.getById(id);
+            sysPermission = sysPermissionService.getById(id);
             //也可以通过前端来匹配parentName
             SysPermission parent = sysPermissionService.getById(sysPermission.getParentId());
             sysPermission.setParentName(parent.getName());
-            //绑定后页面可获取
-            model.addAttribute("permission", sysPermission);
+        } else {
+            sysPermission = new SysPermission();
         }
+        //绑定后页面可获取
+        model.addAttribute("permission", sysPermission);
         return HTML_PREFIX + "/permission-form";
     }
 
     @PreAuthorize("hasAnyAuthority('sys:permission:edit','sys:permission:add')")
-    @RequestMapping(value = "", method = {RequestMethod.PUT})
+    @RequestMapping(value = "", method = {RequestMethod.PUT, RequestMethod.POST})
     public String saveOrUpdate(SysPermission sysPermission) {
         sysPermissionService.saveOrUpdate(sysPermission);
         return "redirect:/permission";
     }
 
+    @PreAuthorize("hasAuthority('sys:permission:delete')")
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public RequestResult deleteById(@PathVariable Long id) {
+        sysPermissionService.deleteById(id);
+        return RequestResult.ok();
+    }
 }

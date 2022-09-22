@@ -14,4 +14,5 @@ public interface SysPermissionService extends IService<SysPermission> {
 
     List<SysPermission> findPermissionByUserId(Long userId);
 
+    boolean deleteById(Long id);
 }
