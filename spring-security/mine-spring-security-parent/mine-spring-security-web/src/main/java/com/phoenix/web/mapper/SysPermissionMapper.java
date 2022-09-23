@@ -17,4 +17,5 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
     List<SysPermission> selectPermissionByUserId(@Param("userId") Long userId);
 
+    List<SysPermission> findByRoleId(@Param("roleId") Long roleId);
 }

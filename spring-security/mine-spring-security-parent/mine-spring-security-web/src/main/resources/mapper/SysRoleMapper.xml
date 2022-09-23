@@ -1,0 +1,16 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.phoenix.web.mapper.SysRoleMapper">
+
+    <select id="selectPage" resultType="SysRole">
+        SELECT `id`, `name`, `remark`, `create_date`, `update_date`
+        from sys_role
+        where 1 = 1
+        <if test="role.name!=null and role.name !=''">
+            and `name` like concat('%', #{role.name}, '%')
+        </if>
+    </select>
+
+</mapper>

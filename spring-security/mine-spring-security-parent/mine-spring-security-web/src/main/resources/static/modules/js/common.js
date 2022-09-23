@@ -28,14 +28,6 @@ $(function() {
                     // 2. `操作`权限判断, 增删改只要有一个就显示, 自已在html上定义此方法实现
                     showOperation();
 
-                    // 3. 渲染为树状列表
-                    $table.treegrid({
-                        initialState: 'collapsed',  // collapsed折叠, expanded展开(默认)
-                        treeColumn: 1,
-                        onChange: function() {
-                            $table.bootstrapTable('resetWidth');
-                        }
-                    })
                 }
             })
         },

@@ -15,7 +15,7 @@ import java.util.List;
  * @Auther: phoenix
  */
 @Data
-public class SysRole  implements Serializable {
+public class SysRole implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -29,6 +29,7 @@ public class SysRole  implements Serializable {
     private String remark;
 
     private Date createDate;
+
     private Date updateDate;
 
     /**
@@ -36,21 +37,21 @@ public class SysRole  implements Serializable {
      * 修改角色时用到
      */
     @TableField(exist = false)
-    private List<SysPermission> perList = Lists.newArrayList();
+    private List<SysPermission> permissionList = Lists.newArrayList();
     /**
      * 存储当前角色的权限资源ID集合
      * 修改角色时用到
      */
     @TableField(exist = false)
-    private List<Long> perIds = Lists.newArrayList();
+    private List<Long> permissionIds = Lists.newArrayList();
 
-    public List<Long> getPerIds() {
-        if(CollectionUtils.isNotEmpty(perList)) {
-            perIds = Lists.newArrayList();
-            for(SysPermission per : perList) {
-                perIds.add(per.getId());
+    public List<Long> getPermissionIds() {
+        if (CollectionUtils.isNotEmpty(permissionList)) {
+            permissionIds = Lists.newArrayList();
+            for (SysPermission per : permissionList) {
+                permissionIds.add(per.getId());
             }
         }
-        return perIds;
+        return permissionIds;
     }
 }

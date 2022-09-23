@@ -47,8 +47,8 @@
                   <h3 class="card-title">基本信息</h3>
                 </div>
                 <!-- /.card-header -->
-                <form id="form" th:action="@{/role}" th:method="post" >
-                  <input id="id" name="id" type="hidden" >
+                <form id="form" th:action="@{/role}" th:method="post" th:object="${role}">
+                  <input id="id" th:value="*{id}" name="id" type="hidden" >
                   <input id="perIds" name="perIds" type="hidden" >
                   <input name="_method" value="put" type="hidden" >
 
@@ -56,13 +56,13 @@
                       <div class="form-group row">
                         <label class="col-form-label"><span style="color: red;">*</span>角色名称：</label>
                         <div class="col-5">
-                          <input  type="text" name="name" maxlength="20" class="form-control" placeholder="请输入角色名称" required>
+                          <input  type="text" th:value="*{name}" name="name" maxlength="20" class="form-control" placeholder="请输入角色名称" required>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label class="col-form-label">&nbsp;&nbsp;角色描述：</label>
                         <div class="col-8">
-                          <textarea id="remark" name="remark" maxlength="200" class="form-control " rows="3"></textarea>
+                          <textarea id="remark" name="remark" maxlength="200" class="form-control " rows="3">[[*{remark}]]</textarea>
                         </div>
                       </div>
                       <div class="form-group row">

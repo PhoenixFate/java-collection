@@ -23,4 +23,13 @@
         WHERE u.id = #{userId}
     </select>
 
+    <select id="findByRoleId" resultType="SysPermission">
+        select distinct p.*
+        from sys_permission p
+                 left join sys_role_permission rp on p.id = rp.permission_id
+                 left join sys_role r on rp.role_id = r.id
+        where rp.role_id = #{roleId}
+        order by p.id asc
+    </select>
+
 </mapper>
