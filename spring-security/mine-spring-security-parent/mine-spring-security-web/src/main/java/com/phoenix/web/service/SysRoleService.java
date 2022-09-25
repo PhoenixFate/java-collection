@@ -29,4 +29,13 @@ public interface SysRoleService extends IService<SysRole> {
      */
     SysRole findById(Long roleId);
 
+    /**
+     * 1.通过roleId删除角色信息
+     * 2.删除角色权限关系表中的数据
+     *
+     * @param roleId 角色id
+     * @return 是否删除成功
+     */
+    boolean deleteById(Long roleId);
+
 }

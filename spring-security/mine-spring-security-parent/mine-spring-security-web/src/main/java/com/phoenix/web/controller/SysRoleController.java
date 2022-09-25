@@ -50,12 +50,36 @@ public class SysRoleController {
     @PreAuthorize("hasAnyAuthority('sys:role:add','sys:role:edit')")
     @GetMapping(value = {"/form", "/form/{id}"})
     public String form(@PathVariable(required = false) Long id, Model model) {
+        SysRole sysRole = null;
         if (id != null) {
             //通过角色id查询对应的角色信息和权限信息
-            SysRole sysRole = sysRoleService.findById(id);
-            model.addAttribute("role", sysRole);
+            sysRole = sysRoleService.findById(id);
+        } else {
+            sysRole = new SysRole();
         }
+        model.addAttribute("role", sysRole);
+
         return HTML_PREFIX + "role-form";
+    }
+
+    /**
+     * 提交新增或者修改的数据
+     *
+     * @return
+     */
+    @PreAuthorize("hasAnyAuthority('sys:role:add','sys:role:edit')")
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT}, value = "")
+    public String saveOrUpdate(SysRole sysRole) {
+        sysRoleService.saveOrUpdate(sysRole);
+        return "redirect:/role";
+    }
+
+    @PreAuthorize("hasAuthority('sys:role:delete')")
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public RequestResult deleteById(@PathVariable("id") Long id) {
+        sysRoleService.deleteById(id);
+        return RequestResult.ok();
     }
 
 }

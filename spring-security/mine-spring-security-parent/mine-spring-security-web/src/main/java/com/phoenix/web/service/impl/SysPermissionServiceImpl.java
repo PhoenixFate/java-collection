@@ -6,6 +6,7 @@ import com.phoenix.web.entity.SysPermission;
 import com.phoenix.web.mapper.SysPermissionMapper;
 import com.phoenix.web.service.SysPermissionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         return baseMapper.selectPermissionByUserId(userId);
     }
 
+    @Transactional
     @Override
     public boolean deleteById(Long id) {
         //1.删除当前id
