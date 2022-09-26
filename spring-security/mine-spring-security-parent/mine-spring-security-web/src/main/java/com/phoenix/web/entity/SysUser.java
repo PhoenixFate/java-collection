@@ -36,21 +36,21 @@ public class SysUser implements UserDetails {
      * 1 true
      * 0 false
      */
-    private Boolean isAccountNonExpired = true;
+    private boolean isAccountNonExpired = true;
     /**
      * 账户是否被锁定：1 未锁定；0 已锁定
      * 1 true
      * 0 false
      */
-    private Boolean isAccountNonLocked = true;
+    private boolean isAccountNonLocked = true;
 
-    private Boolean isCredentialsNonExpired = true;
+    private boolean isCredentialsNonExpired = true;
     /**
      * 账户是否有效：1 有效；0 无效
      * 1 true
      * 0 false
      */
-    private Boolean isEnabled;
+    private boolean isEnabled = true;
 
     private String nickName;
 
@@ -67,26 +67,6 @@ public class SysUser implements UserDetails {
      */
     @TableField(exist = false) //非表中字段
     private Collection<? extends GrantedAuthority> authorities;
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isEnabled;
-    }
 
     /**
      * 拥有的角色集合

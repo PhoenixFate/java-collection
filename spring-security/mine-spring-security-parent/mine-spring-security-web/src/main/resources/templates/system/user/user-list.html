@@ -44,6 +44,7 @@
                     <h3 class="card-title">用户列表</h3>
                     <!-- 工具栏 -->
                     <div class="card-tools">
+                        <!--两种权限判断的方式都可以，任选其一-->
                         <!--通过#authorization.expression()来通过权限控制按钮的显示与否-->
                         <button th:if="${#authorization.expression('hasAuthority(''sys:user:add'')')}" type="button"
                                 class="btn btn-primary btn-xs" th:onclick="location.href=[[@{/user/form}]]"
@@ -109,6 +110,34 @@
 <th:block th:replace="fragments/script :: public-js"/>
 <th:block th:replace="fragments/script :: bootstrap-table-js"/>
 <th:block th:replace="fragments/script :: layer-js"/>
+
+
+<!--公共的js-->
+<script th:src="@{/modules/js/common.js}"></script>
+<!--权限资源列表的js-->
+<script th:src="@{/modules/js/user/user-list.js}"></script>
+<script th:inline="javascript">
+    function getOperationHtml(operationHtml, row) {
+        //判断是否有权限
+        if ([[${#authorization.expression('hasAuthority("sys:user:edit")')}]]) {
+            operationHtml.push('<li><a href="' + contextPath + 'user/form/' + row.id + '" class="dropdown-item btn btn-primary"><i class="fa fa-edit"></i>&nbsp;修改</a></li>')
+        }
+        if ([[${#authorization.expression('hasAuthority("sys:user:delete")')}]]) {
+            operationHtml.push('<li><a onclick="$.delete(\'' + contextPath + 'role/' + row.id + '\')" class="dropdown-item btn btn-primary"><i class="fa fa-trash"></i>&nbsp;删除</a></li>')
+        }
+    }
+
+    // 权限判断是否显示操作列
+    function showOperation() {
+        //有编辑或者删除权限，显示最后一列action
+        if ([[${#authorization.expression('hasAuthority("sys:user:edit")')}
+            or ${#authorization.expression('hasAuthority("sys:user:delete")')}]]
+        ) {
+            let $table = $("#table")
+            $table.bootstrapTable('showColumn', 'action')
+        }
+    }
+</script>
 
 </body>
 </html>

@@ -21,9 +21,19 @@
 
     <insert id="saveRolePermission">
         insert into sys_role_permission(role_id,permission_id) values
-        <foreach collection="permissionIds" item="item" index="index" separator=",">
-            (#{roleId},#{item})
+        <foreach collection="permissionIds" item="permissionId" index="index" separator=",">
+            (#{roleId},#{permissionId})
         </foreach>
     </insert>
+
+
+    <select id="findListByUserId" resultType="SysRole">
+        select r.*
+        from sys_role r
+                 join sys_user_role ur on r.id = ur.role_id
+                 join sys_user u on ur.user_id = u.id
+        where u.id = #{userId}
+    </select>
+
 
 </mapper>

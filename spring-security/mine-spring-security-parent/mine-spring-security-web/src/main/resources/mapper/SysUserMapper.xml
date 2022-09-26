@@ -1,0 +1,44 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.phoenix.web.mapper.SysUserMapper">
+
+    <select id="selectPage" resultType="SysUser">
+        select id,
+        username,
+        password,
+        is_account_non_expired,
+        is_account_non_locked,
+        is_credentials_non_expired,
+        is_enabled,
+        nick_name,
+        mobile,
+        email,
+        create_date,
+        update_date
+        from sys_user
+        where 1=1 and is_enabled=1
+        <if test="user.username!=null and user.username!=''">
+            and username like concat('%',#{user.username},'%')
+        </if>
+        <if test="user.mobile!=null and user.mobile!=''">
+            and mobile like concat('%',#{user.mobile},'%')
+        </if>
+    </select>
+
+    <delete id="deleteUserRoleByUserId" parameterType="Long">
+        delete
+        from sys_user_role
+        where user_id = #{userId}
+    </delete>
+
+    <insert id="saveUserRole">
+        insert into sys_user_role(user_id,role_id) values
+        <foreach collection="roleIds" item="roleId" index="index" separator=",">
+            (#{userId},#{roleId})
+        </foreach>
+    </insert>
+
+
+</mapper>

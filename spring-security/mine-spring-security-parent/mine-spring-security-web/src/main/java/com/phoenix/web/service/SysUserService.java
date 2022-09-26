@@ -1,5 +1,7 @@
 package com.phoenix.web.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.phoenix.web.entity.SysUser;
 
@@ -25,4 +27,20 @@ public interface SysUserService extends IService<SysUser> {
      * @return 用户信息
      */
     SysUser findByMobile(String mobile);
+
+    /**
+     * 分页查询用户对象
+     *
+     * @param page 分页对象
+     * @param user 查询条件
+     * @return 用户列表
+     */
+    IPage<SysUser> selectPage(Page<SysUser> page, SysUser user);
+
+    /**
+     *
+     * @param userId 用户id
+     * @return 带角色的用户信息
+     */
+    SysUser findById(Long userId);
 }

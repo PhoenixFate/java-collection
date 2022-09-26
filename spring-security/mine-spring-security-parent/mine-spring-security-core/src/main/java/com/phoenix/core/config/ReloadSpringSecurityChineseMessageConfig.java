@@ -21,7 +21,6 @@ public class ReloadSpringSecurityChineseMessageConfig {
         ///Users/phoenix/.m2/repository/org/springframework/security/spring-security-core/5.2.0.RELEASE/spring-security-core-5.1.7.RELEASE.jar!/org/springframework/security/messages_zh_CN.properties
         //messageSource.setBasename("classpath:org/springframework/security/messages_zh_CN");
         messageSource.setBasename("classpath:messages_zh_CN");
-
         return messageSource;
     }
 
