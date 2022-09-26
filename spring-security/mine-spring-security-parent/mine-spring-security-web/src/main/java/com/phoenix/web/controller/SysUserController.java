@@ -58,7 +58,7 @@ public class SysUserController {
     @PostAuthorize("returnObject.code==200")
     @GetMapping("/temp/delete/{id}")
     @ResponseBody
-    public RequestResult deleteById(@PathVariable Long id) {
+    public RequestResult deleteByIdTemp(@PathVariable Long id) {
         if (id < 0) {
             return RequestResult.build(500, "id不能小于0", id);
         }
@@ -123,6 +123,14 @@ public class SysUserController {
         //1.保存到用户表中，并且保存到用户角色关系表中
         sysUserService.saveOrUpdate(sysUser);
         return "redirect:/user";
+    }
+
+    @PreAuthorize("hasAuthority('sys:user:delete')")
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public RequestResult deleteById(@PathVariable Long id) {
+        sysUserService.deleteById(id);
+        return RequestResult.ok();
     }
 
 }

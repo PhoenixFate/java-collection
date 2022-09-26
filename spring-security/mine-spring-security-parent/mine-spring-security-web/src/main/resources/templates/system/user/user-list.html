@@ -1,3 +1,4 @@
+<!--suppress ALL-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -123,7 +124,7 @@
             operationHtml.push('<li><a href="' + contextPath + 'user/form/' + row.id + '" class="dropdown-item btn btn-primary"><i class="fa fa-edit"></i>&nbsp;修改</a></li>')
         }
         if ([[${#authorization.expression('hasAuthority("sys:user:delete")')}]]) {
-            operationHtml.push('<li><a onclick="$.delete(\'' + contextPath + 'role/' + row.id + '\')" class="dropdown-item btn btn-primary"><i class="fa fa-trash"></i>&nbsp;删除</a></li>')
+            operationHtml.push('<li><a onclick="$.delete(\'' + contextPath + 'user/' + row.id + '\')" class="dropdown-item btn btn-primary"><i class="fa fa-trash"></i>&nbsp;删除</a></li>')
         }
     }
 

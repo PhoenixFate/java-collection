@@ -63,6 +63,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return sysUser;
     }
 
+    /**
+     * 将is_enabled 从1改成0
+     *
+     * @param id 用户id
+     * @return 是否修改成功
+     */
+    @Override
+    public boolean deleteById(Long id) {
+        SysUser sysUser = baseMapper.selectById(id);
+        sysUser.setEnabled(false);
+        sysUser.setUpdateDate(new Date());
+        baseMapper.updateById(sysUser);
+        return true;
+    }
+
     @Transactional
     @Override
     public boolean saveOrUpdate(SysUser user) {
@@ -83,4 +98,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         return flag;
     }
+
+
 }

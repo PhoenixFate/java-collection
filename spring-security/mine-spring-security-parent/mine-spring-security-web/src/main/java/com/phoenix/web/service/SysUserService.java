@@ -38,9 +38,10 @@ public interface SysUserService extends IService<SysUser> {
     IPage<SysUser> selectPage(Page<SysUser> page, SysUser user);
 
     /**
-     *
      * @param userId 用户id
      * @return 带角色的用户信息
      */
     SysUser findById(Long userId);
+
+    boolean deleteById(Long id);
 }
