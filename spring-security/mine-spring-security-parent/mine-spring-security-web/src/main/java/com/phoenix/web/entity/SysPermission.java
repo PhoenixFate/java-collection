@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
  * 权限实体类
+ *
  * @Auther: phoenix
  */
 @Data
@@ -23,7 +25,7 @@ public class SysPermission implements Serializable {
      * 父资源id,给它初始值 0
      * 新增和修改页面上默认的父资源id
      */
-    private Long parentId = 0L ;
+    private Long parentId = 0L;
     /**
      * 用于新增和修改页面上默认的根菜单名称
      */
@@ -42,18 +44,19 @@ public class SysPermission implements Serializable {
     private Date createDate;
     private Date updateDate;
 
+    private Integer orderNumber;
 
     /**
      * 所有子权限对象集合
      * 左侧菜单渲染时要用
      */
     @TableField(exist = false)
-    private List<SysPermission> children;
+    private List<SysPermission> children = new ArrayList<>();
 
     /**
      * 所有子权限 URL 集合
      * 左侧菜单渲染时要用
      */
     @TableField(exist = false)
-    private List<String> childrenUrl;
+    private List<String> childrenUrl = new ArrayList<>();
 }

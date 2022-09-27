@@ -14,13 +14,15 @@
                         p.`icon`,
                         p.`remark`,
                         p.`create_date`,
-                        p.`update_date`
+                        p.`update_date`,
+                        p.`order_number`
         FROM sys_user u
                  LEFT JOIN sys_user_role ur ON u.id = ur.user_id
                  LEFT JOIN sys_role r ON ur.role_id = r.id
                  LEFT JOIN sys_role_permission rp ON r.id = rp.role_id
                  LEFT JOIN sys_permission p ON p.id = rp.permission_id
         WHERE u.id = #{userId}
+        order by order_number asc
     </select>
 
     <select id="findByRoleId" resultType="SysPermission">

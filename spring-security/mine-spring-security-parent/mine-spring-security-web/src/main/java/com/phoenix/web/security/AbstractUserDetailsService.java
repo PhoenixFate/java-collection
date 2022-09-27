@@ -4,6 +4,7 @@ import com.phoenix.web.entity.SysPermission;
 import com.phoenix.web.entity.SysUser;
 import com.phoenix.web.service.SysPermissionService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,7 +54,9 @@ public abstract class AbstractUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
         for (SysPermission sysPermission : sysPermissionList) {
             String code = sysPermission.getCode();
-            grantedAuthorityList.add(new SimpleGrantedAuthority(code));
+            if (StringUtils.isNotBlank(code)) {
+                grantedAuthorityList.add(new SimpleGrantedAuthority(code));
+            }
         }
         sysUser.setAuthorities(grantedAuthorityList);
     }

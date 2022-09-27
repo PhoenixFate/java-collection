@@ -5,6 +5,7 @@ import com.phoenix.base.constant.LoginResponseType;
 import com.phoenix.base.result.RequestResult;
 import com.phoenix.core.property.SpringSecurityAuthenticationProperties;
 import com.phoenix.core.property.SpringSecurityProperties;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -31,14 +32,20 @@ import java.io.IOException;
  */
 @Slf4j
 @Component("customAuthenticationSuccessHandler")
-//public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+@AllArgsConstructor
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    @Autowired
-    private SpringSecurityProperties springSecurityProperties;
+    private final SpringSecurityProperties springSecurityProperties;
+
+    private final AuthenticationSuccessListener authenticationSuccessListener;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        if (authenticationSuccessListener != null) {
+            //当认证成功之后，调用此监听，进行后续处理，比如加载用户权限菜单
+            authenticationSuccessListener.successListener(httpServletRequest, httpServletResponse, authentication);
+        }
+
         //根据配置返回JSON还是重定向
         if (LoginResponseType.JSON.getType().equals(springSecurityProperties.getAuthentication().getLoginReturnType())) {
             //认证成功后，响应json字符串
