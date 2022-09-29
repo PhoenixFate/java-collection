@@ -1,4 +1,4 @@
-package com.phoenix.base.result;
+package com.phoenix.oauth2.base.result;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 自定义响应结构 
+ * 自定义响应结构
  */
 @Data
 public class RequestResult implements Serializable {
@@ -19,14 +19,16 @@ public class RequestResult implements Serializable {
 
     // 响应中的数据
     private Object data;
-	
-	public RequestResult() {
+
+    public RequestResult() {
     }
-	public RequestResult(Object data) {
+
+    public RequestResult(Object data) {
         this.code = 200;
         this.message = "OK";
         this.data = data;
     }
+
     public RequestResult(String message, Object data) {
         this.code = 200;
         this.message = message;
@@ -42,12 +44,15 @@ public class RequestResult implements Serializable {
     public static RequestResult ok() {
         return new RequestResult(null);
     }
+
     public static RequestResult ok(String message) {
         return new RequestResult(message, null);
     }
+
     public static RequestResult ok(Object data) {
         return new RequestResult(data);
     }
+
     public static RequestResult ok(String message, Object data) {
         return new RequestResult(message, data);
     }
@@ -67,8 +72,9 @@ public class RequestResult implements Serializable {
 
     /**
      * JSON字符串转成 RequestResult 对象
-     * @param json
-     * @return
+     *
+     * @param json json
+     * @return RequestResult
      */
     public static RequestResult format(String json) {
         try {

@@ -31,9 +31,8 @@ import javax.sql.DataSource;
 /**
  * 一个配置，指定为springSecurity的配置，需要继承WebSecurityConfigurerAdapter
  */
-@Configuration
 @Slf4j
-@EnableWebSecurity //开启spring security过滤器链 filter
+@EnableWebSecurity //开启spring security过滤器链 filter; @EnableWebSecurity中自带了@Configuration
 @AllArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启注解方法级别权限控制
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {

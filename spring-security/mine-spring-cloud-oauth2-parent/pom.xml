@@ -8,23 +8,21 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>mine-spring-security-parent</artifactId>
     <packaging>pom</packaging>
-
     <modules>
-        <module>mine-spring-security-base</module>
-        <module>mine-spring-security-core</module>
-        <module>mine-spring-security-web</module>
+        <module>mine-spring-cloud-oauth2-base</module>
+        <module>mine-spring-cloud-oauth2-server</module>
     </modules>
+    <artifactId>mine-spring-cloud-oauth2-parent</artifactId>
 
-    <!-- 依赖版本号 -->
     <properties>
+        <!--该版本的spring cloud需要springboot2.2.0以上的版本-->
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <druid.version>1.1.12</druid.version>
-        <oauth2-autoconfigure.version>2.1.3.RELEASE</oauth2-autoconfigure.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <fastjson.version>1.2.8</fastjson.version>
         <commons-lang.version>2.6</commons-lang.version>
@@ -34,7 +32,8 @@
         <mine-spring-security.version>1.0-SNAPSHOT</mine-spring-security.version>
     </properties>
 
-    <!-- 集中式管理依赖版本号,并没有真实依赖 -->
+
+    <!--依赖声明-->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -43,6 +42,14 @@
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>2.2.2.RELEASE</version>
                 <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <!--maven不支持多继承，使用import来依赖管理配置-->
                 <scope>import</scope>
             </dependency>
             <!--mybatis-plus启动器-->
@@ -57,20 +64,12 @@
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
             </dependency>
-
-            <!--spring-security-oauth2、spring-security-jwt等-->
-            <dependency>
-                <groupId>org.springframework.security.oauth.boot</groupId>
-                <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-                <version>${oauth2-autoconfigure.version}</version>
-            </dependency>
             <!-- kaptcha 用于图形验证码 -->
             <dependency>
                 <groupId>com.github.penggle</groupId>
                 <artifactId>kaptcha</artifactId>
                 <version>${kaptcha.version}</version>
             </dependency>
-
             <!-- 工具类依赖 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -95,7 +94,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 
     <build>
         <plugins>

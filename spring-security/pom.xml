@@ -14,6 +14,7 @@
 
     <modules>
         <module>mine-spring-security-parent</module>
+        <module>mine-spring-cloud-oauth2-parent</module>
     </modules>
 
     <properties>
