@@ -1,0 +1,4 @@
+server:
+  port: 8645
+  servlet:
+    context-path: /product

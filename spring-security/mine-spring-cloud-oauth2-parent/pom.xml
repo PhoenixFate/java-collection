@@ -12,6 +12,7 @@
     <modules>
         <module>mine-spring-cloud-oauth2-base</module>
         <module>mine-spring-cloud-oauth2-server</module>
+        <module>mine-spring-cloud-oauth2-product</module>
     </modules>
     <artifactId>mine-spring-cloud-oauth2-parent</artifactId>
 

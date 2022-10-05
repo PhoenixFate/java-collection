@@ -2,3 +2,67 @@ server:
   port: 8643
   servlet:
     context-path: /auth
+    session:
+      # session会话默认超时时间，默认是30分钟 30，最小为1分钟 1m
+      timeout: 1h
+      cookie:
+        name: JSESSIONID # 指定浏览器cookie中关于SessionID保存的名称；默认为JSESSIONID，store-type为redis时，默认为SESSION
+
+spring:
+  session:
+    # store-type: none # 默认服务器存储session，前端cookie中的key默认为JSESSIONID
+    store-type: redis # 使用redis存储session，前端cookie中的key默认为SESSION 需要统一session名称
+  thymeleaf:
+    # 默认为true，关闭thymeleaf缓存
+    cache: false
+  # 数据源配置
+  datasource:
+    username: root
+    password: centos123qwer
+    url: jdbc:mysql://www.bytes-space.com:10306/spring_security?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    # mysql8版本以上驱动包指定新的驱动类
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 数据源其他配置, 在 DruidConfig配置类中手动绑定
+    initialSize: 8
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+  # redis 配置
+  redis:
+    # 地址
+    host: www.bytes-space.com
+    # 端口，默认为6379
+    port: 10379
+    database: 3
+    # 密码
+    password: centos123qwer
+    # 连接超时时间
+    timeout: 20s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 10
+        # 连接池中的最大空闲连接
+        max-idle: 30
+        # 连接池的最大数据库连接数
+        max-active: 100
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true # 默认为false；springboot2.2版本之后，表单需要手动开启对delete和put方法的处理
+
+# mybatis-plus提供的配置
+mybatis-plus:
+  # 指定实体类所有包
+  type-aliases-package: com.phoenix.oauth2.web.entity
+# 日志级别，会打印sql语句
+logging:
+  level:
+    com.phoenix.oauth2.web.mapper: debug
