@@ -1,15 +1,16 @@
-package com.phoenix.oauth2.server.config;
+package com.phoenix.oauth2.resource;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
-import javax.sql.DataSource;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @Author phoenix
@@ -20,26 +21,10 @@ import javax.sql.DataSource;
 @AllArgsConstructor
 public class TokenConfig {
 
-    //采用redis管理token需要用到 （正常使用jdbc管理token）
-    // private final RedisConnectionFactory redisConnectionFactory;
-
-    private final DataSource dataSource;
-
-    // /**
-    //  * 数据库连接池
-    //  *
-    //  * @return DruidDataSource
-    //  */
-    // @ConfigurationProperties(prefix = "spring.datasource")
-    // @Bean
-    // public DataSource dataSource() {
-    //     return new DruidDataSource();
-    // }
-
     public static final String SIGNING_KEY = "test-key";
 
     /**
-     * 对称式的加密对应的JWT转换器
+     * 使用对称加密
      *
      * @return JwtAccessTokenConverter
      */
@@ -52,17 +37,18 @@ public class TokenConfig {
     // }
 
     /**
-     * 非对称加密对应的JWT转换器
+     * 使用非对称加密创建JWT转换器
      *
      * @return JwtAccessTokenConverter
      */
     @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+    public JwtAccessTokenConverter jwtAccessTokenConverter() throws IOException {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        //非对称加密进行JWT令牌的加密
-        //使用私钥进行加密：第一个参数为密钥证书文件，第二个参数为密钥库口令
-        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("oauth2.jks"), "oauth2".toCharArray());
-        jwtAccessTokenConverter.setKeyPair(keyStoreKeyFactory.getKeyPair("oauth2"));
+        //提取公钥
+        ClassPathResource resource = new ClassPathResource("public_key.txt");
+        String publicKey = IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
+        //设置公钥
+        jwtAccessTokenConverter.setVerifierKey(publicKey);
         return jwtAccessTokenConverter;
     }
 
@@ -72,13 +58,7 @@ public class TokenConfig {
      * @return RedisTokenStore
      */
     @Bean
-    public TokenStore tokenStore() {
-        //redis管理令牌
-        // return new RedisTokenStore(redisConnectionFactory);
-
-        //使用jdbc管理令牌
-        // return new JdbcTokenStore(dataSource);
-
+    public TokenStore tokenStore() throws IOException {
         //使用jwt管理令牌
         return new JwtTokenStore(jwtAccessTokenConverter());
     }

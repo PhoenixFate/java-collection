@@ -1,5 +1,6 @@
 package com.phoenix.oauth2.resource;
 
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
  * @Author phoenix
@@ -18,7 +20,10 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 @Configuration
 @EnableResourceServer //资源服务器的注解: 标识为资源服务器，开启之后就需要带着token来访问资源
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启方法级别权限控制 默认为false
+@AllArgsConstructor
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    private final TokenStore tokenStore;
 
     public static final String RESOURCE_ID = "product-server";
 
@@ -26,10 +31,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         //当前资源服务器的资源id，认证服务会认证客户端有没有访问这个资源的id的权限
         resources.resourceId(RESOURCE_ID)
-                .tokenServices(tokenServices())
+                // .tokenServices(tokenServices()) //使用远程检验token，使用JWT之后不再需要使用远程校验token
+                .tokenStore(tokenStore) //使用JWT令牌
         ;
     }
 
+    /**
+     * 使用JWT之后就不需要远程检查token了，直接使用JWT校验token
+     *
+     * @return ResourceServerTokenServices
+     */
     public ResourceServerTokenServices tokenServices() {
         //远程认证服务器进行校验 token是否有效
         RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
