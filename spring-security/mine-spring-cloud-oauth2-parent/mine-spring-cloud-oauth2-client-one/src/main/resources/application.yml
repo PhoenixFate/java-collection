@@ -1,0 +1,20 @@
+server:
+  port: 9001
+
+spring:
+  thymeleaf:
+    cache: false
+
+security:
+  oauth2:
+    client:
+      client-id: client1 # 当前客户端id，对应表oauth_client_details中的id
+      client-secret: pc-secret # 客户端密钥，对应表oauth_client_details中的client_secret
+      user-authorization-uri: http://localhost:8643/auth/oauth/authorize # 请求认证的地址，获取授权码地址
+      access-token-uri: http://localhost:8643/auth/oauth/token # 请求令牌的地址
+    resource:
+      jwt:
+        # 当用户授权之后会响应一个授权码，重定向到当前应用的 http://localhost:9001/login?code=xxxxx
+        # 自动的会对/login去获取令牌，获取到令牌后会通过key-uri 获取到的公钥进行解密然后本地身份认证和授权（然后通过Session管理）
+        # 该路径会获取公钥
+        key-uri: http://localhost:8643/auth/oauth/token_key # 该路径需要在认证服务器中进行开放：security.tokenKeyAccess("permitAll()");
