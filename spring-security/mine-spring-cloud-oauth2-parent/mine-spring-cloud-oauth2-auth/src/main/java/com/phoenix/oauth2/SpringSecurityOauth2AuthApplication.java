@@ -6,14 +6,15 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
  * @Author phoenix
- * @Date 10/5/22 23:43
- * @Version 1.0
+ * @Date 2022/9/29 16:23
+ * @Version 1.0.0
  */
-@EnableEurekaClient // 标识为Eureka客户端
+@EnableEurekaClient //标识为eureka客户端
 @SpringBootApplication
-public class SpringSecurityOauth2ProductApplication {
+public class SpringSecurityOauth2AuthApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringSecurityOauth2ProductApplication.class, args);
+        SpringApplication.run(SpringSecurityOauth2AuthApplication.class, args);
     }
+
 }

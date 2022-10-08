@@ -11,10 +11,12 @@
     <packaging>pom</packaging>
     <modules>
         <module>mine-spring-cloud-oauth2-base</module>
-        <module>mine-spring-cloud-oauth2-server</module>
+        <module>mine-spring-cloud-oauth2-auth</module>
         <module>mine-spring-cloud-oauth2-product</module>
         <module>mine-spring-cloud-oauth2-client-one</module>
         <module>mine-spring-cloud-oauth2-client-two</module>
+        <module>mine-spring-cloud-oauth2-eureka</module>
+        <module>mine-spring-cloud-oauth2-gateway</module>
     </modules>
     <artifactId>mine-spring-cloud-oauth2-parent</artifactId>
 
