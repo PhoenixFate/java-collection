@@ -12,13 +12,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 这个没有用了，移到网关gateway的微服务中了，网关获取到加密的token解析后，将明文token传给各个微服务
  *
  * @Author phoenix
  * @Date 10/3/22 11:37
  * @Version 1.0
  */
-//@Configuration
+@Configuration
 public class TokenConfig {
 
     public static final String SIGNING_KEY = "test-key";

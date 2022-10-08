@@ -16,7 +16,7 @@ spring:
     name: zuul-gateway
 
 zuul: # 网关配置
-  sensitive-headers: null # 默认Zuul认为请求头中 "Cookie", "Set-Cookie", "Authorization" 是敏感信息，它不会转发请求，因为把它设置为空，就会转发了
+  sensitive-headers: null # 默认Zuul认为请求头中 "Cookie", "Set-Cookie", "Authorization" 是敏感信息，它不会转发请求，如果把它设置为空，就会转发了
   add-host-header: true # 正确的处理重定向操作
   routes:
     authentication: # 路由名称，名称任意，保持所有路由名称唯一

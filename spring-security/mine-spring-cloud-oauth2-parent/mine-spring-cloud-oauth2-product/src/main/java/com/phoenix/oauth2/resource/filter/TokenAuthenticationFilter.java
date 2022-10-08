@@ -1,10 +1,8 @@
 package com.phoenix.oauth2.resource.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -34,6 +32,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authToken = request.getHeader("auth-token");
+        String authentication = request.getHeader("Authorization");
+        System.out.println(authentication);
         if (StringUtils.isNotEmpty(authToken)) {
             log.info("商品资源服务器获取到的token值: " + authToken);
             //解析token
@@ -44,13 +44,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             //用户信息（用户名）
             Object principal = jsonObject.get("principal");
             //用户权限 (Set数组)
-            //ArrayUtils.toString将数组拼接成字符串 sys:user:list,sys:user:add
-            String authoritiesString = ArrayUtils.toString(jsonObject.getJSONArray("authorities").toArray());
+            //StringUtils.join将数组拼接成字符串 sys:user:list,sys:user:add
+            String authorities = StringUtils.join(jsonObject.getJSONArray("authorities").toArray(),",");
             //请求详情
             Object details = jsonObject.get("details");
             //自己构建一个Authentication对象，SpringSecurity就会自动进行权限判断
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                    new UsernamePasswordAuthenticationToken(principal, null, AuthorityUtils.commaSeparatedStringToAuthorityList(authoritiesString));
+                    new UsernamePasswordAuthenticationToken(principal, null, AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
             usernamePasswordAuthenticationToken.setDetails(details);
             //将对象传给安全上下文，对应的就会自动进行权限判断，同时也可以获取到用户信息
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

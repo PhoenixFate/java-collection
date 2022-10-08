@@ -1,7 +1,7 @@
+
 package com.phoenix.oauth2.config;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -9,23 +9,31 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
+
 /**
  * 当前类用于管理所有的资源：认证资源、商品服务
  *
  * @Author phoenix
  * @Date 2022/10/8 16:32
  * @Version 1.0.0
+ * <p>
+ * 认证资源服务器的配置
+ * <p>
+ * 商品资源服务器的配置
  */
+
 @Configuration
+@AllArgsConstructor
 public class ResourceServerConfig {
 
-    @Autowired
-    private TokenStore tokenStore;
-
+    private final TokenStore tokenStore;
 
     /**
      * 认证资源服务器的配置
+     * <p>
+     * 商品资源服务器的配置
      */
+
     @Configuration
     @EnableResourceServer //标识为资源服务器
     public class AuthResourceServerConfig extends ResourceServerConfigurerAdapter {
@@ -48,9 +56,11 @@ public class ResourceServerConfig {
         }
     }
 
+
     /**
      * 商品资源服务器的配置
      */
+
     @Configuration
     @EnableResourceServer //标识为资源服务器
     public class ProductResourceServerConfig extends ResourceServerConfigurerAdapter {
@@ -73,5 +83,5 @@ public class ResourceServerConfig {
         }
     }
 
-
 }
+

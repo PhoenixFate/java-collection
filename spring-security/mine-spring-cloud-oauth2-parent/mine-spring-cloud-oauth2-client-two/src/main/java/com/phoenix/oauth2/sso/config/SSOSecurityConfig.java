@@ -24,7 +24,8 @@ public class SSOSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 //请求认证服务器将用户进行退出
-                .logoutSuccessUrl("http://localhost:8643/auth/logout")//当应用退出后，会交给某个处理
+                // .logoutSuccessUrl("http://localhost:8643/auth/logout")//当应用退出后，会交给某个处理
+                .logoutSuccessUrl("http://localhost:7001/auth/logout")//当应用退出后，会交给某个处理 (接入网关之后，使用网关地址)
                 .and()
                 .csrf().disable()
         ;
