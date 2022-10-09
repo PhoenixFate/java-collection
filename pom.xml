@@ -19,6 +19,7 @@
         <module>part-21-k8s</module>
         <module>activiti7</module>
         <module>spring-security</module>
+        <module>dream-blog</module>
     </modules>
 
     <properties>
