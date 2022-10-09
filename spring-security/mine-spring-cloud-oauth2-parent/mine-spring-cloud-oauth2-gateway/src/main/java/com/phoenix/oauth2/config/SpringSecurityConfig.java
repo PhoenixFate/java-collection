@@ -1,14 +1,17 @@
 package com.phoenix.oauth2.config;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 /**
  * @Author phoenix
  * @Date 2022/10/8 16:43
  * @Version 1.0.0
  */
+@Configuration
 @EnableWebSecurity //启动spring security 的安全配置拦截
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -22,6 +25,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //放行所有请求
-        http.authorizeRequests().anyRequest().permitAll();
+        //http.authorizeRequests().anyRequest().permitAll();
+        http.csrf().disable()
+                .authorizeRequests().anyRequest().authenticated()
+                .and()
+                //禁用session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        ;
+
     }
 }

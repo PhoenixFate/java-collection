@@ -1,9 +1,10 @@
-
 package com.phoenix.oauth2.config;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -16,9 +17,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * @Author phoenix
  * @Date 2022/10/8 16:32
  * @Version 1.0.0
- * <p>
  * 认证资源服务器的配置
- * <p>
  * 商品资源服务器的配置
  */
 
@@ -30,12 +29,12 @@ public class ResourceServerConfig {
 
     /**
      * 认证资源服务器的配置
-     * <p>
      * 商品资源服务器的配置
      */
 
     @Configuration
     @EnableResourceServer //标识为资源服务器
+    @Order(2)
     public class AuthResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         public static final String RESOURCE_ID = "auth-server";
@@ -51,8 +50,16 @@ public class ResourceServerConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             //关于请求认证服务器的资源，则所有请求放行
-            http.authorizeRequests()
-                    .anyRequest().permitAll();
+            //http.authorizeRequests()
+            //        //.anyRequest().permitAll()
+            //        .antMatchers("/auth/**").permitAll()
+            //;
+
+            http.csrf().disable()
+                    //前后端分离，禁用session
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    //认证服务的请求全部放行
+                    .and().authorizeRequests().antMatchers("/auth/**").permitAll();
         }
     }
 
@@ -63,8 +70,10 @@ public class ResourceServerConfig {
 
     @Configuration
     @EnableResourceServer //标识为资源服务器
+    @Order(1)
     public class ProductResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+        //配置多个resource_id无效了，待解决
         public static final String RESOURCE_ID = "product-server";
 
         @Override
