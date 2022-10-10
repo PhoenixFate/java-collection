@@ -16,6 +16,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <activiti.version>7.1.0.M5</activiti.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
+        <jasypt.version>2.1.0</jasypt.version>
     </properties>
 
     <dependencyManagement>
@@ -95,7 +96,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -121,7 +121,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
+        <!-- 数据库加密配置-->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt.version}</version>
+        </dependency>
     </dependencies>
 
     <profiles>

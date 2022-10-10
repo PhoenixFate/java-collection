@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = CrudApplication.class)
+@SpringBootTest(classes = Part13CrudApplication.class)
 @Slf4j
 public class LogTest {
 

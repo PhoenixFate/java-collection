@@ -7,7 +7,12 @@ server:
       timeout: 1h
       cookie:
         name: JSESSIONID # 指定浏览器cookie中关于SessionID保存的名称；默认为JSESSIONID，store-type为redis时，默认为SESSION
-
+# 启动时需要配置 秘钥
+# 方案一：在yml中加这个密钥的配置，在项目启动的时候，会根据密钥自动解密ENC(加密串)所代表的数据信息
+# 方案二：将秘钥加入启动参数 -Djasypt.encryptor.password=xxx
+jasypt:
+  encryptor:
+    password: phoenix
 eureka:
   client:
     registerWithEureka: true # 服务注册，true表示将自已注册到Eureka服务中
@@ -28,8 +33,8 @@ spring:
   # 数据源配置
   datasource:
     username: root
-    password: centos123qwer
-    url: jdbc:mysql://www.bytes-space.com:10306/spring_security?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    password: ENC(PfDPA+y3YVDqtcZ0XvkPjL6AYJse5+da)
+    url: jdbc:mysql://www.bytes-space.com:10307/dream_spring_security?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     # mysql8版本以上驱动包指定新的驱动类
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
@@ -49,7 +54,7 @@ spring:
     port: 10379
     database: 3
     # 密码
-    password: centos123qwer
+    password: ENC(PfDPA+y3YVDqtcZ0XvkPjL6AYJse5+da)
     # 连接超时时间
     timeout: 20s
     lettuce:
@@ -60,7 +65,7 @@ spring:
         max-idle: 30
         # 连接池的最大数据库连接数
         max-active: 100
-        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1ms
 
   mvc:

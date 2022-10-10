@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
-@TableName("mxg_category") // Category实体类对应表mxg_category
+@TableName("blog_category") // Category实体类对应表mxg_category
 @Data
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -17,7 +17,7 @@ public class Category implements Serializable {
      * 主键，分布式id
      * IdType.ASSIGN_ID: 分配ID (主键类型为number或string）, 默认实现类 com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator(雪花算法)
      */
-    @TableId(value = "id", type= IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
 
     /**

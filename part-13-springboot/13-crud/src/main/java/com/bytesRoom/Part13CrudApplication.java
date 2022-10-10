@@ -16,10 +16,10 @@ import tk.mybatis.spring.annotation.MapperScan;
 // mapper的位置
 @MapperScan("com.bytesRoom.mapper")
 @Slf4j
-public class CrudApplication {
+public class Part13CrudApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CrudApplication.class, args);
+        SpringApplication.run(Part13CrudApplication.class, args);
     }
 
 

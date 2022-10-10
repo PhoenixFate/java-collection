@@ -1,6 +1,6 @@
 package com.bytesRoom.mapper;
 
-import com.bytesRoom.CrudApplication;
+import com.bytesRoom.Part13CrudApplication;
 import com.bytesRoom.pojo.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = CrudApplication.class)
+@SpringBootTest(classes = Part13CrudApplication.class)
 @Slf4j
 public class UserMapperTest {
 

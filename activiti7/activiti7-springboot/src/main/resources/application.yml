@@ -2,13 +2,19 @@ server:
   port: 8325
   servlet:
     context-path: /workflow
+# 启动时需要配置 秘钥
+# 方案一：在yml中加这个密钥的配置，在项目启动的时候，会根据密钥自动解密ENC(加密串)所代表的数据信息
+# 方案二：将秘钥加入启动参数 -Djasypt.encryptor.password=xxx
+jasypt:
+  encryptor:
+    password: phoenix
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # mysql6.X以上需要nullCatalogMeansCurrent=true 才能自动创建activiti表
     url: jdbc:mysql://www.bytes-space.com:63306/activiti7_springboot?nullCatalogMeansCurrent=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root
-    password: centos123qwer
+    password: ENC(PfDPA+y3YVDqtcZ0XvkPjL6AYJse5+da)
 
   # activiti配置
   activiti:

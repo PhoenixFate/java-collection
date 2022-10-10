@@ -14,6 +14,7 @@
     <modules>
         <module>dream-blog-common</module>
         <module>dream-blog-api</module>
+        <module>dream-blog-article</module>
     </modules>
 
     <!--依赖版本管理-->
@@ -33,6 +34,7 @@
         <httpclientutil.version>1.0.4</httpclientutil.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <jasypt.version>2.1.0</jasypt.version>
     </properties>
     <!--依赖声明-->
     <dependencyManagement>
@@ -119,6 +121,11 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
