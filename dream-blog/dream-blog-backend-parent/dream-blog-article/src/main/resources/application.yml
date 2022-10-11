@@ -46,3 +46,18 @@ spring:
         max-active: 100
         # 连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1ms
+
+mybatis-plus:
+  type-aliases-package: com.phoenix.blog.article.entity
+  # xxxMapper.xml 路径
+  mapper-locations: classpath*:com/phoenix/blog/article/mapper/**/*.xml
+
+# 日志级别，会打印sql语句
+logging:
+  level:
+    com.phoenix.blog.article.mapper: debug
+
+swagger:
+  exclude-path: /error # 剔除不需要的接口路径
+  description: 博客系统--分类&标签&文章&广告管理接口
+  title: 博客系统swagger文档
