@@ -11,6 +11,8 @@ import com.phoenix.blog.entity.Category;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * 文章分类服务层
  *
@@ -34,5 +36,18 @@ public class CategoryService extends ServiceImpl<CategoryMapper, Category> imple
         //第一个参数为Page分页对象，第二个参数为查询条件
         IPage<Category> categoryIPage = baseMapper.selectPage(categoryRequest.getPage(), queryWrapper);
         return Result.ok(categoryIPage);
+    }
+
+    @Override
+    public Result finalAllNormal() {
+        QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status", 1);
+        return Result.ok(baseMapper.selectList(queryWrapper));
+    }
+
+    @Override
+    public boolean updateById(Category category) {
+        category.setUpdateDate(new Date());
+        return super.updateById(category);
     }
 }

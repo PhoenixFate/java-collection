@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@ApiModel(value = "category对象", description = "文章分类信息")
+@ApiModel(value = "Category", description = "文章分类信息")
 @TableName("blog_category") // Category实体类对应表mxg_category
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;

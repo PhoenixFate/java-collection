@@ -12,7 +12,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # mysql6.X以上需要nullCatalogMeansCurrent=true 才能自动创建activiti表
-    url: jdbc:mysql://www.bytes-space.com:63306/activiti7_springboot_m5?nullCatalogMeansCurrent=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    url: jdbc:mysql://www.bytes-space.com:10307/activiti7_springboot_m5?nullCatalogMeansCurrent=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root
     password: ENC(PfDPA+y3YVDqtcZ0XvkPjL6AYJse5+da)
 

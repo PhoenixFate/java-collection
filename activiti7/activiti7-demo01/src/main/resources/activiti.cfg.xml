@@ -11,7 +11,7 @@
         -->
         <!-- 配置数据源 -->
         <property name="jdbcUrl"
-                  value="jdbc:mysql://www.bytes-space.com:63306/activiti7?characterEncoding=utf8&amp;nullCatalogMeansCurrent=true&amp;serverTimezone=GMT&amp;useSSL=false" />
+                  value="jdbc:mysql://www.bytes-space.com:10307/activiti7?characterEncoding=utf8&amp;nullCatalogMeansCurrent=true&amp;serverTimezone=GMT&amp;useSSL=false" />
         <property name="jdbcDriver" value="com.mysql.cj.jdbc.Driver" />
         <property name="jdbcUsername" value="root" />
         <property name="jdbcPassword" value="centos123qwer" />

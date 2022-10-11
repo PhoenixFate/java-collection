@@ -20,4 +20,11 @@ public interface ICategoryService extends IService<Category> {
      * @return 带分页的result对象
      */
     Result queryPage(CategoryRequest categoryRequest);
+
+    /**
+     * 查询正常状态的分类
+     *
+     * @return 分类列表
+     */
+    Result finalAllNormal();
 }
