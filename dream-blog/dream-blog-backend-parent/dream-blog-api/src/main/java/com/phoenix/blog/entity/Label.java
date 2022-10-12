@@ -1,20 +1,32 @@
 package com.phoenix.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * <p>
+ * 标签表
+ * </p>
+ *
+ * @author phoenix
+ * @since 2022-10-12
+ */
 @Data
-@ApiModel(value = "Category", description = "文章分类信息")
-@TableName("blog_category") // Category实体类对应表mxg_category
-public class Category implements Serializable {
+@EqualsAndHashCode(callSuper = false)
+@TableName("blog_label")
+@ApiModel(value = "Label", description = "标签表")
+public class Label implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -25,25 +37,15 @@ public class Category implements Serializable {
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
-     * 分类名称
+     * 分类id
      */
-    @ApiModelProperty(value = "分类名称")
+    @ApiModelProperty(value = "分类id")
+    private String categoryId;
+    /**
+     * 标签名称
+     */
+    @ApiModelProperty(value = "标签名称")
     private String name;
-    /**
-     * 备注
-     */
-    @ApiModelProperty(value = "备注")
-    private String remark;
-    /**
-     * 状态(1:正常，0:禁用)
-     */
-    @ApiModelProperty(value = "状态")
-    private Integer status;
-    /**
-     * 排序
-     */
-    @ApiModelProperty(value = "排序")
-    private Integer sort;
     /**
      * 创建时间
      */
@@ -56,4 +58,11 @@ public class Category implements Serializable {
     @ApiModelProperty(value = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
+    /**
+     * 分类名称
+     */
+    @TableField(exist = false)
+    @ApiModelProperty(value = "分类名称")
+    private String categoryName;
+
 }

@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.phoenix.blog.article.mapper.LabelMapper">
+    <!--
+        application.yml中配置了：
+            mybatis-plus:
+                type-aliases-package: com.phoenix.blog.article.entity
+         所以resultType直接直接写类名而不写包名
+    -->
+    <select id="queryPage" resultType="Label">
+        SELECT
+        m1.id,
+        m1.category_id,
+        m1.NAME,
+        m1.create_date,
+        m1.update_date,
+        m2.NAME AS category_name
+        FROM
+        blog_label m1
+        JOIN blog_category m2 ON m1.category_id = m2.id
+        WHERE
+        1 = 1
+        <if test="labelRequest.name !=null and labelRequest.name !=''">
+            AND m1.NAME LIKE CONCAT( '%', #{labelRequest.name}, '%' )
+        </if>
+        <if test="labelRequest.categoryId !=null and labelRequest.categoryId!=''">
+            and m1.category_id=#{labelRequest.categoryId}
+        </if>
+        order by m1.update_date desc
+    </select>
 
 </mapper>

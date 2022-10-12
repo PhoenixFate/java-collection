@@ -1,9 +1,18 @@
 package com.phoenix.blog.article.mapper;
 
+import com.phoenix.blog.entity.Comment;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+
 /**
- * @Author phoenix
- * @Date 2022/10/11 13:54
- * @Version 1.0.0
+ * <p>
+ * 评论信息表 Mapper 接口
+ * </p>
+ *
+ * @author phoenix
+ * @since 2022-10-12
  */
-public interface CommentMapper {
+@Mapper
+public interface CommentMapper extends BaseMapper<Comment> {
+
 }

@@ -20,6 +20,7 @@
         <module>activiti7</module>
         <module>spring-security</module>
         <module>dream-blog</module>
+        <module>encrypt-decrypt</module>
     </modules>
 
     <properties>

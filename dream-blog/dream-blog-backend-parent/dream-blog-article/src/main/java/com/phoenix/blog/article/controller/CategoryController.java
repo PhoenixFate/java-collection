@@ -33,9 +33,7 @@ public class CategoryController {
      * @return 分页信息
      */
     @ApiOperation("根据分类名称与状态查询分类列表接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "categoryRequest", value = "带分页的文章分类查询对象", dataType = "CategoryRequest", required = true)
-    })
+    @ApiImplicitParam(name = "categoryRequest", value = "带分页的文章分类查询对象", dataType = "CategoryRequest", required = true)
     @PostMapping("/page")
     public Result page(@RequestBody CategoryRequest categoryRequest) {
         return categoryService.queryPage(categoryRequest);

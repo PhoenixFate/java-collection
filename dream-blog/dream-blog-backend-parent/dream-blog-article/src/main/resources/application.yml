@@ -48,7 +48,7 @@ spring:
         max-wait: -1ms
 
 mybatis-plus:
-  type-aliases-package: com.phoenix.blog.article.entity
+  type-aliases-package: com.phoenix.blog.entity
   # xxxMapper.xml 路径
   mapper-locations: classpath*:com/phoenix/blog/article/mapper/**/*.xml
 
