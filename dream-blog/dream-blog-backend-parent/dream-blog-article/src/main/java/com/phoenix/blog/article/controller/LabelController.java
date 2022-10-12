@@ -6,7 +6,6 @@ import com.phoenix.blog.common.base.Result;
 import com.phoenix.blog.entity.Label;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @author phoenix
  * @since 2022-10-12
  */
-@Api(tags = "标签管理接口")
+@Api(tags = "标签管理")
 @RestController
 @RequestMapping("/label")
 @AllArgsConstructor

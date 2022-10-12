@@ -1,6 +1,7 @@
 package com.phoenix.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,6 +11,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ApiModel(value = "Category", description = "文章分类信息")
@@ -56,4 +58,10 @@ public class Category implements Serializable {
     @ApiModelProperty(value = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
+    /**
+     * 当前分类下的所有标签
+     */
+    @ApiModelProperty(value = "分类下的所有标签集合")
+    @TableField(exist = false)
+    private List<Label> labelList;
 }

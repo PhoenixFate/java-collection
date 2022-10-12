@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.phoenix.blog.article.mapper.CategoryMapper">
+    <!--封装分类及分类中的标签信息-->
+    <resultMap id="categoryWithLabelListMap" type="Category">
+        <!--映射主键-->
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <collection property="labelList" javaType="list" ofType="Label">
+            <id column="label_id" property="id"/>
+            <result column="label_name" property="name"/>
+        </collection>
+    </resultMap>
 
-
+    <!--查询正常状态下的分类及分类下所有标签-->
+    <select id="findCategoryAndLabelList" resultMap="categoryWithLabelListMap">
+        SELECT c.id,
+               c.`name`,
+               l.id     AS label_id,
+               l.`name` AS label_name
+        FROM blog_category c
+                 LEFT JOIN blog_label l ON c.id = l.category_id
+        WHERE c.`status` = 1
+        ORDER BY c.sort
+    </select>
 </mapper>

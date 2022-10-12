@@ -27,4 +27,11 @@ public interface ICategoryService extends IService<Category> {
      * @return 分类列表
      */
     Result finalAllNormal();
+
+    /**
+     * 查询正常状态下的分类及分类下所有标签
+     *
+     * @return 带所属标签的分类列表
+     */
+    Result findCategoryAndLabelList();
 }

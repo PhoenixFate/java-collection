@@ -2,4 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.phoenix.blog.article.mapper.ArticleMapper">
 
+
+    <resultMap id="articleAndLabelListMap" type="Article">
+        <!--映射主键-->
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="user_image" property="userImage"/>
+        <result column="title" property="title"/>
+        <result column="summary" property="summary"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="md_content" property="mdContent"/>
+        <result column="html_content" property="htmlContent"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="likes_number" property="likesNumber"/>
+        <result column="status" property="status"/>
+        <result column="is_public" property="isPublic"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <!--标签对象集合-->
+        <collection property="labelList" javaType="list" ofType="Label">
+            <id column="label_id" property="id"/>
+            <result column="label_name" property="name"/>
+        </collection>
+        <!--标签id集合-->
+        <collection property="labelIdList" javaType="list" ofType="string">
+            <id column="label_id" property="id"/>
+        </collection>
+    </resultMap>
+
+    <select id="findArticleAndLabelListById" resultMap="articleAndLabelListMap">
+        SELECT a.*,
+               l.id   label_id,
+               l.NAME label_name
+        FROM blog_article a
+                 LEFT JOIN blog_article_label al ON a.id = al.article_id
+                 LEFT JOIN blog_label l ON al.label_id = l.id
+        WHERE a.id = #{id}
+    </select>
+
 </mapper>

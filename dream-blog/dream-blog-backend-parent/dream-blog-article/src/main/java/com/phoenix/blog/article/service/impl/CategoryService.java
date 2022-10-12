@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 文章分类服务层
@@ -43,6 +44,12 @@ public class CategoryService extends ServiceImpl<CategoryMapper, Category> imple
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("status", 1);
         return Result.ok(baseMapper.selectList(queryWrapper));
+    }
+
+    @Override
+    public Result findCategoryAndLabelList() {
+        List<Category> categoryAndLabelList = baseMapper.findCategoryAndLabelList();
+        return Result.ok(categoryAndLabelList);
     }
 
     @Override

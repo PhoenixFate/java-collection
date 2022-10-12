@@ -1,10 +1,16 @@
 package com.phoenix.blog.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,7 +27,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("blog_article")
-@ApiModel(value="Article", description="文章信息表")
+@ApiModel(value = "Article", description = "文章信息表")
 public class Article implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,13 +64,13 @@ public class Article implements Serializable {
     private Integer viewCount;
 
     @ApiModelProperty(value = "点赞数")
-    private Integer thumhup;
+    private Integer likesNumber;
 
     @ApiModelProperty(value = "0: 已删除, 1:未审核，2:审核通过，3：审核未通过")
     private Integer status;
 
     @ApiModelProperty(value = "0：不公开，1：公开")
-    private Integer ispublic;
+    private Integer isPublic;
 
     @ApiModelProperty(value = "创建时间")
     private Date createDate;
@@ -72,5 +78,11 @@ public class Article implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private Date updateDate;
 
+    @ApiModelProperty(value = "文章标签集合")
+    @TableField(exist = false)
+    private List<Label> labelList;
 
+    @ApiModelProperty(value = "文章标签id集合")
+    @TableField(exist = false)
+    private List<String> labelIdList;
 }

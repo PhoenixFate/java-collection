@@ -1,5 +1,4 @@
-package com.phoenix.blog.article.controller;
-
+package com.phoenix.blog.article.api;
 
 import com.phoenix.blog.article.request.ArticleRequest;
 import com.phoenix.blog.article.service.IArticleService;
@@ -11,33 +10,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * <p>
- * 文章信息表 前端控制器
- * </p>
- *
- * @author phoenix
- * @since 2022-10-12
+ * @Author phoenix
+ * @Date 10/13/22 00:39
+ * @Version 1.0
  */
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/api/article")
 @AllArgsConstructor
-@Api(tags = "文章")
-public class ArticleController {
+@Api(tags = "文章API接口", description = "不需要通过身份认证就可以直接访问")
+public class ApiArticleController {
 
     private final IArticleService articleService;
-
-    /**
-     * 带条件查询的文章分页列表
-     *
-     * @param articleRequest 文章条件查询
-     * @return 文章分页列表
-     */
-    @PostMapping("/page")
-    @ApiOperation("带条件查询的文章分页列表")
-    @ApiImplicitParam(name = "articleRequest", value = "带分页的文章查询对象", dataType = "ArticleRequest", required = true)
-    public Result page(@RequestBody ArticleRequest articleRequest) {
-        return articleService.queryPage(articleRequest);
-    }
 
     /**
      * 查询文章详情接口

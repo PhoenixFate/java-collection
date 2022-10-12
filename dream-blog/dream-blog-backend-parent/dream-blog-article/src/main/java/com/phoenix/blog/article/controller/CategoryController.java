@@ -46,7 +46,7 @@ public class CategoryController {
      * @return 分类信息
      */
     @ApiOperation("根据id查询文章分类详情信息")
-    @ApiImplicitParam(name = "id", value = "文章分类id", readOnly = true, dataType = "String")
+    @ApiImplicitParam(name = "id", value = "文章分类id", required = true, dataType = "String")
     @GetMapping("/{id}")
     public Result detail(@PathVariable("id") String id) {
         Category category = categoryService.getById(id);
@@ -77,10 +77,24 @@ public class CategoryController {
         return Result.ok();
     }
 
+    /**
+     * 获取所有正常状态的文章分类接口
+     *
+     * @return 文章分类列表
+     */
     @ApiOperation("获取所有正常状态的文章分类接口")
     @GetMapping("/list")
     public Result list() {
         return categoryService.finalAllNormal();
+    }
+
+    /**
+     * 查询正常状态下的分类及分类下所有标签
+     */
+    @ApiOperation("查询正常状态下的分类及分类下所有标签")
+    @GetMapping("/label/list")
+    public Result findCategoryAndLabelList() {
+        return categoryService.findCategoryAndLabelList();
     }
 
 }

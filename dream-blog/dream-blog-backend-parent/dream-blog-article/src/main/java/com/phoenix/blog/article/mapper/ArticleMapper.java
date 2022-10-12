@@ -14,5 +14,11 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ArticleMapper extends BaseMapper<Article> {
-
+    /**
+     * 通过文章id查询文章详情及文章的标签列表
+     *
+     * @param id 文章id
+     * @return 文章详情
+     */
+    Article findArticleAndLabelListById(String id);
 }
