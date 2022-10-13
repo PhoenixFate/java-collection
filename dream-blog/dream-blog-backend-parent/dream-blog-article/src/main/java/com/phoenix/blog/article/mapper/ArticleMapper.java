@@ -1,8 +1,11 @@
 package com.phoenix.blog.article.mapper;
 
-import com.phoenix.blog.entity.Article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.phoenix.blog.entity.Article;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -21,4 +24,19 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return 文章详情
      */
     Article findArticleAndLabelListById(String id);
+
+    /**
+     * 通过文章id删除文章标签中间表
+     *
+     * @param articleId 文章id
+     * @return 是否删除成功
+     */
+    boolean deleteArticleLabel(@Param("articleId") String articleId);
+
+    /**
+     * @param articleId   文章id
+     * @param labelIdList 标签id数组
+     * @return 是否新增成功
+     */
+    boolean saveArticleLabel(@Param("articleId") String articleId, @Param("labelIdList") List<String> labelIdList);
 }

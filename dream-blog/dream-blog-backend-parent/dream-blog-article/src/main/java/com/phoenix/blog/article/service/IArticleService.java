@@ -1,7 +1,9 @@
 package com.phoenix.blog.article.service;
 
 import com.phoenix.blog.article.request.ArticleRequest;
+import com.phoenix.blog.article.request.ArticleUserRequest;
 import com.phoenix.blog.common.base.Result;
+import com.phoenix.blog.common.constant.ArticleStatusEnum;
 import com.phoenix.blog.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -30,4 +32,37 @@ public interface IArticleService extends IService<Article> {
      * @return 带标签的文章详情
      */
     Result findArticleAndLabelListById(String id);
+
+    /**
+     * 新增或者修改文章信息
+     *
+     * @return 返回文章id，前端拿着文章id进行跳转
+     */
+    Result updateOrSave(Article article);
+
+    /**
+     * 修改文章状态
+     *
+     * @param articleId         文章id
+     * @param articleStatusEnum 文章枚举状态
+     * @return 是否修改成功
+     */
+    Result updateStatus(String articleId, ArticleStatusEnum articleStatusEnum);
+
+    /**
+     * 根据用户id查询公开或者不公开的文章列表
+     *
+     * @param articleUserRequest 带用户id和是否公开的带分页的请求参数
+     * @return 属于某用户的文章列表
+     */
+    Result findListByUserId(ArticleUserRequest articleUserRequest);
+
+    /**
+     * 更新点赞数
+     *
+     * @param articleId   文章id
+     * @param likesNumber 点赞数
+     * @return 更新成功
+     */
+    Result updateLikesNumber(String articleId, Integer likesNumber);
 }

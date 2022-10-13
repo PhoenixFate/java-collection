@@ -31,6 +31,7 @@
         </collection>
     </resultMap>
 
+    <!--通过文章id查询文章详情及文章的标签列表-->
     <select id="findArticleAndLabelListById" resultMap="articleAndLabelListMap">
         SELECT a.*,
                l.id   label_id,
@@ -40,5 +41,22 @@
                  LEFT JOIN blog_label l ON al.label_id = l.id
         WHERE a.id = #{id}
     </select>
+
+    <!--通过文章id删除文章标签中间表-->
+    <delete id="deleteArticleLabel">
+        delete
+        from blog_article_label
+        where article_id = #{articleId}
+    </delete>
+
+    <!--新增文章标签中间表-->
+    <!--com.baomidou.mybatisplus.core.toolkit.IdWorker.getId()是采用雪花算法的-->
+    <insert id="saveArticleLabel">
+        insert into blog_article_label(id,article_id,label_id)
+        values
+        <foreach collection="labelIdList" item="item" separator=",">
+            ('${@com.baomidou.mybatisplus.core.toolkit.IdWorker@getId()}',#{articleId},#{item})
+        </foreach>
+    </insert>
 
 </mapper>

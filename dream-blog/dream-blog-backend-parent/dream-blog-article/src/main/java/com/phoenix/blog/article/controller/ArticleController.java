@@ -1,12 +1,16 @@
 package com.phoenix.blog.article.controller;
 
-
 import com.phoenix.blog.article.request.ArticleRequest;
+import com.phoenix.blog.article.request.ArticleUserRequest;
 import com.phoenix.blog.article.service.IArticleService;
 import com.phoenix.blog.common.base.Result;
+import com.phoenix.blog.common.constant.ArticleStatusEnum;
+import com.phoenix.blog.entity.Article;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,9 +51,96 @@ public class ArticleController {
      */
     @GetMapping("/{id}")
     @ApiOperation("查询文章详情接口")
-    @ApiImplicitParam(name = "id", value = "文章id", readOnly = true, dataType = "String")
+    @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String")
     public Result detail(@PathVariable("id") String id) {
         return articleService.findArticleAndLabelListById(id);
     }
 
+    /**
+     * 修改文章信息接口
+     *
+     * @param article 文章
+     * @return 是否修改成功
+     */
+    @ApiOperation("修改文章信息接口")
+    @PutMapping("/")
+    @ApiImplicitParam(name = "article", value = "文章对象", dataType = "Article", required = true)
+    public Result update(@RequestBody Article article) {
+        return articleService.updateOrSave(article);
+    }
+
+    /**
+     * 新增文章信息接口
+     *
+     * @param article 文章
+     * @return 是否修改成功
+     */
+    @ApiOperation("新增文章信息接口")
+    @PostMapping("/")
+    @ApiImplicitParam(name = "article", value = "文章对象", dataType = "Article", required = true)
+    public Result save(@RequestBody Article article) {
+        return articleService.updateOrSave(article);
+    }
+
+    /**
+     * 根据文章id删除文章（软删除，更新状态）
+     *
+     * @param id 文章id
+     * @return 是否删除成功
+     */
+    @DeleteMapping("/{id}")
+    @ApiOperation("根据文章id删除文章")
+    @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String")
+    public Result delete(@PathVariable("id") String id) {
+        return articleService.updateStatus(id, ArticleStatusEnum.DELETE);
+    }
+
+    /**
+     * 审核通过文章
+     *
+     * @param id 文章id
+     * @return 成功
+     */
+    @PutMapping("/audit/success/{id}")
+    @ApiOperation("审核通过文章")
+    @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String")
+    public Result approve(@PathVariable("id") String id) {
+        return articleService.updateStatus(id, ArticleStatusEnum.SUCCESS);
+    }
+
+    /**
+     * 审核不通过文章
+     *
+     * @param id 文章id
+     * @return 成功
+     */
+    @PutMapping("/audit/failure/{id}")
+    @ApiOperation("审核不通过文章")
+    @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String")
+    public Result failure(@PathVariable("id") String id) {
+        return articleService.updateStatus(id, ArticleStatusEnum.FAILURE);
+    }
+
+    /**
+     * 根据用户id查询公开或者未公开的文章列表接口
+     *
+     * @param articleUserRequest 用户id和是否公开
+     * @return 某用户的文章列表
+     */
+    @PostMapping("/user")
+    @ApiOperation("根据用户id查询公开或者未公开的文章列表接口")
+    @ApiImplicitParam(name = "articleUserRequest", value = "用户id和是否公开", dataType = "ArticleUserRequest", required = true)
+    public Result findByUserId(@RequestBody ArticleUserRequest articleUserRequest) {
+        return articleService.findListByUserId(articleUserRequest);
+    }
+
+    @ApiOperation("更新文章点赞数")
+    @PutMapping("/likes/{id}/{count}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "count", value = "点赞数", required = true, dataType = "int")
+    })
+    public Result updateLikesNumber(@PathVariable("id") String id, @PathVariable("count") Integer count) {
+        return articleService.updateLikesNumber(id, count);
+    }
 }

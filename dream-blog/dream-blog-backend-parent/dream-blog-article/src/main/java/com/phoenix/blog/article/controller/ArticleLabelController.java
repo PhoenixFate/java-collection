@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-10-12
  */
 @RestController
-@RequestMapping("/articl/label")
+@RequestMapping("/article/label")
 public class ArticleLabelController {
 
 }
