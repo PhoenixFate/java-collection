@@ -10,7 +10,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -143,4 +142,42 @@ public class ArticleController {
     public Result updateLikesNumber(@PathVariable("id") String id, @PathVariable("count") Integer count) {
         return articleService.updateLikesNumber(id, count);
     }
+
+    /**
+     * 更新文章浏览次数
+     *
+     * @param id 文章id
+     * @return 是否更新成功
+     */
+    @ApiOperation("更新文章浏览次数")
+    @PutMapping("/view/count/{id}")
+    @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String")
+    public Result updateViewCount(@PathVariable("id") String id) {
+        return articleService.updateViewCount(id);
+    }
+
+    /**
+     * 统计文章总记录数（审核通过且公开的）
+     *
+     * @return 文章总记录数
+     */
+    @ApiOperation("审核通过并且公开的文章总记录数")
+    @GetMapping("/total")
+    public Result getArticleTotal() {
+        return articleService.getArticleTotal();
+    }
+
+    @ApiOperation("统计各分类下的文章数")
+    @GetMapping("/category/total")
+    public Result categoryTotal() {
+        return articleService.selectCategoryTotal();
+    }
+
+    @ApiOperation("统计近6个月发布的文章数量")
+    @GetMapping("/month/total")
+    public Result monthArticleTotal() {
+        return articleService.selectMonthArticleTotal();
+    }
+
+
 }

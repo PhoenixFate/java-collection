@@ -1,5 +1,6 @@
 package com.phoenix.blog.article.service;
 
+import com.phoenix.blog.article.request.ArticleListRequest;
 import com.phoenix.blog.article.request.ArticleRequest;
 import com.phoenix.blog.article.request.ArticleUserRequest;
 import com.phoenix.blog.common.base.Result;
@@ -65,4 +66,41 @@ public interface IArticleService extends IService<Article> {
      * @return 更新成功
      */
     Result updateLikesNumber(String articleId, Integer likesNumber);
+
+    /**
+     * 更新文章浏览次数
+     *
+     * @param articleId 文章Id
+     * @return 是否更新成功
+     */
+    Result updateViewCount(String articleId);
+
+    /**
+     * 根据标签id或者分类id查询文章列表
+     *
+     * @param articleListRequest 查询条件
+     * @return 文章列表
+     */
+    Result findListByLabelIdOrCategoryId(ArticleListRequest articleListRequest);
+
+    /**
+     * 查询文章总数
+     *
+     * @return 文章总数
+     */
+    Result getArticleTotal();
+
+    /**
+     * 统计每个分类下的文章数据
+     *
+     * @return 统计数据
+     */
+    Result selectCategoryTotal();
+
+    /**
+     * 统计近6个月发布的文章数
+     *
+     * @return 统计数据
+     */
+    Result selectMonthArticleTotal();
 }

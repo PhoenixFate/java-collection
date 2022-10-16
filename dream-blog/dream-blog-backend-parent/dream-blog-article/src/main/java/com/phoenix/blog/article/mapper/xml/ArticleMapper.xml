@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.phoenix.blog.article.mapper.ArticleMapper">
 
-
     <resultMap id="articleAndLabelListMap" type="Article">
         <!--映射主键-->
         <id column="id" property="id"/>
@@ -58,5 +57,58 @@
             ('${@com.baomidou.mybatisplus.core.toolkit.IdWorker@getId()}',#{articleId},#{item})
         </foreach>
     </insert>
+
+    <select id="findListByLabelIdOrCategoryId" resultType="Article">
+        select distinct a.*
+        from blog_label l
+        join blog_article_label al on l.id = al.label_id
+        join blog_article a on al.article_id = a.id
+        where a.is_public = 1
+        and a.`status` = 2
+        <if test="articleListRequest.categoryId !=null and articleListRequest.categoryId!=''">
+            and l.category_id=#{articleListRequest.categoryId}
+        </if>
+        <if test="articleListRequest.labelId !=null and articleListRequest.labelId!=''">
+            and l.id = #{articleListRequest.labelId}
+        </if>
+        order by a.update_date desc
+    </select>
+
+    <!--统计每个分类下的文章数-->
+    <select id="selectCategoryTotal" resultType="map">
+        select c.id, c.`name`, ifnull(sum(total), 0) categoryTotal
+        from blog_category c
+                 left join blog_label l on c.id = l.category_id
+                 left join (select al.label_id, count(a.id) total
+                            from blog_article a
+                                     join blog_article_label al
+                                          on a.id = al.article_id
+                            where a.status = 2
+                              and a.is_public = 1
+                            group by al.label_id) f on l.id = f.label_id
+        GROUP BY c.`name`
+    </select>
+
+    <select id="selectMonthArticleTotal" resultType="map">
+        SELECT t1.`year_month` as yearMonth,
+               count(t2.id) AS total
+        FROM (-- 先查询近6个月的月份
+                 SELECT DATE_FORMAT(CURDATE(), '%Y-%m') AS `year_month`
+                 UNION
+                 SELECT DATE_FORMAT((CURDATE() - INTERVAL 1 MONTH), '%Y-%m') AS `year_month`
+                 UNION
+                 SELECT DATE_FORMAT((CURDATE() - INTERVAL 2 MONTH), '%Y-%m') AS `year_month`
+                 UNION
+                 SELECT DATE_FORMAT((CURDATE() - INTERVAL 3 MONTH), '%Y-%m') AS `year_month`
+                 UNION
+                 SELECT DATE_FORMAT((CURDATE() - INTERVAL 4 MONTH), '%Y-%m') AS `year_month`
+                 UNION
+                 SELECT DATE_FORMAT((CURDATE() - INTERVAL 5 MONTH), '%Y-%m') AS `year_month`) t1
+                 LEFT JOIN blog_article t2 ON t1.`year_month` =
+                                              DATE_FORMAT(t2.create_date, '%Y-%m') -- 注意：使用使用 AND, 不要使用 WHERE 不然月份没有发布文章就不会显示对应月份出来
+            AND t2.`status` = 2
+            AND t2.is_public = 1
+        GROUP BY t1.`year_month`;
+    </select>
 
 </mapper>

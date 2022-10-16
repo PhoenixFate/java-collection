@@ -20,7 +20,7 @@ public class JasyptTest {
         config.setAlgorithm("PBEWithMD5AndDES");          // 加密的算法，这个算法是默认的
         config.setPassword("phoenix");                       // 加密的密钥，必须为ASCll码
         standardPBEStringEncryptor.setConfig(config);
-        String plainText = "abc";    //如：数据库密码
+        String plainText = "ABsOGXTjQwOSWlOu37bxaqQyxnaaAJ";    //如：数据库密码
         String encryptedText = standardPBEStringEncryptor.encrypt(plainText);
         System.out.println(encryptedText);
     }

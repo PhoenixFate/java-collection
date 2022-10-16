@@ -2,4 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.phoenix.blog.article.mapper.CommentMapper">
 
+    <resultMap id="commentResultMap" type="Comment">
+        <id column="id" property="id"/>
+        <id column="parent_id" property="parentId"/>
+        <id column="user_id" property="userId"/>
+        <id column="nick_name" property="nickName"/>
+        <id column="user_image" property="userImage"/>
+        <id column="article_id" property="articleId"/>
+        <id column="content" property="content"/>
+        <id column="create_date" property="createDate"/>
+        <collection property="children" javaType="list" ofType="Comment"
+                    column="id" select="findByParentId"/>
+    </resultMap>
+
+    <!--通过文章id递归查询所有评论-->
+    <select id="findByArticleId" resultMap="commentResultMap">
+        select *
+        from blog_comment
+        where parent_id = -1
+          and article_id = #{articleId}
+        order by create_date desc
+    </select>
+
+    <!--将每条一级评论的id作为parentId来查询子评论-->
+    <select id="findByParentId" resultMap="commentResultMap">
+        select *
+        from blog_comment
+        where parent_id = #{id}
+    </select>
+
 </mapper>

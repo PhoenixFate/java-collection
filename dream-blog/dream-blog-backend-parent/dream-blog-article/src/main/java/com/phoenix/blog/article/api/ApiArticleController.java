@@ -1,6 +1,6 @@
 package com.phoenix.blog.article.api;
 
-import com.phoenix.blog.article.request.ArticleRequest;
+import com.phoenix.blog.article.request.ArticleListRequest;
 import com.phoenix.blog.article.service.IArticleService;
 import com.phoenix.blog.common.base.Result;
 import io.swagger.annotations.Api;
@@ -30,9 +30,21 @@ public class ApiArticleController {
      */
     @GetMapping("/{id}")
     @ApiOperation("查询文章详情接口")
-    @ApiImplicitParam(name = "id", value = "文章id", readOnly = true, dataType = "String")
+    @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String")
     public Result detail(@PathVariable("id") String id) {
         return articleService.findArticleAndLabelListById(id);
+    }
+
+    /**
+     * 公开且已审核的文章列表接口
+     * @param articleListRequest 文章列表查询接口
+     * @return 文章列表
+     */
+    @PostMapping("/list")
+    @ApiOperation("公开且已审核的文章列表接口")
+    @ApiImplicitParam(name = "articleListRequest", value = "文章列表查询接口", dataType = "ArticleListRequest", required = true)
+    public Result list(@RequestBody ArticleListRequest articleListRequest) {
+        return articleService.findListByLabelIdOrCategoryId(articleListRequest);
     }
 
 }

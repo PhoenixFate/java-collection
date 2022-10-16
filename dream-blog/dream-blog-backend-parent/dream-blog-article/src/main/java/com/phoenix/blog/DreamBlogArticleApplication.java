@@ -1,4 +1,4 @@
-package com.phoenix.blog.article;
+package com.phoenix.blog;
 
 import com.spring4all.swagger.EnableSwagger2Doc;
 import org.springframework.boot.SpringApplication;
