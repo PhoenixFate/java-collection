@@ -30,7 +30,7 @@
         <result column="md_content" property="mdContent"/>
         <result column="html_content" property="htmlContent"/>
         <result column="view_count" property="viewCount"/>
-        <result column="thumhup" property="thumhup"/>
+        <result column="likes_number" property="likesNumber"/>
         <result column="reply" property="reply"/>
         <result column="status" property="status"/>
         <result column="create_date" property="createDate"/>

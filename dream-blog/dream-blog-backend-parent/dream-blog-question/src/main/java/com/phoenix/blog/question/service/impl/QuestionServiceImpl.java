@@ -110,6 +110,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         // 4. 响应当前操作的问题id
         return Result.ok(question.getId());
     }
+
     @Override
     public Result deleteById(String id) {
         return this.updateStatus(id, 0); // 0 表示删除
@@ -134,7 +135,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public Result updateThumhup(String id, int count) {
+    public Result updateLikesNumber(String id, int count) {
         if (count != -1 && count != 1) {
             return Result.error("无效操作");
         }
@@ -145,10 +146,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         if (question == null) {
             return Result.error("问题不存在");
         }
-        if (question.getThumhup() <= 0 && count == -1) {
+        if (question.getLikesNumber() <= 0 && count == -1) {
             return Result.error("无效操作");
         }
-        question.setThumhup(question.getThumhup() + count);
+        question.setLikesNumber(question.getLikesNumber() + count);
         baseMapper.updateById(question);
         return Result.ok();
     }

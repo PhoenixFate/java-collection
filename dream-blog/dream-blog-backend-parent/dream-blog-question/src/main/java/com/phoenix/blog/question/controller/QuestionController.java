@@ -51,9 +51,9 @@ public class QuestionController {
     })
     @ApiOperation("更新点赞数")
     @PutMapping("/thumb/{id}/{count}")
-    public Result updateThumhup(@PathVariable("id") String id,
-                                @PathVariable("count") int count) {
-        return questionService.updateThumhup(id, count);
+    public Result updateLikesNumber(@PathVariable("id") String id,
+                                    @PathVariable("count") int count) {
+        return questionService.updateLikesNumber(id, count);
     }
 
     @ApiOperation("根据用户id查询问题列表")

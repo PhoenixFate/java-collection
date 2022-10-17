@@ -87,7 +87,7 @@ public interface IQuestionService extends IService<Question> {
      * @param count 是1（点赞）或者-1 (取消点赞)，
      * @return 是否更新成功
      */
-    Result updateThumhup(String id, int count);
+    Result updateLikesNumber(String id, int count);
 
     /**
      * 根据用户id查询问题列表

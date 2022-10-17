@@ -55,7 +55,7 @@ public class Question implements Serializable {
     private Integer viewCount;
 
     @ApiModelProperty(value = "点赞数")
-    private Integer thumhup;
+    private Integer likesNumber;
 
     @ApiModelProperty(value = "回复数")
     private Integer reply;
