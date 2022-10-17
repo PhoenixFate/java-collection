@@ -1,0 +1,28 @@
+server:
+  port: 8005
+  servlet:
+    context-path: /file
+# 启动时需要配置 秘钥
+# 方案一：在yml中加这个密钥的配置，在项目启动的时候，会根据密钥自动解密ENC(加密串)所代表的数据信息
+# 方案二：将秘钥加入启动参数 -Djasypt.encryptor.password=xxx
+jasypt:
+  encryptor:
+    password: phoenix
+
+swagger:
+  exclude-path: /error # 剔除不需要的接口路径
+  description: 博客系统--上传接口
+  title: 博客系统swagger文档
+
+phoenix:
+  blog:
+    # 阿里云oss配置
+    alibabaCloud:
+      # 上传时使用的
+      endpoint: https://oss-cn-shanghai.aliyuncs.com
+      accessKeyId: LTAI5tNGhriCr3qvhXaumzUc
+      accessKeySecret: ENC(issiRf3RjPGoZCiLdhwaxNaAOIn5yBzLzTfdTBFw4EhdF1bmUAX+PA==)
+      # 存储空间名称
+      bucketName: phoenix-dream-blog
+      # bucket域名，访问文件时作为URL前缀
+      bucketDomain: https://phoenix-dream-blog.oss-cn-shanghai.aliyuncs.com/

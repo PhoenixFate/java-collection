@@ -1,4 +1,4 @@
-package com.phoenix.blog.article.controller;
+package com.phoenix.blog.minio.controller;
 
 import com.phoenix.blog.common.base.Result;
 import com.phoenix.blog.common.constant.PlatformEnum;

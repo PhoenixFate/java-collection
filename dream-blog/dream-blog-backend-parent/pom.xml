@@ -16,6 +16,8 @@
         <module>dream-blog-api</module>
         <module>dream-blog-article</module>
         <module>dream-blog-generator</module>
+        <module>dream-blog-question</module>
+        <module>dream-blog-minio</module>
     </modules>
 
     <!--依赖版本管理-->

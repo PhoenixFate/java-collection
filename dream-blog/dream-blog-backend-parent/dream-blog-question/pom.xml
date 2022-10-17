@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dream-blog-article</artifactId>
+    <artifactId>dream-blog-question</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -31,28 +31,25 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>-->
-
         <!-- nacos 配置中心
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency> -->
-
+        </dependency>-->
         <!-- Spring Security、OAuth2 和JWT等
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>-->
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!--热部署 ctrl+f9-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <!-- 数据库加密配置-->
         <dependency>
@@ -60,7 +57,7 @@
             <artifactId>jasypt-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
-    <!-- 打包插件 -->
+
     <build>
         <plugins>
             <plugin>
@@ -69,5 +66,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dream-blog-article</artifactId>
+    <artifactId>dream-blog-minio</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -21,11 +21,7 @@
             <artifactId>dream-blog-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!--Druid连接池-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
+
         <!-- nacos 客户端
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

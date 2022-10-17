@@ -1,0 +1,43 @@
+swagger:
+  title: 博客系统接口文档
+  description: 博客系统--问答管理接口
+  exclude-path: /error # 剔除请求
+
+server:
+  port: 8002
+  servlet:
+    context-path: /question
+# 启动时需要配置 秘钥
+# 方案一：在yml中加这个密钥的配置，在项目启动的时候，会根据密钥自动解密ENC(加密串)所代表的数据信息
+# 方案二：将秘钥加入启动参数 -Djasypt.encryptor.password=xxx
+jasypt:
+  encryptor:
+    password: phoenix
+spring:
+  application:
+    name: question-server # 应用名
+  # 数据源配置
+  datasource:
+    username: root
+    password: ENC(PfDPA+y3YVDqtcZ0XvkPjL6AYJse5+da)
+    url: jdbc:mysql://www.bytes-space.com:10307/dream_blog_question?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    #mysql8版本以上驱动包指定新的驱动类
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #   数据源其他配置, 在 DruidConfig配置类中手动绑定
+    initialSize: 8
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+
+mybatis-plus:
+  type-aliases-package: com.phoenix.blog.entity
+  # xxxMapper.xml 路径
+  mapper-locations: classpath*:com/phoenix/blog/question/mapper/**/*.xml
+
+# 日志级别，会打印sql语句
+logging:
+  level:
+    com.phoenix.blog.question.mapper: debug
