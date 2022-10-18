@@ -9,6 +9,14 @@ jasypt:
   encryptor:
     password: phoenix
 spring:
+  application:
+    name: dream-blog-article-server # 应用名
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://www.bytes-space.com:10841
+      config:
+        prefix: ${spring.application.name}
   # 数据源配置
   datasource:
     username: root

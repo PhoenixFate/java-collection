@@ -20,6 +20,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!--springboot2.3.1.RELEASE之前会自动引入该包，但之后没有自动引入validation对应的包，需要手动引入-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
         <!--mybatis-plus启动器-->
         <dependency>
             <groupId>com.baomidou</groupId>

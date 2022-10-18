@@ -24,9 +24,9 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <!--该spring cloud版本只能兼容springboot 2.2.X-->
-        <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
-        <cloud-alibaba.version>2.2.0.RELEASE</cloud-alibaba.version>
+        <!--该spring cloud Hoxton.SR5版本最低兼容springboot 2.2.X-->
+        <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
+        <cloud-alibaba.version>2.2.1.RELEASE</cloud-alibaba.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <druid.version>1.1.18</druid.version>
         <kaptcha.version>2.3.2</kaptcha.version>
@@ -48,7 +48,7 @@
                 <!--不使用parent方式进行依赖,需要scope和type设置-->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.2.9.RELEASE</version>
+                <version>2.3.2.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -61,7 +61,7 @@
                 <!--maven不支持多继承，使用 import 来依赖管理配置-->
                 <scope>import</scope>
             </dependency>
-            <!-- alibaba 依赖-->
+            <!-- alibaba cloud：用于管理alibaba相关包的版本-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>

@@ -15,7 +15,11 @@ jasypt:
     password: phoenix
 spring:
   application:
-    name: question-server # 应用名
+    name: dream-blog-question-server # 应用名
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://www.bytes-space.com:10841
   # 数据源配置
   datasource:
     username: root
