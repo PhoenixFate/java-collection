@@ -1,5 +1,6 @@
 package com.phoenix.blog.article.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.phoenix.blog.article.request.LabelRequest;
 import com.phoenix.blog.common.base.Result;
@@ -10,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -26,6 +28,11 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, Label> implements
     public Result queryPage(LabelRequest labelRequest) {
         IPage<Label> labelIPage = baseMapper.queryPage(labelRequest.getPage(), labelRequest);
         return Result.ok(labelIPage);
+    }
+
+    @Override
+    public List<Label> getLabelListByIds(List<String> ids) {
+        return baseMapper.getLabelListByIds(ids);
     }
 
     @Override

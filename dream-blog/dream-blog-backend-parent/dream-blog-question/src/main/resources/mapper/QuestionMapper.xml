@@ -39,7 +39,6 @@
         <collection property="labelIds" javaType="list" ofType="string">
             <id column="label_id" property="id"/>
         </collection>
-
     </resultMap>
 
     <!--通过问题id删除问题标签中间表-->

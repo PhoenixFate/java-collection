@@ -29,4 +29,17 @@
         order by m1.update_date desc
     </select>
 
+    <select id="getLabelListByIds" resultType="Label">
+        select *
+        from blog_label where id in
+        <foreach collection="ids" index="index" item="id" separator="," close=")" open="(">
+            #{id}
+        </foreach>
+        order by field(id,
+        <foreach collection="ids" index="index" item="id" separator="," close="" open="">
+            #{id}
+        </foreach>
+        )
+    </select>
+
 </mapper>

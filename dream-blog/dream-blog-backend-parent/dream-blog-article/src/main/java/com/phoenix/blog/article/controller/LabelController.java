@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 标签表 前端控制器
@@ -71,5 +73,19 @@ public class LabelController {
         return Result.ok();
     }
 
+    /**
+     * 根据标签ids查询对应的标签信息
+     *
+     * @param ids 标签id数组
+     * @return 标签数组
+     */
+    //allowMultiple = true 表示是数组格式的参数
+    @ApiImplicitParam(allowMultiple = true, dataType = "String", name = "ids",
+            value = "标签id集合", required = true)
+    @ApiOperation("Feign接口--根据标签ids查询对应的标签信息")
+    @GetMapping("/list/{ids}")
+    public List<Label> getLabelListByIds(@PathVariable("ids") List<String> ids) {
+        return labelService.getLabelListByIds(ids);
+    }
 
 }

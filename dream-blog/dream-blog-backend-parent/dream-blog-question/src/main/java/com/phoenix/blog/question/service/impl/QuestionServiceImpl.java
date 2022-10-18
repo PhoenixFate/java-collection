@@ -4,16 +4,20 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.phoenix.blog.common.base.BaseRequest;
 import com.phoenix.blog.common.base.Result;
+import com.phoenix.blog.entity.Label;
 import com.phoenix.blog.entity.Question;
+import com.phoenix.blog.feign.FeignLabelService;
 import com.phoenix.blog.question.mapper.QuestionMapper;
 import com.phoenix.blog.question.req.QuestionUserRequest;
 import com.phoenix.blog.question.service.IQuestionService;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -23,7 +27,10 @@ import java.util.Date;
  * @author phoenix
  */
 @Service
+@AllArgsConstructor
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> implements IQuestionService {
+
+    private final FeignLabelService feignLabelService;
 
     @Override
     public Result findHotList(BaseRequest<Question> req) {
@@ -72,8 +79,9 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         if (question == null) {
             return Result.error("没有问题详情信息");
         }
-        // TODO 2. Feign 远程调用  Article 服务查询标签信息
         if (CollectionUtils.isNotEmpty(question.getLabelIds())) {
+            List<Label> labelList = feignLabelService.getLabelListByIds(question.getLabelIds());
+            question.setLabelList(labelList);
         }
         return Result.ok(question);
     }

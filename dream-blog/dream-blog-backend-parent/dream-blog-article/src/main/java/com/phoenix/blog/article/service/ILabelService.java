@@ -5,6 +5,8 @@ import com.phoenix.blog.common.base.Result;
 import com.phoenix.blog.entity.Label;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 标签表 服务类
@@ -17,4 +19,5 @@ public interface ILabelService extends IService<Label> {
 
     Result queryPage(LabelRequest labelRequest);
 
+    List<Label> getLabelListByIds(List<String> ids);
 }
