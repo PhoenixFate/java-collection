@@ -1,6 +1,7 @@
 package com.phoenix.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -17,12 +19,11 @@ import java.util.Date;
  * </p>
  *
  * @author phoenix
- * @since 2022-10-12
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("mxg_replay")
-@ApiModel(value="Replay对象", description="回答信息表")
+@TableName("blog_replay")
+@ApiModel(value = "Replay", description = "回答信息表")
 public class Replay implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,5 +56,8 @@ public class Replay implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date createDate;
 
+    @ApiModelProperty(value = "回答子评论")
+    @TableField(exist = false)
+    List<Replay> children;
 
 }

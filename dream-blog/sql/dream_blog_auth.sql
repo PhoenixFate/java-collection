@@ -60,7 +60,7 @@ CREATE TABLE `oauth_client_details` (
 -- Records of oauth_client_details
 -- ----------------------------
 BEGIN;
-INSERT INTO `oauth_client_details` VALUES ('mxg-blog-admin', '', '$2a$10$uA51hWL5yusFBoEvZOAZbeaYYqUaFV7xjdDB8GA.4iViNiCSK9xKO', 'all', 'password,refresh_token', '', 'all', NULL, NULL, NULL, 'false');
+INSERT INTO `oauth_client_details` VALUES ('dream-blog-admin', '', '$2a$10$uA51hWL5yusFBoEvZOAZbeaYYqUaFV7xjdDB8GA.4iViNiCSK9xKO', 'all', 'password,refresh_token', '', 'all', NULL, NULL, NULL, 'false');
 COMMIT;
 
 -- ----------------------------

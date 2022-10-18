@@ -60,7 +60,7 @@ INSERT INTO `sys_menu` VALUES ('1251071340815896577', '18', '设置角色', '', 
 INSERT INTO `sys_menu` VALUES ('1251071383350333442', '18', '密码修改', '', 3, 'user:password', '', 6, NULL, '2020-04-17 16:53:56', '2020-07-10 16:27:52');
 INSERT INTO `sys_menu` VALUES ('1251071493878632450', '0', '广告管理', '/advert/index', 2, 'adver', 'el-icon-picture-outline-round', 3, NULL, '2020-04-17 16:54:22', '2020-04-24 22:20:46');
 INSERT INTO `sys_menu` VALUES ('1253512582655021057', '1251061228965478402', '审核', '', 3, 'article:audit', '', 2, NULL, '2020-04-24 10:34:23', '2020-07-10 16:25:27');
-INSERT INTO `sys_menu` VALUES ('1253513166296616961', '0', '字节空间官网', 'http://www.mengxuegu.com', 2, 'public', 'el-icon-link', 5, NULL, '2020-04-24 10:36:42', '2020-04-24 15:58:34');
+INSERT INTO `sys_menu` VALUES ('1253513166296616961', '0', '字节空间官网', 'https://www.bytes-space.com', 2, 'public', 'el-icon-link', 5, NULL, '2020-04-24 10:36:42', '2020-04-24 15:58:34');
 INSERT INTO `sys_menu` VALUES ('1253592898971275265', '23', '分配权限', '', 3, 'role:permission', '', 5, NULL, '2020-04-24 15:53:32', '2020-07-10 16:30:22');
 INSERT INTO `sys_menu` VALUES ('1281490789589049345', '1251071493878632450', '新增', '', 3, 'advert:add', '', 2, '新增广告按钮', '2020-07-10 15:29:47', '2020-07-10 16:24:01');
 INSERT INTO `sys_menu` VALUES ('1281503969723801601', '1251071493878632450', '删除', '', 3, 'advert:delete', '', 4, NULL, '2020-07-10 16:22:10', '2020-07-10 16:22:10');
@@ -196,7 +196,7 @@ BEGIN;
 INSERT INTO `sys_user` VALUES ('10', 'test', '$2a$10$uA51hWL5yusFBoEvZOAZbeaYYqUaFV7xjdDB8GA.4iViNiCSK9xKO', 1, 1, 1, 1, '测试', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '16888886666', 'test1@qq.com', '2023-08-08 11:11:11', '2020-05-22 15:05:57', '2020-04-10 09:41:51');
 INSERT INTO `sys_user` VALUES ('11', 'string', '$2a$10$uA51hWL5yusFBoEvZOAZbeaYYqUaFV7xjdDB8GA.4iViNiCSK9xKO', 0, 1, 0, 0, 'string', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', 'string', 'string', '2020-04-11 21:37:25', '2020-04-17 16:43:19', '2020-04-11 21:37:25');
 INSERT INTO `sys_user` VALUES ('1253583309139775489', 'root', '$2a$10$qci2y9rouzWgEP/injjeDeUAFbWIGP7wQILjqmDE61S1ZMwWqiGqi', 0, 1, 1, 1, 'root', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '15888888888', NULL, '2020-04-24 15:15:26', '2020-07-25 09:16:36', '2020-04-24 15:15:26');
-INSERT INTO `sys_user` VALUES ('9', 'admin', '$2a$10$2c6uqCzY3ObyCBU7WnY/AORFVU6ZAR.JfUnsogxX3ixgsszCJeiWW', 1, 1, 1, 1, '字节空间', 'https://mengxuegu.oss-cn-shenzhen.aliyuncs.com/article/20200522/8665d73ae2484bd28bc2ff4103538385.png', '18888888888', 'mengxuegu888@163.com', '2023-08-08 11:11:11', '2020-05-22 22:30:14', '2020-04-10 09:41:51');
+INSERT INTO `sys_user` VALUES ('9', 'admin', '$2a$10$2c6uqCzY3ObyCBU7WnY/AORFVU6ZAR.JfUnsogxX3ixgsszCJeiWW', 1, 1, 1, 1, '字节空间', 'https://phoenix-dream-blog.oss-cn-shanghai.aliyuncs.com/article/20221016/d6bdb7380502463b8588f0ccc3a72690.jpg', '18888888888', 'bytes-space888@163.com', '2023-08-08 11:11:11', '2020-05-22 22:30:14', '2020-04-10 09:41:51');
 COMMIT;
 
 -- ----------------------------

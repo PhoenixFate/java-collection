@@ -2,7 +2,8 @@ package com.phoenix.blog.question.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.phoenix.blog.entity.Replay;
-import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -11,7 +12,12 @@ import org.apache.ibatis.annotations.Mapper;
  *
  * @author phoenix
  */
-@Mapper
 public interface ReplayMapper extends BaseMapper<Replay> {
 
+    /**
+     * 通过问题id递归查询所有回答信息
+     *
+     * @return 所有回答信息
+     */
+    List<Replay> findByQuestionId(String questionId);
 }

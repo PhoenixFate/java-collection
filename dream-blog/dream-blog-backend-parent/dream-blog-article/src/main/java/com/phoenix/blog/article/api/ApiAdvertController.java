@@ -6,10 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author phoenix
@@ -30,7 +27,7 @@ public class ApiAdvertController {
      * @param position 广告位置
      * @return 广告列表
      */
-    @PostMapping("/list/{position}")
+    @GetMapping("/list/{position}")
     @ApiOperation("通过广告位置查询广告列表")
     @ApiImplicitParam(name = "position", value = "广告位置", required = true, dataType = "String")
     public Result listByPosition(@PathVariable("position") Integer position) {
