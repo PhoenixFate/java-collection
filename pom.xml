@@ -21,6 +21,7 @@
         <module>spring-security</module>
         <module>dream-blog</module>
         <module>encrypt-decrypt</module>
+        <module>netty</module>
     </modules>
 
     <properties>
