@@ -27,7 +27,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //放行所有请求
         //http.authorizeRequests().anyRequest().permitAll();
         http.csrf().disable()
-                .authorizeRequests().anyRequest().authenticated()
+                .authorizeRequests()
+                .anyRequest().authenticated() //其他所有请求都需要认证 （所有请求交给ResourceServerConfig）
                 .and()
                 //禁用session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

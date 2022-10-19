@@ -13,6 +13,9 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
  * 当前类用于管理所有的资源：认证资源、商品服务
+ * <p>
+ * 在Spring Security的FilterChain中，OAuth2AuthenticationProcessingFilter在FilterSecurityInterceptor的前面，
+ * 所以会先验证client有没有此resource的权限，只有在有此resource的权限的情况下，才会再去做进一步的进行其他验证的判断
  *
  * @Author phoenix
  * @Date 2022/10/8 16:32
@@ -59,7 +62,8 @@ public class ResourceServerConfig {
                     //前后端分离，禁用session
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     //认证服务的请求全部放行
-                    .and().authorizeRequests().antMatchers("/auth/**").permitAll();
+                    .and().authorizeRequests().antMatchers("/auth/**").permitAll()
+            ;
         }
     }
 
