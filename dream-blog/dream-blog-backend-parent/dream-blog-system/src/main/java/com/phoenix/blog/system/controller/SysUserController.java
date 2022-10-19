@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -23,16 +24,18 @@ import java.util.List;
  *
  * @author phoenix
  */
-@Api(value = "用户管理接口")
+@Api(tags = "用户管理接口")
 @RestController
 @RequestMapping("/user")
+@AllArgsConstructor
 public class SysUserController {
 
-    @Autowired
-    private ISysUserService sysUserService;
+    private final ISysUserService sysUserService;
+
+    private final PasswordEncoder passwordEncoder;
 
     @ApiOperation("根据用户名和手机号查询用户列表接口")
-    @PostMapping("/search")
+    @PostMapping("/list")
     public Result search(@RequestBody SysUserRequest req) {
         return sysUserService.queryPage(req);
     }
@@ -63,8 +66,6 @@ public class SysUserController {
         return sysUserService.deleteById(id);
     }
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @ApiOperation("新增用户信息接口")
     @PostMapping // post 方式  /system/user

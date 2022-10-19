@@ -46,12 +46,40 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public Result deleteById(String id) {
         // 1. 删除当前id的菜单
-        baseMapper.deleteById(id);
-        // 2. 再删除子菜单
-        LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SysMenu::getParentId, id);
-        baseMapper.delete(wrapper);
+        // baseMapper.deleteById(id);
+        // // 2. 再删除子菜单
+        // LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+        // wrapper.eq(SysMenu::getParentId, id);
+        // baseMapper.delete(wrapper);
+
+        if (id == null) {
+            return Result.error("id不能为空");
+        }
+        //要删除的所有评论id（通过递归获得）
+        List<String> idListToDelete = new ArrayList<>();
+        idListToDelete.add(id);
+        //递归所有的评论id，并将id装到要删除的集合中
+        this.getAllIdListByParentId(idListToDelete, id);
+        //批量删除集合中的评论id
+        baseMapper.deleteBatchIds(idListToDelete);
+
         return Result.ok();
+    }
+
+    private void getAllIdListByParentId(List<String> idListToDelete, String parentId) {
+        //查询子评论信息
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("parent_id", parentId);
+        List<SysMenu> sysMenuList = baseMapper.selectList(queryWrapper);
+        //如果子评论不为空，则取出每条评论的评论id
+        if (CollectionUtils.isNotEmpty(sysMenuList)) {
+            for (SysMenu sysMenu : sysMenuList) {
+                //将当前查询到的评论id放到要删除的id集合中
+                idListToDelete.add(sysMenu.getId());
+                //递归继续查询子评论id
+                this.getAllIdListByParentId(idListToDelete, sysMenu.getId());
+            }
+        }
     }
 
     /**

@@ -34,7 +34,7 @@ public class SysMenuController {
      * @return 菜单列表
      */
     @ApiOperation("根据菜单名称查询列表接口")
-    @PostMapping("/search") // localhost:8003/system/menu/search
+    @PostMapping("/list") // localhost:8003/system/menu/search
     @ApiImplicitParam(name = "sysMenuRequest", value = "带搜索条件的菜单查询对象", dataType = "SysMenuRequest", required = true)
     public Result search(@RequestBody SysMenuRequest sysMenuRequest) {
         return sysMenuService.queryList(sysMenuRequest);

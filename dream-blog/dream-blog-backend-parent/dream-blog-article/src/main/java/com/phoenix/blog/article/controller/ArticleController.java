@@ -35,7 +35,7 @@ public class ArticleController {
      * @param articleRequest 文章条件查询
      * @return 文章分页列表
      */
-    @PostMapping("/page")
+    @PostMapping("/list")
     @ApiOperation("带条件查询的文章分页列表")
     @ApiImplicitParam(name = "articleRequest", value = "带分页的文章查询对象", dataType = "ArticleRequest", required = true)
     public Result page(@RequestBody ArticleRequest articleRequest) {

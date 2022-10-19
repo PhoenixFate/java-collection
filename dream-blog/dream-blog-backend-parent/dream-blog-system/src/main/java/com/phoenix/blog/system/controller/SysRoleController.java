@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author phoenix
  */
-@Api(value = "角色管理接口")
+@Api(tags = "角色管理接口")
 @RestController
 @RequestMapping("/role")
 @AllArgsConstructor
@@ -36,7 +36,7 @@ public class SysRoleController {
      * @return 角色列表
      */
     @ApiOperation("根据角色名称查询角色列表接口")
-    @PostMapping("/search")
+    @PostMapping("/list")
     @ApiImplicitParam(name = "sysRoleRequest", value = "带搜索条件的角色查询对象", dataType = "SysRoleRequest", required = true)
     public Result search(@RequestBody SysRoleRequest sysRoleRequest) {
         return sysRoleService.queryPage(sysRoleRequest);

@@ -34,7 +34,7 @@ public class LabelController {
      * @param labelRequest 带分页的标签查询对象
      * @return 分页对象
      */
-    @PostMapping("/page")
+    @PostMapping("/list")
     @ApiOperation("根据分类id与标签名称查询列表接口")
     @ApiImplicitParam(name = "labelRequest", value = "带分页的标签查询对象", dataType = "LabelRequest", required = true)
     public Result page(@RequestBody LabelRequest labelRequest) {

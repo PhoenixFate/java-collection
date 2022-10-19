@@ -33,7 +33,7 @@ public class AdvertController {
      * @param advertRequest 带分页的广告查询对象
      * @return 广告列表
      */
-    @PostMapping("/page")
+    @PostMapping("/list")
     @ApiOperation("带条件查询的广告分页列表")
     @ApiImplicitParam(name = "advertRequest", value = "带分页的广告查询对象", dataType = "AdvertRequest", required = true)
     public Result page(@RequestBody AdvertRequest advertRequest) {
