@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,9 +24,10 @@ import java.util.List;
  * @since 2022-10-12
  */
 @Data
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@TableName("mxg_question")
-@ApiModel(value="Question对象", description="问题信息表")
+@TableName("blog_question")
+@ApiModel(value="Question", description="问题信息表")
 public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,9 +67,11 @@ public class Question implements Serializable {
     private Integer status;
 
     @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     @ApiModelProperty(value = "更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
 
     @ApiModelProperty(value = "所属标签的id集合")

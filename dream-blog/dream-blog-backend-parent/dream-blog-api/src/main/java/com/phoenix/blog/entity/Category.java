@@ -8,14 +8,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
+@Accessors(chain = true)
 @ApiModel(value = "Category", description = "文章分类信息")
-@TableName("blog_category") // Category实体类对应表mxg_category
+@TableName("blog_category")
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
