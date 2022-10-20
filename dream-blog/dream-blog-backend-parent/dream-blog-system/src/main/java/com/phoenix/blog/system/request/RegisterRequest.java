@@ -17,5 +17,5 @@ public class RegisterRequest implements Serializable {
     private String password;
 
     @ApiModelProperty(value = "确认密码", required = true)
-    private String repPassword;
+    private String repeatPassword;
 }

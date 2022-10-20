@@ -7,7 +7,7 @@ import com.phoenix.blog.common.base.Result;
 import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.Label;
 import com.phoenix.blog.entity.Question;
-import com.phoenix.blog.feign.FeignLabelService;
+import com.phoenix.blog.feign.FeignArticleService;
 import com.phoenix.blog.question.mapper.QuestionMapper;
 import com.phoenix.blog.question.req.QuestionUserRequest;
 import com.phoenix.blog.question.service.IQuestionService;
@@ -31,7 +31,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> implements IQuestionService {
 
-    private final FeignLabelService feignLabelService;
+    private final FeignArticleService feignArticleService;
 
     @Override
     public Result findHotList(BaseRequest<Question> req) {
@@ -81,7 +81,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
             return Result.error("没有问题详情信息");
         }
         if (CollectionUtils.isNotEmpty(question.getLabelIds())) {
-            List<Label> labelList = feignLabelService.getLabelListByIds(question.getLabelIds());
+            List<Label> labelList = feignArticleService.getLabelListByIds(question.getLabelIds());
             question.setLabelList(labelList);
         }
         return Result.ok(question);

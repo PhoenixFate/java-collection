@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -93,12 +92,14 @@ public class SysUserController {
 
     @ApiOperation("更新用户密码接口")
     @PutMapping("/password")
-    public Result updatePassword(@RequestBody SysUserUpdatePasswordRequest req) {
-        return sysUserService.updatePassword(req);
+    @ApiImplicitParam(name = "sysUser", value = "用户更新密码请求参数", dataType = "SysUserUpdatePasswordRequest", required = true)
+    public Result updatePassword(@RequestBody SysUserUpdatePasswordRequest sysUserUpdatePasswordRequest) {
+        return sysUserService.updatePassword(sysUserUpdatePasswordRequest);
     }
 
     @ApiOperation("更新用户信息接口")
     @PutMapping
+    @ApiImplicitParam(name = "sysUser", value = "用户信息", dataType = "SysUser", required = true)
     public Result update(@RequestBody SysUser sysUser) {
         return sysUserService.update(sysUser);
     }

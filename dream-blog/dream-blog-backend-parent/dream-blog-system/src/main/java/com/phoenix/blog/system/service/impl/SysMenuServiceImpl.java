@@ -143,18 +143,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         // 2. 获取集合中的目录和菜单放到一个集合中,按钮放到一个集合中
         // 存放目录和菜单集合的
-        List<SysMenu> dirMenuList = new ArrayList<>();
+        List<SysMenu> directoryMenuList = new ArrayList<>();
         // 存放按钮集合的,只要权限标识code值
         List<String> buttonList = new ArrayList<>();
         for (SysMenu menu : menuList) {
             if (menu.getType().equals(1) || menu.getType().equals(2)) {
-                dirMenuList.add(menu); // 目录和菜单
+                directoryMenuList.add(menu); // 目录和菜单
             } else {
                 buttonList.add(menu.getCode()); // 按钮
             }
         }
         // 3. 封装树状菜单
-        List<SysMenu> menuTreeList = this.buildTree(dirMenuList);
+        List<SysMenu> menuTreeList = this.buildTree(directoryMenuList);
         // 4. 响应数据
         Map<String, Object> data = new HashMap<>();
         data.put("menuTreeList", menuTreeList);

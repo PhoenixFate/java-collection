@@ -174,7 +174,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public Result getUserTotal() {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
-        // 帐户是否可用(1 可用，0 删除用户)
+        // 账号是否可用(1 可用，0 删除用户)
         wrapper.eq("is_enabled", 1);
         Integer total = baseMapper.selectCount(wrapper);
         return Result.ok(total);
@@ -199,11 +199,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return Result.error("密码不能为空");
         }
 
-        if (StringUtils.isEmpty(req.getRepPassword())) {
+        if (StringUtils.isEmpty(req.getRepeatPassword())) {
             return Result.error("确认密码不能为空");
         }
 
-        if (!StringUtils.equals(req.getPassword(), req.getRepPassword())) {
+        if (!StringUtils.equals(req.getPassword(), req.getRepeatPassword())) {
             return Result.error("两次输入的密码不一致");
         }
 

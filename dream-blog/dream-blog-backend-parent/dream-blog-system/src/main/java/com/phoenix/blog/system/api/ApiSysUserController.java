@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Api(value = "用户管理接口", description = "用户管理接口，不需要身份认证就可以调用下面接口")
+@Api(tags = "用户管理接口", description = "用户管理接口，不需要身份认证就可以调用下面接口")
 @RestController
 @RequestMapping("/api/user")
 @AllArgsConstructor
@@ -26,8 +26,9 @@ public class ApiSysUserController {
 
     @ApiOperation("注册用户接口")
     @PostMapping("/register") // /api/user/register
-    public Result register(@RequestBody RegisterRequest req) {
-        return sysUserService.register(req);
+    @ApiImplicitParam(name = "registerRequest", value = "用户注册信息", dataType = "RegisterRequest", required = true)
+    public Result register(@RequestBody RegisterRequest registerRequest) {
+        return sysUserService.register(registerRequest);
     }
 
 }
