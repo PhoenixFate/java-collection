@@ -1,6 +1,7 @@
 package com.phoenix.blog.question.controller;
 
 import com.phoenix.blog.common.base.Result;
+import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.Question;
 import com.phoenix.blog.question.req.QuestionUserRequest;
 import com.phoenix.blog.question.service.IQuestionService;
@@ -66,6 +67,13 @@ public class QuestionController {
     @GetMapping("/total")  // /question/question/total
     public Result questionTotal() {
         return questionService.getQuestionTotal();
+    }
+
+    @ApiOperation("Feign接口-更新问题表和回答表中的用户信息")
+    @PutMapping("/user")
+    @ApiImplicitParam(name = "userInfoRequest", value = "用户信息对象", dataType = "UserInfoRequest", required = true)
+    public boolean updateUserInfo(@RequestBody UserInfoRequest userInfoRequest) {
+        return questionService.updateUserInfo(userInfoRequest);
     }
 
 }

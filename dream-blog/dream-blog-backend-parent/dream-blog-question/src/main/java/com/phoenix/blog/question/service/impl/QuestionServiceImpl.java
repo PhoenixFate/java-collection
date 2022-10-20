@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.phoenix.blog.common.base.BaseRequest;
 import com.phoenix.blog.common.base.Result;
+import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.Label;
 import com.phoenix.blog.entity.Question;
 import com.phoenix.blog.feign.FeignLabelService;
@@ -183,6 +184,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         wrapper.in("status", Arrays.asList(1, 2));
         Integer total = baseMapper.selectCount(wrapper);
         return Result.ok(total);
+    }
+
+    @Override
+    public boolean updateUserInfo(UserInfoRequest userInfoRequest) {
+        return baseMapper.updateUserInfo(userInfoRequest);
     }
 
 }

@@ -3,7 +3,10 @@ package com.phoenix.blog.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.phoenix.blog.common.base.Result;
+import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.SysUser;
+import com.phoenix.blog.feign.FeignArticleService;
+import com.phoenix.blog.feign.FeignQuestionService;
 import com.phoenix.blog.system.mapper.SysUserMapper;
 import com.phoenix.blog.system.request.RegisterRequest;
 import com.phoenix.blog.system.request.SysUserCheckPasswordRequest;
@@ -32,6 +35,10 @@ import java.util.List;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     private final PasswordEncoder passwordEncoder;
+
+    private final FeignArticleService feignArticleService;
+
+    private final FeignQuestionService feignQuestionService;
 
     @Override
     public Result queryPage(SysUserRequest req) {
@@ -141,12 +148,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return Result.ok();
     }
 
-    //@Autowired
-    //private IFeignArticleController feignArticleController;
-    //
-    //@Autowired
-    //private IFeignQuestionController feignQuestionController;
-
     @Transactional
     @Override
     public Result update(SysUser sysUser) {
@@ -158,13 +159,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         ) {
             //   2.1 只要其中一个被改变，则调用文章和问答微服务更新用户信息
             // 更新文章微服务中的用户信息
-            //UserInfoREQ userInfoREQ =
-            //        new UserInfoREQ(sysUser.getId(), sysUser.getNickName(), sysUser.getImageUrl());
-            //feignArticleController.updateUserInfo(userInfoREQ);
-            //// 更新问答微服务用户信息
-            //feignQuestionController.updateUserInfo(userInfoREQ);
+            UserInfoRequest userInfoRequest = new UserInfoRequest(sysUser.getId(), sysUser.getNickName(), sysUser.getImageUrl());
+            feignArticleService.updateUserInfo(userInfoRequest);
+            // 更新问答微服务用户信息
+            feignQuestionService.updateUserInfo(userInfoRequest);
         }
-
         // 3. 更新用户信息表数据 sys_user
         sysUser.setUpdateDate(new Date());
         baseMapper.updateById(sysUser);
@@ -187,7 +186,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         wrapper.eq("username", username);
         SysUser sysUser = baseMapper.selectOne(wrapper);
         // 查询到则存在，存在 data=true 已被注册，不存在 data=false 未被注册
-        return Result.ok(sysUser == null ? false : true);
+        return Result.ok(sysUser != null);
     }
 
     @Override

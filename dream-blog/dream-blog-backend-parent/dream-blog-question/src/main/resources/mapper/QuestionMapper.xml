@@ -54,4 +54,15 @@
             ('${@com.baomidou.mybatisplus.core.toolkit.IdWorker@getId()}', #{questionId}, #{item})
         </foreach>
     </insert>
+
+    <update id="updateUserInfo">
+        UPDATE blog_question
+        SET nick_name  = #{nickName},
+            user_image = #{userImage}
+        WHERE user_id = #{userId}; -- 不要少了英文分号
+        UPDATE blog_replay
+        SET nick_name  = #{nickName},
+            user_image = #{userImage}
+        WHERE user_id = #{userId}; -- 不要少了英文分号
+    </update>
 </mapper>

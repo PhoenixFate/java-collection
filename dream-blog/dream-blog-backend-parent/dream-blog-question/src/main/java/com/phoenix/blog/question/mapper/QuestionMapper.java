@@ -2,6 +2,7 @@ package com.phoenix.blog.question.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.Question;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -51,4 +52,6 @@ public interface QuestionMapper extends BaseMapper<Question> {
      */
     void saveQuestionLabel(@Param("questionId") String questionId,
                            @Param("labelIds") List<String> labelIds);
+
+    boolean updateUserInfo(UserInfoRequest userInfoRequest);
 }

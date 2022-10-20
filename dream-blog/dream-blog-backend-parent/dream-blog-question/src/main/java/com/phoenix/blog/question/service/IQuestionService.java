@@ -3,6 +3,7 @@ package com.phoenix.blog.question.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.phoenix.blog.common.base.BaseRequest;
 import com.phoenix.blog.common.base.Result;
+import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.Question;
 import com.phoenix.blog.question.req.QuestionUserRequest;
 
@@ -103,4 +104,6 @@ public interface IQuestionService extends IService<Question> {
      * @return 统计提问总记录
      */
     Result getQuestionTotal();
+
+    boolean updateUserInfo(UserInfoRequest userInfoRequest);
 }

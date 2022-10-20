@@ -5,6 +5,7 @@ import com.phoenix.blog.article.request.ArticleUserRequest;
 import com.phoenix.blog.article.service.IArticleService;
 import com.phoenix.blog.common.base.Result;
 import com.phoenix.blog.common.constant.ArticleStatusEnum;
+import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.Article;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -179,5 +180,11 @@ public class ArticleController {
         return articleService.selectMonthArticleTotal();
     }
 
+    @ApiOperation("Feign接口-更新文章表和评论表中的用户信息")
+    @PutMapping("/user")
+    @ApiImplicitParam(name = "userInfoRequest", value = "用户信息对象", dataType = "UserInfoRequest", required = true)
+    public boolean updateUserInfo(@RequestBody UserInfoRequest userInfoRequest) {
+        return articleService.updateUserInfo(userInfoRequest);
+    }
 
 }

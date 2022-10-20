@@ -91,7 +91,7 @@
 
     <select id="selectMonthArticleTotal" resultType="map">
         SELECT t1.`year_month` as yearMonth,
-               count(t2.id) AS total
+               count(t2.id)    AS total
         FROM (-- 先查询近6个月的月份
                  SELECT DATE_FORMAT(CURDATE(), '%Y-%m') AS `year_month`
                  UNION
@@ -111,4 +111,15 @@
         GROUP BY t1.`year_month`;
     </select>
 
+    <!--更新文章和评论表中的用户信息-->
+    <update id="updateUserInfo">
+        UPDATE blog_article
+        SET nick_name  = #{nickName},
+            user_image = #{userImage}
+        WHERE user_id = #{userId}; -- 注意，最后加上英文分号
+        UPDATE blog_comment
+        SET nick_name  = #{nickName},
+            user_image = #{userImage}
+        WHERE user_id = #{userId};
+    </update>
 </mapper>

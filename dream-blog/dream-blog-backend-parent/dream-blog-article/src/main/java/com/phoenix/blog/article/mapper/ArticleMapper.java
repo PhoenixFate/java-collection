@@ -3,6 +3,7 @@ package com.phoenix.blog.article.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.phoenix.blog.article.request.ArticleListRequest;
+import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.Article;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -64,4 +65,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return 统计数据
      */
     List<Map<String, Object>> selectMonthArticleTotal();
+
+    boolean updateUserInfo(UserInfoRequest userInfoRequest);
 }

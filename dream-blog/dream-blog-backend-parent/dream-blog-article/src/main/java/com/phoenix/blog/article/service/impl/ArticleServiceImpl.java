@@ -9,6 +9,7 @@ import com.phoenix.blog.article.request.ArticleRequest;
 import com.phoenix.blog.article.request.ArticleUserRequest;
 import com.phoenix.blog.common.base.Result;
 import com.phoenix.blog.common.constant.ArticleStatusEnum;
+import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.Article;
 import com.phoenix.blog.article.mapper.ArticleMapper;
 import com.phoenix.blog.article.service.IArticleService;
@@ -192,5 +193,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         data.put("yearMonthList", yearMonthList);
         data.put("articleTotalList", articleTotalList);
         return Result.ok(data);
+    }
+
+    @Override
+    public boolean updateUserInfo(UserInfoRequest userInfoRequest) {
+        return baseMapper.updateUserInfo(userInfoRequest);
     }
 }

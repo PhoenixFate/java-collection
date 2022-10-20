@@ -5,6 +5,7 @@ import com.phoenix.blog.article.request.ArticleRequest;
 import com.phoenix.blog.article.request.ArticleUserRequest;
 import com.phoenix.blog.common.base.Result;
 import com.phoenix.blog.common.constant.ArticleStatusEnum;
+import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -103,4 +104,6 @@ public interface IArticleService extends IService<Article> {
      * @return 统计数据
      */
     Result selectMonthArticleTotal();
+
+    boolean updateUserInfo(UserInfoRequest userInfoRequest);
 }
