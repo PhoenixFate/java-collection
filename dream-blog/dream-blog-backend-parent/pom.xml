@@ -19,6 +19,7 @@
         <module>dream-blog-question</module>
         <module>dream-blog-minio</module>
         <module>dream-blog-system</module>
+        <module>dream-blog-oauth2</module>
     </modules>
 
     <!--依赖版本管理-->
