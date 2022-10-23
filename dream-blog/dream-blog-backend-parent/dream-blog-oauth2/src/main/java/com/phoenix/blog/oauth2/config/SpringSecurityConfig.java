@@ -1,7 +1,9 @@
 package com.phoenix.blog.oauth2.config;
 
+import com.phoenix.blog.oauth2.handler.CustomAuthenticationSuccessHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +24,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //读取用户信息认证
@@ -39,6 +43,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //关闭csrf攻击
         http.formLogin()
+                .successHandler(customAuthenticationSuccessHandler) //自定义认证成功处理器
                 .and()
                 .csrf().disable();
 
