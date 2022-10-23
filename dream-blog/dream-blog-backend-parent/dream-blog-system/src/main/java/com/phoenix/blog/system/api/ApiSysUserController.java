@@ -1,6 +1,7 @@
 package com.phoenix.blog.system.api;
 
 import com.phoenix.blog.common.base.Result;
+import com.phoenix.blog.entity.SysUser;
 import com.phoenix.blog.system.request.RegisterRequest;
 import com.phoenix.blog.system.service.ISysUserService;
 import io.swagger.annotations.Api;
@@ -29,6 +30,13 @@ public class ApiSysUserController {
     @ApiImplicitParam(name = "registerRequest", value = "用户注册信息", dataType = "RegisterRequest", required = true)
     public Result register(@RequestBody RegisterRequest registerRequest) {
         return sysUserService.register(registerRequest);
+    }
+
+    @ApiOperation("通过用户名查询用户信息")
+    @GetMapping("/{username}")
+    @ApiImplicitParam(name = "username", value = "用户名", dataType = "String", required = true)
+    public SysUser findUserByUsername(@PathVariable("username") String username) {
+        return sysUserService.findByUsername(username);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.phoenix.blog.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.phoenix.blog.common.base.Result;
@@ -160,5 +159,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         data.put("menuTreeList", menuTreeList);
         data.put("buttonList", buttonList);
         return Result.ok(data);
+    }
+
+    @Override
+    public List<SysMenu> findByUserId(String userId) {
+        //通过用户id查询所有权限列表
+        return baseMapper.findByUserId(userId);
     }
 }

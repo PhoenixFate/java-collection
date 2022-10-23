@@ -224,5 +224,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return Result.ok();
     }
 
+    @Override
+    public SysUser findByUsername(String username) {
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
 
 }

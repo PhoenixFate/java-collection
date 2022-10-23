@@ -5,6 +5,8 @@ import com.phoenix.blog.common.base.Result;
 import com.phoenix.blog.entity.SysMenu;
 import com.phoenix.blog.system.request.SysMenuRequest;
 
+import java.util.List;
+
 /**
  * <p>
  * 菜单信息表 服务类
@@ -37,4 +39,12 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @return 某用户的所有权限菜单数
      */
     Result findUserMenuTree(String userId);
+
+    /**
+     * 通过用户id查询所拥有的权限信息
+     *
+     * @param userId 用户id
+     * @return 权限列表
+     */
+    List<SysMenu> findByUserId(String userId);
 }

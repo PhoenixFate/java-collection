@@ -145,7 +145,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        //配置/oauth/token_key所有人可以访问 后面要获取公钥
+        //配置/oauth/token_key所有人可以访问 用于获取公钥
         security.tokenKeyAccess("permitAll()");//默认是拒绝访问tokenKeyAccess = "denyAll()";
         //配置/oauth/check_token认证后可以访问，用于检查token是否有效
         security.checkTokenAccess("isAuthenticated()");//默认拒绝访问checkTokenAccess = "denyAll()"

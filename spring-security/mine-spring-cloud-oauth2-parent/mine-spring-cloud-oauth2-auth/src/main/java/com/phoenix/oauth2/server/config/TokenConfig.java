@@ -67,7 +67,7 @@ public class TokenConfig {
     }
 
     /**
-     * 管理令牌
+     * 告诉spring使用jwt来管理令牌
      *
      * @return RedisTokenStore
      */

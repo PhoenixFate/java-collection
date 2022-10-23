@@ -94,9 +94,17 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 注册用户
      *
-     * @param req
-     * @return
+     * @param registerRequest 用于注册的用户信息
+     * @return 是否注册成功
      */
-    Result register(RegisterRequest req);
+    Result register(RegisterRequest registerRequest);
+
+    /**
+     * 通过用户名查询用户信息
+     *
+     * @param username 用户名
+     * @return 用户信息
+     */
+    SysUser findByUsername(String username);
 
 }
