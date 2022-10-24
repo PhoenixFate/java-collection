@@ -2,9 +2,9 @@ package com.phoenix.blog.oauth2.config;
 
 import com.phoenix.blog.oauth2.handler.CustomAuthenticationFailureHandler;
 import com.phoenix.blog.oauth2.handler.CustomAuthenticationSuccessHandler;
+import com.phoenix.blog.oauth2.handler.CustomLogoutSuccessHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,6 +29,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
+    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //读取用户信息认证
@@ -48,6 +50,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .successHandler(customAuthenticationSuccessHandler) //自定义认证成功处理器
                 .failureHandler(customAuthenticationFailureHandler) //自定义认证失败处理器
+                .and()
+                .logout().logoutSuccessHandler(customLogoutSuccessHandler) //自定义退出登录成功处理器
                 .and()
                 .csrf().disable();
 

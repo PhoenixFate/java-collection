@@ -41,11 +41,11 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
-        <!-- Spring Security、OAuth2 和JWT等
+        <!--Spring Security、OAuth2 和JWT等-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
-        </dependency>-->
+        </dependency>
         <!--热部署 ctrl+f9-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -56,7 +56,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- 数据库加密配置-->
+        <!--数据库加密配置-->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
