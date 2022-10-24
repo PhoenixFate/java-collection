@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * 自定义认证成功处理器
+ * 自定义认证成功处理器：认证成功后响应json数据给前端
  *
  * @Author phoenix
  * @Date 10/24/22 00:56
