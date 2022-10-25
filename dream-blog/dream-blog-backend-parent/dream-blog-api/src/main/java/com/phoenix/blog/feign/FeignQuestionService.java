@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface FeignQuestionService {
 
     @ApiOperation("Feign接口-更新问题表和回答表中的用户信息")
-    @PutMapping("/user")
+    @PutMapping("/question/user")
     @ApiImplicitParam(name = "userInfoRequest", value = "用户信息对象", dataType = "UserInfoRequest", required = true)
     boolean updateUserInfo(@RequestBody UserInfoRequest userInfoRequest);
 

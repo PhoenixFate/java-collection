@@ -24,9 +24,12 @@ export default {
       target: 'http://localhost:8002',
       pathRewrite: {'^/api': ''}
     },
-    '/api': {
-      // /api/test > http://mengxuegu.com:7300/mock/5ee6e6a9e56c02034c4c2e89/blog-web/test
-      target: 'http://mengxuegu.com:7300/mock/5ee6e6a9e56c02034c4c2e89/blog-web',
+    '/api/system': {
+      target: 'http://localhost:8003',
+      pathRewrite: {'^/api': ''}
+    },
+    '/api/file': {
+      target: 'http://localhost:8006',
       pathRewrite: {'^/api': ''}
     }
   },

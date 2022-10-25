@@ -109,12 +109,4 @@ public class SysMenuController {
         return sysMenuService.findUserMenuTree(userId);
     }
 
-    @ApiImplicitParam(name = "userId", value = "用户id", required = true, type = "String")
-    @ApiOperation("通过用户id查询权限列表")
-    @GetMapping("/list/user/{userId}")
-    public List<SysMenu> findMenuListByUserId(@PathVariable("userId") String userId) {
-        return sysMenuService.findByUserId(userId);
-    }
-
-
 }

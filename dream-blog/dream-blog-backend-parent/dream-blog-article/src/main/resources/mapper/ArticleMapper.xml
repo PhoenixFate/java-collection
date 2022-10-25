@@ -112,14 +112,20 @@
     </select>
 
     <!--更新文章和评论表中的用户信息-->
+    <!--多个sql语句之间要加;-->
+    <!--注意，最后加上英文分号-->
     <update id="updateUserInfo">
         UPDATE blog_article
-        SET nick_name  = #{nickName},
-            user_image = #{userImage}
-        WHERE user_id = #{userId}; -- 注意，最后加上英文分号
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nickName != null  and nickName != ''">nick_name = #{nickName},</if>
+            <if test="userImage != null  and userImage != ''">user_image = #{userImage},</if>
+        </trim>
+        WHERE user_id = #{userId};
         UPDATE blog_comment
-        SET nick_name  = #{nickName},
-            user_image = #{userImage}
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nickName != null  and nickName != ''">nick_name = #{nickName},</if>
+            <if test="userImage != null  and userImage != ''">user_image = #{userImage},</if>
+        </trim>
         WHERE user_id = #{userId};
     </update>
 </mapper>

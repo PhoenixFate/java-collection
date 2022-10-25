@@ -16,6 +16,6 @@ public interface FeignSystemService {
     @GetMapping("/api/user/{username}")
     SysUser findUserByUsername(@PathVariable("username") String username);
 
-    @GetMapping("/menu/list/user/{userId}")
+    @GetMapping("/api/user/menu/list/{userId}")
     List<SysMenu> findMenuListByUserId(@PathVariable("userId") String userId);
 }

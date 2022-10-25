@@ -14,7 +14,7 @@
 #  datasource:
 #    username: root
 #    password: ENC(PfDPA+y3YVDqtcZ0XvkPjL6AYJse5+da)
-#    url: jdbc:mysql://www.bytes-space.com:10307/dream_blog_article?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+#    url: jdbc:mysql://www.bytes-space.com:10307/dream_blog_article?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
 #    # mysql8版本以上驱动包指定新的驱动类
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    type: com.alibaba.druid.pool.DruidDataSource

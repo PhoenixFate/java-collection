@@ -71,15 +71,15 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 更新用户信息
      *
-     * @param sysUser
-     * @return
+     * @param sysUser 用户信息
+     * @return 是否更新成功
      */
     Result update(SysUser sysUser);
 
     /**
      * 查询总用户数
      *
-     * @return
+     * @return 总用户数
      */
     Result getUserTotal();
 

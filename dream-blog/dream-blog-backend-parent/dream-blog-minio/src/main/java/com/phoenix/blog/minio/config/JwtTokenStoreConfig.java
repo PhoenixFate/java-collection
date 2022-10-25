@@ -1,4 +1,4 @@
-package com.phoenix.blog.article.config;
+package com.phoenix.blog.minio.config;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Bean;

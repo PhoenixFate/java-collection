@@ -1,4 +1,4 @@
-package com.phoenix.blog.article.config;
+package com.phoenix.blog.system.config;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Bean;
@@ -53,5 +53,4 @@ public class JwtTokenStoreConfig {
             return oAuth2Authentication;
         }
     }
-
 }

@@ -3,16 +3,23 @@ package com.phoenix.blog.article.controller;
 import com.phoenix.blog.article.request.ArticleRequest;
 import com.phoenix.blog.article.request.ArticleUserRequest;
 import com.phoenix.blog.article.service.IArticleService;
+import com.phoenix.blog.article.util.AuthUtil;
 import com.phoenix.blog.common.base.Result;
 import com.phoenix.blog.common.constant.ArticleStatusEnum;
 import com.phoenix.blog.common.request.UserInfoRequest;
 import com.phoenix.blog.entity.Article;
+import com.phoenix.blog.entity.SysUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -53,6 +60,17 @@ public class ArticleController {
     @ApiOperation("查询文章详情接口")
     @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String")
     public Result detail(@PathVariable("id") String id) {
+        //通过SpringSecurity提供的SecurityContextHolder的来获取当前的认证用户
+        //获取认证信息对象
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
+        //decodedDetails中有详细的用户信息
+        Map<String, Object> decodedDetails = (Map<String, Object>) details.getDecodedDetails();
+        //登录的时候，根据用户名查询的用户详情数据
+        Map<String, Object> userInfo = (Map<String, Object>) decodedDetails.get("userInfo");
+        //也可以通过封装util上获取userInfo信息
+        SysUser sysUser = AuthUtil.getUserInfo();
+
         return articleService.findArticleAndLabelListById(id);
     }
 

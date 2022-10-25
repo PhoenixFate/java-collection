@@ -21,7 +21,7 @@ public interface FeignArticleService {
     List<Label> getLabelListByIds(@PathVariable("ids") List<String> labelIds);
 
     @ApiOperation("Feign接口-更新文章表和评论表中的用户信息")
-    @PutMapping("/user")
+    @PutMapping("/article/user")
     @ApiImplicitParam(name = "userInfoRequest", value = "用户信息对象", dataType = "UserInfoRequest", required = true)
     boolean updateUserInfo(@RequestBody UserInfoRequest userInfoRequest);
 
