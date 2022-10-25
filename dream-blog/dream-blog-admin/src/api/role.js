@@ -5,7 +5,7 @@ export default {
     // 角色条件分页查询
     getList(query, current = 1, size = 20) {
         return request({
-            url: `/system/role/search`,
+            url: `/system/role/list`,
             method: 'post',
             data: {...query, current, size}
         })
@@ -54,12 +54,12 @@ export default {
     },
 
     // 保存角色所拥有的菜单ids
-    saveRoleMenu(id, menuIds){ 
+    saveRoleMenu(id, menuIds){
         return request({
             url: `/system/role/${id}/menu/save`,
             method: 'post',
             data: menuIds
         })
     }
-    
+
 }

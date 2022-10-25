@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -44,6 +45,8 @@ public class ArticleController {
      * @return 文章分页列表
      */
     @PostMapping("/list")
+    //在请求方法之前会校验用户是否有对应的权限，如果有则可以调用到此方法，如果没有则调用失败
+    @PreAuthorize("hasAuthority('article:search')")
     @ApiOperation("带条件查询的文章分页列表")
     @ApiImplicitParam(name = "articleRequest", value = "带分页的文章查询对象", dataType = "ArticleRequest", required = true)
     public Result page(@RequestBody ArticleRequest articleRequest) {
@@ -160,19 +163,6 @@ public class ArticleController {
     })
     public Result updateLikesNumber(@PathVariable("id") String id, @PathVariable("count") Integer count) {
         return articleService.updateLikesNumber(id, count);
-    }
-
-    /**
-     * 更新文章浏览次数
-     *
-     * @param id 文章id
-     * @return 是否更新成功
-     */
-    @ApiOperation("更新文章浏览次数")
-    @PutMapping("/view/count/{id}")
-    @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String")
-    public Result updateViewCount(@PathVariable("id") String id) {
-        return articleService.updateViewCount(id);
     }
 
     /**

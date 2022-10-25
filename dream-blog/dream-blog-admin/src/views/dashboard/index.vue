@@ -12,11 +12,12 @@
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
         <el-card>
-          <!-- 
+          <!--
             注意：echarts 在初始化实例的时候就要拿到数据，有数据就会展示出来
            -->
           <!-- 饼状图：各技术频道文章统计 -->
-          <bar-chart v-if="flag" :xAxisData="monthArticleTotal.yearMonthList" :seriesData="monthArticleTotal.aritcleTotalList" />
+          <bar-chart v-if="flag" :xAxisData="monthArticleTotal.yearMonthList"
+                     :seriesData="monthArticleTotal.aritcleTotalList"/>
         </el-card>
       </el-col>
     </el-row>
@@ -33,8 +34,8 @@ import api from '@/api/home'
 
 export default {
   name: 'DashBoard',
-  components: { PieChart, BarChart, PanelGroup },
-  
+  components: {PieChart, BarChart, PanelGroup},
+
   data() {
     return {
       userTotal: 0, // 总用户
@@ -51,7 +52,7 @@ export default {
     // 查询面板中相关的总记录数
     this.getTotal()
     // 统计各技术频道文章数和近6个月发布文章数
-    this.getAricleTotal()
+    this.getArticleTotal()
   },
 
   methods: {
@@ -63,19 +64,21 @@ export default {
       // 总文章
       const {data: articleTotal} = await api.getArticleTotal()
       this.articleTotal = articleTotal
-      
+
       // 总提问
       const {data: questionTotal} = await api.getQuestionTotal()
       this.questionTotal = questionTotal
     },
 
-    async getAricleTotal() {
+    async getArticleTotal() {
       // 统计各技术频道文章数
       const {data: categoryTotal} = await api.getCategoryTotal()
       this.categoryTotal = categoryTotal
 
       // 近6个月发布文章数
       const {data: monthArticleTotal} = await api.getMonthArticleTotal()
+      console.log("---------- monthArticleTotal -------------")
+      console.log(monthArticleTotal)
       this.monthArticleTotal = monthArticleTotal
 
       // 先查询到数据后，再加载图表组件，将数据渲染，
@@ -91,6 +94,7 @@ export default {
   &-container {
     margin: 30px;
   }
+
   &-text {
     font-size: 30px;
     line-height: 46px;

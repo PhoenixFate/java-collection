@@ -26,7 +26,7 @@ export function logout() {
 // 条件分页查询用户列表
 export function getList(query, current = 1, size = 20) {
   return request({
-    url: `/system/user/search`,
+    url: `/system/user/list`,
     method: 'post',
     data: {...query, current, size}
   })

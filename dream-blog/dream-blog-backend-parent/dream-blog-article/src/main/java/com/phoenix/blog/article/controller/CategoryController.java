@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -32,6 +33,7 @@ public class CategoryController {
      * @param categoryRequest 条件查询（带分页条件）
      * @return 分页信息
      */
+    @PreAuthorize("hasAuthority('category:search')")
     @ApiOperation("根据分类名称与状态查询分类列表接口")
     @ApiImplicitParam(name = "categoryRequest", value = "带分页的文章分类查询对象", dataType = "CategoryRequest", required = true)
     @PostMapping("/list")
@@ -83,7 +85,7 @@ public class CategoryController {
      * @return 文章分类列表
      */
     @ApiOperation("获取所有正常状态的文章分类接口")
-    @GetMapping("/list")
+    @GetMapping("/normal/list")
     public Result list() {
         return categoryService.finalAllNormal();
     }

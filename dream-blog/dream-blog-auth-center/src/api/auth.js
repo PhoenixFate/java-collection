@@ -7,7 +7,7 @@ const headers = {
 
 //  请求头添加 Authrization: Basic client_id: client_secret
 const auth = {
-    username: "blog-admin",
+    username: "dream-blog-admin",
     password: "123456",
 }
 

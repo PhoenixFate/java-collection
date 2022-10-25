@@ -17,6 +17,16 @@ const router = new  Roouter({
             ]
         },
         {
+            path:'/login',
+            component: () => import('@/components/LoginPage'),
+            children: [
+                {
+                    path: '',
+                    component: ()=> import('@/views/auth/login')
+                },
+            ]
+        },
+        {
             path:'/refresh',
             component: () => import('@/components/LoginPage'),
             children: [

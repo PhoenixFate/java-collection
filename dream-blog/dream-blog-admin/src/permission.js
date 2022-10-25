@@ -56,7 +56,7 @@ router.beforeEach(async(to, from, next) => {
         }
       } else {
         // 如果没有用户信息，则没有登录，没有登录则跳转认证客户端
-        window.location.href = `${process.env.VUE_APP_AUTH_CENTER_URL}/login?redirectURL=${window.location.href}`
+        window.location.href = `${process.env.VUE_APP_AUTH_CENTER_URL}?redirectURL=${window.location.href}`
       }
     }
   } else {
@@ -68,7 +68,7 @@ router.beforeEach(async(to, from, next) => {
     } else {
       // other pages that do not have permission to access are redirected to the login page.
       // next(`/login?redirect=${to.path}`)
-      window.location.href = `${process.env.VUE_APP_AUTH_CENTER_URL}/login?redirectURL=${window.location.href}`
+      window.location.href = `${process.env.VUE_APP_AUTH_CENTER_URL}?redirectURL=${window.location.href}`
       NProgress.done()
     }
   }

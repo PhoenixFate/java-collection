@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '梦学谷博客权限管理系统',
+  title: '博客权限管理系统',
 
   /**
    * @type {boolean} true | false

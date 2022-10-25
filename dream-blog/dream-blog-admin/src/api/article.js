@@ -5,7 +5,7 @@ export default {
     // 分页条件查询文章列表
     getList(query, current = 1, size = 20) {
         return request({
-            url: `/article/article/search`,
+            url: `/article/article/list`,
             method: 'post',
             data: {...query, current, size}
         })
@@ -30,7 +30,7 @@ export default {
     // 文章审核未通过
     auditFail(id) {
         return request({
-            url: `/article/article/audit/fail/${id}`,
+            url: `/article/article/audit/failure/${id}`,
             method: 'get'
         })
     },

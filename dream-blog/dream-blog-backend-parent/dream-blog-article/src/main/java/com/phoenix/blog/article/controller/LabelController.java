@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class LabelController {
      * @param labelRequest 带分页的标签查询对象
      * @return 分页对象
      */
+    @PreAuthorize("hasAuthority('label:search')")
     @PostMapping("/list")
     @ApiOperation("根据分类id与标签名称查询列表接口")
     @ApiImplicitParam(name = "labelRequest", value = "带分页的标签查询对象", dataType = "LabelRequest", required = true)

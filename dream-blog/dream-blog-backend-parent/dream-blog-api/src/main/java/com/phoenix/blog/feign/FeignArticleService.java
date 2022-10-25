@@ -17,7 +17,7 @@ import java.util.List;
 @FeignClient(value = DreamBlogServerNameConstant.DREAM_BLOG_ARTICLE, path = "/article")
 public interface FeignArticleService {
 
-    @GetMapping("/label/list/{ids}")
+    @GetMapping("/api/label/list/{ids}")
     List<Label> getLabelListByIds(@PathVariable("ids") List<String> labelIds);
 
     @ApiOperation("Feign接口-更新文章表和评论表中的用户信息")

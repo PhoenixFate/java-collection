@@ -39,12 +39,36 @@ module.exports = {
     before: require('./mock/mock-server.js'),
     // 解决跨域问题
     proxy: {
-      [process.env.VUE_APP_BASE_API]: { // /dev-api
-        target: 'http://localhost:6001',
-        // target: 'http://mengxuegu.com:7300/mock/5f114e0544ef223bad8c9827/blog-admin',
+      // /dev-api/article
+      [process.env.VUE_APP_BASE_API + '/article']: {
+        target: 'http://localhost:8001',
         changeOrigin: true, // 开启代理服务器,
         pathRewrite: {
-          [ '^' + process.env.VUE_APP_BASE_API]: '' // /dev-api/test
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      },
+      // /dev-api/question
+      [process.env.VUE_APP_BASE_API + '/question']: {
+        target: 'http://localhost:8002',
+        changeOrigin: true, // 开启代理服务器,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      },
+      // /dev-api/system
+      [process.env.VUE_APP_BASE_API + '/system']: {
+        target: 'http://localhost:8003',
+        changeOrigin: true, // 开启代理服务器,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      },
+      // /dev-api/file
+      [process.env.VUE_APP_BASE_API + '/file']: {
+        target: 'http://localhost:8006',
+        changeOrigin: true, // 开启代理服务器,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       }
     }
@@ -98,34 +122,34 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
           config
             .optimization.splitChunks({
-              chunks: 'all',
-              cacheGroups: {
-                libs: {
-                  name: 'chunk-libs',
-                  test: /[\\/]node_modules[\\/]/,
-                  priority: 10,
-                  chunks: 'initial' // only package third parties that are initially dependent
-                },
-                elementUI: {
-                  name: 'chunk-elementUI', // split elementUI into a single package
-                  priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-                  test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
-                },
-                commons: {
-                  name: 'chunk-commons',
-                  test: resolve('src/components'), // can customize your rules
-                  minChunks: 3, //  minimum common number
-                  priority: 5,
-                  reuseExistingChunk: true
-                }
+            chunks: 'all',
+            cacheGroups: {
+              libs: {
+                name: 'chunk-libs',
+                test: /[\\/]node_modules[\\/]/,
+                priority: 10,
+                chunks: 'initial' // only package third parties that are initially dependent
+              },
+              elementUI: {
+                name: 'chunk-elementUI', // split elementUI into a single package
+                priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+                test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
+              },
+              commons: {
+                name: 'chunk-commons',
+                test: resolve('src/components'), // can customize your rules
+                minChunks: 3, //  minimum common number
+                priority: 5,
+                reuseExistingChunk: true
               }
-            })
+            }
+          })
           // https:// webpack.js.org/configuration/optimization/#optimizationruntimechunk
           config.optimization.runtimeChunk('single')
         }

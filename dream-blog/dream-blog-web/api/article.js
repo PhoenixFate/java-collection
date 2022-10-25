@@ -14,9 +14,9 @@ export default({$axios}, inject) => {
     inject('getArticleById', id => $axios.$get(`/article/api/article/${id}`))
 
     // 更新文章浏览数
-    inject('updateArticleViewCount', id => $axios.$put(`/article/api/article/viewCount/${id}`))
+    inject('updateArticleViewCount', id => $axios.$put(`/article/api/article/view/count/${id}`))
 
-    // 更新文章浏览数
+    // 更新文章点赞数
     inject('updateArticleThumb', (articleId, count) => $axios.$put(`/article/article/thumb/${articleId}/${count}`))
 
     // 通过文章id查询评论列表

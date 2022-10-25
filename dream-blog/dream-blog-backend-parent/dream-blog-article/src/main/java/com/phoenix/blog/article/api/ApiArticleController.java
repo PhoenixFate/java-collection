@@ -47,4 +47,16 @@ public class ApiArticleController {
         return articleService.findListByLabelIdOrCategoryId(articleListRequest);
     }
 
+    /**
+     * 更新文章浏览次数
+     *
+     * @param id 文章id
+     * @return 是否更新成功
+     */
+    @ApiOperation("更新文章浏览次数")
+    @PutMapping("/view/count/{id}")
+    @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "String")
+    public Result updateViewCount(@PathVariable("id") String id) {
+        return articleService.updateViewCount(id);
+    }
 }

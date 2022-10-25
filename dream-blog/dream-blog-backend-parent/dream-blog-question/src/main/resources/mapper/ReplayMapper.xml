@@ -5,7 +5,7 @@
     <!--    通过问题id查询对应的所有一级回答信息-->
     <select id="findByQuestionId" resultMap="replayResultMap">
         SELECT *
-        FROM mxg_replay
+        FROM blog_replay
         WHERE parent_id = -1
           AND question_id = #{questionId}
         ORDER BY create_date DESC
@@ -13,7 +13,7 @@
     <!--是查询子评论-->
     <select id="findByParentId" resultMap="replayResultMap">
         SELECT *
-        FROM mxg_replay
+        FROM blog_replay
         WHERE parent_id = #{id}
     </select>
     <resultMap id="replayResultMap" type="Replay">

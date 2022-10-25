@@ -2,11 +2,11 @@ import request from '@/utils/request'
 
 
 export default {
-    
+
     // 查询菜单列表
     getList(query) {
         return request({
-            url: `/system/menu/search`,
+            url: `/system/menu/list`,
             method: 'post',
             data: query
         })
@@ -21,7 +21,7 @@ export default {
         })
     },
 
-    // 查询详情 
+    // 查询详情
     getById(id) {
         return request({
             url: `/system/menu/${id}`,
@@ -38,12 +38,12 @@ export default {
         })
     },
 
-    deleteById(id) { 
+    deleteById(id) {
         return request({
             url: `/system/menu/${id}`,
             method: 'delete'
         })
     }
-    
+
 
 }

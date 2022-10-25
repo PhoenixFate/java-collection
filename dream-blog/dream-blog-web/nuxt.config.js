@@ -45,7 +45,7 @@ export default {
       {hid: 'description', name: 'description', content: 'IT技术交流，java开发问答_前端问答'}
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/meng.ico'}
+      {rel: 'icon', type: 'image/x-icon', href: '/byteSpace.ico'}
     ]
   },
   /*

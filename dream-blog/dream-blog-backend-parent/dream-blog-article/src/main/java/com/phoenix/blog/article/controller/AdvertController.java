@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -34,6 +35,7 @@ public class AdvertController {
      * @return 广告列表
      */
     @PostMapping("/list")
+    @PreAuthorize("hasAuthority('advert:search')")
     @ApiOperation("带条件查询的广告分页列表")
     @ApiImplicitParam(name = "advertRequest", value = "带分页的广告查询对象", dataType = "AdvertRequest", required = true)
     public Result page(@RequestBody AdvertRequest advertRequest) {

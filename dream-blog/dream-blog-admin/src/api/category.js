@@ -2,10 +2,10 @@ import request from '@/utils/request'
 
 export default {
 
-    // 分页条件查询分类列表 
+    // 分页条件查询分类列表
     getList(query, current = 1, size = 20) {
         return request({ // Promise
-            url: `/article/category/search`,
+            url: `/article/category/list`,
             method: 'post',
             data: { // {name: '前端', status: 1, current: current, size: size}
                 ...query,
@@ -51,7 +51,7 @@ export default {
     // 查询正常状态的分类
     getNormalList() {
         return request({
-            url: `/article/category/list`,
+            url: `/article/category/normal/list`,
             method: 'get'
         })
     },
