@@ -40,32 +40,39 @@ module.exports = {
     // 解决跨域问题
     proxy: {
       // /dev-api/article
-      [process.env.VUE_APP_BASE_API + '/article']: {
-        target: 'http://localhost:8001',
-        changeOrigin: true, // 开启代理服务器,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      },
-      // /dev-api/question
-      [process.env.VUE_APP_BASE_API + '/question']: {
-        target: 'http://localhost:8002',
-        changeOrigin: true, // 开启代理服务器,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      },
-      // /dev-api/system
-      [process.env.VUE_APP_BASE_API + '/system']: {
-        target: 'http://localhost:8003',
-        changeOrigin: true, // 开启代理服务器,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      },
-      // /dev-api/file
-      [process.env.VUE_APP_BASE_API + '/file']: {
-        target: 'http://localhost:8006',
+      // [process.env.VUE_APP_BASE_API + '/article']: {
+      //   target: 'http://localhost:8001',
+      //   changeOrigin: true, // 开启代理服务器,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_BASE_API]: ''
+      //   }
+      // },
+      // // /dev-api/question
+      // [process.env.VUE_APP_BASE_API + '/question']: {
+      //   target: 'http://localhost:8002',
+      //   changeOrigin: true, // 开启代理服务器,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_BASE_API]: ''
+      //   }
+      // },
+      // // /dev-api/system
+      // [process.env.VUE_APP_BASE_API + '/system']: {
+      //   target: 'http://localhost:8003',
+      //   changeOrigin: true, // 开启代理服务器,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_BASE_API]: ''
+      //   }
+      // },
+      // // /dev-api/file
+      // [process.env.VUE_APP_BASE_API + '/file']: {
+      //   target: 'http://localhost:8006',
+      //   changeOrigin: true, // 开启代理服务器,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_BASE_API]: ''
+      //   }
+      // },
+      [process.env.VUE_APP_BASE_API]: {
+        target: 'http://localhost:6001',
         changeOrigin: true, // 开启代理服务器,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''

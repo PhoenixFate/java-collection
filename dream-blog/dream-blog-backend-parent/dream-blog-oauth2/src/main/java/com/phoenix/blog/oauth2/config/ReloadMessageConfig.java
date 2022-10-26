@@ -17,6 +17,7 @@ public class ReloadMessageConfig {
     /**
      * 加载中文的认证提示信息
      * Spring Security里面的异常本身已经是做了多语言的，但是只支持通过Accept-Language来切换错误信息的语言
+     * Spring Security默认message位置：classpath:org/springframework/security/messages_zh_CN
      * @return ReloadableResourceBundleMessageSource
      */
     @Bean(name = "messageSource")

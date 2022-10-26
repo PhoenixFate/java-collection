@@ -28,7 +28,7 @@ import Layout from '@/layout'
 /**
  * constantRoutes
  * a base page that does not have permission requirements
- * all roles can be accessed 
+ * all roles can be accessed
  */
 export const constantRoutes = [
   {
@@ -132,8 +132,8 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'http://www.mengxuegu.com',
-        meta: { title: '梦学谷官网', icon: 'el-icon-link' }
+        path: 'https://www.bytes-space.com',
+        meta: { title: '字节空间官网', icon: 'el-icon-link' }
       }
     ]
   },

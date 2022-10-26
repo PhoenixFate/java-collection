@@ -17,7 +17,7 @@
             </el-dropdown-item>
           </router-link>
           <a target="_blank" href="//www.mengxuegu.com">
-            <el-dropdown-item>梦学谷</el-dropdown-item>
+            <el-dropdown-item>字节空间</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">退出</span>

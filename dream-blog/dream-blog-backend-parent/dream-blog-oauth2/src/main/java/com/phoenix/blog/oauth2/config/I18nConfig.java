@@ -5,8 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+
 import java.util.Locale;
 
 /**
@@ -36,12 +37,9 @@ public class I18nConfig implements WebMvcConfigurer {
      */
     @Bean
     public LocaleResolver localeResolver() {
-        //你也可以检验用户浏览器中的Cookie，用CookieLocaleResolver来解析区域。如果Cookie不存在，它会根据accept-language HTTP头部确定默认区域。
-        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-        localeResolver.setCookieName("localeCookie");
+        AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
         //设置默认区域
         localeResolver.setDefaultLocale(Locale.SIMPLIFIED_CHINESE);
-        localeResolver.setCookieMaxAge(3600);//设置cookie有效期. 3600秒
         return localeResolver;
     }
 
@@ -49,8 +47,9 @@ public class I18nConfig implements WebMvcConfigurer {
      * LocaleChangeInterceptor 的使用：
      * 如果想要用户能改变Local, 我们需要配置 LocaleChangeInterceptor, 这个拦截器将检查传入的请求，
      * 如果请求中有“lang" 的参数(参数可以配置），如http://localhost:8080/test?lang=zh_CN. 该Interceptor将使用localResolver改变当前用户的Local
-     *
+     * <p>
      * 这个对于前后端分离的其实没啥用了
+     *
      * @return LocaleChangeInterceptor
      */
     @Bean

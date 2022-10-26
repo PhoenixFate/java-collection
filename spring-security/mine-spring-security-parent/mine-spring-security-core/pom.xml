@@ -17,7 +17,7 @@
     </properties>
 
     <dependencies>
-        <!--依赖mengxuegu-security-base基础模块  -->
+        <!--依赖spring-security-base基础模块  -->
         <dependency>
             <groupId>com.phoenix</groupId>
             <artifactId>mine-spring-security-base</artifactId>

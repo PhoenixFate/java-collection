@@ -1,5 +1,7 @@
 package com.phoenix.blog.oauth2.config;
 
+import com.phoenix.blog.common.constant.DreamBlogServerNameConstant;
+import com.phoenix.blog.oauth2.security.JwtUser;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,8 +66,9 @@ public class JwtTokenStoreConfig {
                 if (token.getAdditionalInformation().containsKey("jti")) {
                     String jti = token.getAdditionalInformation().get("jti").toString();
                     //存储到redis中
+                    JwtUser jwtUser = (JwtUser)authentication.getUserAuthentication().getPrincipal();
                     redisTemplate.opsForValue()
-                            .set(jti, token.getValue(), token.getExpiresIn(), TimeUnit.SECONDS);
+                            .set(DreamBlogServerNameConstant.DREAM_BLOG_AUTH+":accessToken:"+jwtUser.getUsername()+":"+ jti, token.getValue(), token.getExpiresIn(), TimeUnit.SECONDS);
                 }
                 super.storeAccessToken(token, authentication);
             }

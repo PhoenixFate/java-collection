@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -46,14 +47,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //采用token进行管理身份，而没有采用session，所以不需要创建HttpSession
+        //配置当前的session管理方式：无session
+        //SessionCreationPolicy.STATELESS: Spring Security will never create an HttpSession and it will never use it to obtain the SecurityContext
         //关闭csrf攻击
-        http.formLogin()
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .formLogin()
                 .successHandler(customAuthenticationSuccessHandler) //自定义认证成功处理器
                 .failureHandler(customAuthenticationFailureHandler) //自定义认证失败处理器
                 .and()
                 .logout().logoutSuccessHandler(customLogoutSuccessHandler) //自定义退出登录成功处理器
                 .and()
                 .csrf().disable();
-
     }
 }

@@ -16,20 +16,24 @@ export default {
   },
 
   proxy: { // 代理转发
-    '/api/article': {
-      target: 'http://localhost:8001',
-      pathRewrite: {'^/api': ''}
-    },
-    '/api/question': {
-      target: 'http://localhost:8002',
-      pathRewrite: {'^/api': ''}
-    },
-    '/api/system': {
-      target: 'http://localhost:8003',
-      pathRewrite: {'^/api': ''}
-    },
-    '/api/file': {
-      target: 'http://localhost:8006',
+    // '/api/article': {
+    //   target: 'http://localhost:8001',
+    //   pathRewrite: {'^/api': ''}
+    // },
+    // '/api/question': {
+    //   target: 'http://localhost:8002',
+    //   pathRewrite: {'^/api': ''}
+    // },
+    // '/api/system': {
+    //   target: 'http://localhost:8003',
+    //   pathRewrite: {'^/api': ''}
+    // },
+    // '/api/file': {
+    //   target: 'http://localhost:8006',
+    //   pathRewrite: {'^/api': ''}
+    // },
+    '/api': {
+      target: 'http://localhost:6001',
       pathRewrite: {'^/api': ''}
     }
   },

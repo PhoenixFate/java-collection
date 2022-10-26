@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '梦学谷博客权限管理系统',
+      title: '字节空间博客权限管理系统',
       logo: require('@/assets/logo-new.png')
     }
   }
