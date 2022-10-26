@@ -1,0 +1,127 @@
+server:
+  port: 6001
+# 启动时需要配置 秘钥
+# 方案一：在yml中加这个密钥的配置，在项目启动的时候，会根据密钥自动解密ENC(加密串)所代表的数据信息
+# 方案二：将秘钥加入启动参数 -Djasypt.encryptor.password=xxx
+jasypt:
+  encryptor:
+    password: phoenix
+# 日志配置
+logging:
+  config: classpath:logback-dev.xml
+spring:
+  redis:
+    # 地址
+    host: www.bytes-space.com
+    # 端口，默认为6379
+    port: 10379
+    database: 6
+    # 密码
+    password: ENC(PfDPA+y3YVDqtcZ0XvkPjL6AYJse5+da)
+    # 连接超时时间
+    timeout: 20s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 10
+        # 连接池中的最大空闲连接
+        max-idle: 30
+        # 连接池的最大数据库连接数
+        max-active: 100
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+  cloud:
+    gateway:
+      #      discovery:
+      #        locator:
+      #          # true 开启使用服务名称调用目标服务
+      #          enabled: true
+      # 路由（routes：路由，它由唯一标识（ID）、目标服务地址（uri）
+      # 、一组断言（predicates）和一组过滤器组成（filters）。filters 不是必需参数。）
+      routes: # List类型
+        # id：路由标识，具有唯一性
+        - id: dream-blog-article
+          # 目标服务地址（uri：地址，请求转发后的地址
+          # uri: http://localhost:8001 # 固定转发地址
+          uri: lb://dream-blog-article
+          # 目标服务地址 lb://目标服务名，会自动从注册中心获取此服务的ip和端口转发到 article-server 服务处理
+          #          uri: lb://article-service
+          # 路由条件（predicates：断言，匹配 HTTP 请求内容）
+          predicates:
+            # 匹配访问路径，格式为 uri/article/**
+            - Path=/article/**
+          filters:
+            #代理转发时去掉路径位数,发送请求 uri/str/article，/str 部分会被下面的过滤器给截取掉
+            #- StripPrefix=1
+            # 开启限流 RequestRateLimiter
+            - name: RequestRateLimiter
+              args:
+                # 限流过滤器的 Bean 名称
+                key-resolver: "#{@uriKeyResolver}"
+                # 希望允许用户每秒执行多少个请求。令牌桶填充的速率(每秒令牌填充速率)
+                redis-rate-limiter.replenishRate: 2
+                # 允许用户在一秒钟内完成的最大请求数。 这是令牌桶可以容纳的令牌数量，将此值设置为零将阻止所有请求
+                # 允许突发4个请求，但是在下一秒中，仅2个请求可用
+                redis-rate-limiter.burstCapacity: 4
+        - id: dream-blog-question # 问答微服务
+          #目标服务地址 lb://目标服务名，会自动从注册中心获取此服务的ip和端口转发到 question-server 服务处理
+          uri: lb://dream-blog-question
+          predicates:
+            - Path=/question/**
+          filters:
+            # 开启限流 RequestRateLimiter
+            - name: RequestRateLimiter
+              args:
+                # 限流过滤器的 Bean 名称
+                key-resolver: "#{@uriKeyResolver}"
+                # 希望允许用户每秒执行多少个请求。令牌桶填充的速率(每秒令牌填充速率)
+                redis-rate-limiter.replenishRate: 2
+                # 允许用户在一秒钟内完成的最大请求数。 这是令牌桶可以容纳的令牌数量，将此值设置为零将阻止所有请求
+                # 允许突发4个请求，但是在下一秒中，仅2个请求可用
+                redis-rate-limiter.burstCapacity: 4
+        - id: dream-blog-minio # 问答微服务
+          #目标服务地址 lb://目标服务名，会自动从注册中心获取此服务的ip和端口转发到 question-server 服务处理
+          uri: lb://dream-blog-minio
+          predicates:
+            - Path=/file/**
+          filters:
+            # 开启限流 RequestRateLimiter
+            - name: RequestRateLimiter
+              args:
+                # 限流过滤器的 Bean 名称
+                key-resolver: "#{@uriKeyResolver}"
+                # 希望允许用户每秒执行多少个请求。令牌桶填充的速率(每秒令牌填充速率)
+                redis-rate-limiter.replenishRate: 2
+                # 允许用户在一秒钟内完成的最大请求数。 这是令牌桶可以容纳的令牌数量，将此值设置为零将阻止所有请求
+                # 允许突发4个请求，但是在下一秒中，仅2个请求可用
+                redis-rate-limiter.burstCapacity: 4
+        - id: dream-blog-system # 系统微服务
+          uri: lb://dream-blog-system
+          predicates:
+            - Path=/system/**
+          filters:
+            # 开启限流 RequestRateLimiter ，名字不可随便写
+            - name: RequestRateLimiter
+              args:
+                # 限流过滤器的 Bean 名称
+                key-resolver: "#{@uriKeyResolver}"
+                # 希望允许用户每秒执行多少个请求。令牌桶填充的速率(每秒令牌填充速率)
+                redis-rate-limiter.replenishRate: 2
+                # 允许用户在一秒钟内完成的最大请求数。 这是令牌桶可以容纳的令牌数量，将此值设置为零将阻止所有请求
+                # 允许突发4个请求，但是在下一秒中，仅2个请求可用
+                redis-rate-limiter.burstCapacity: 4
+        - id: dream-blog-oauth2 # 认证服务器
+          uri: lb://dream-blog-oauth2
+          predicates:
+            - Path=/auth/**
+          filters:
+            # 开启限流 RequestRateLimiter
+            - name: RequestRateLimiter
+              args:
+                # 限流过滤器的 Bean 名称
+                key-resolver: "#{@uriKeyResolver}"
+                # 希望允许用户每秒执行多少个请求。令牌桶填充的速率(每秒令牌填充速率)
+                redis-rate-limiter.replenishRate: 2
+                # 允许用户在一秒钟内完成的最大请求数。这是令牌桶可以容纳的令牌数量，将此值设置为零将阻止所有请求
+                # 允许突发4个请求，但是在下一秒中，仅2个请求可用
+                redis-rate-limiter.burstCapacity: 4

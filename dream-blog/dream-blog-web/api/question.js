@@ -8,21 +8,21 @@ export default ({$axios}, inject) => {
     // 等待回答
     inject('getWaitList', page => $axios.$post('/question/api/question/wait', page) )
 
-    // 查询问题详情 
+    // 查询问题详情
     inject('getQuestionById', id => $axios.$get(`/question/api/question/${id}`))
 
     // 更新浏览数
-    inject('updateQuestionViewCount', id => $axios.$put(`/question/api/question/viewCount/${id}`))
+    inject('updateQuestionViewCount', id => $axios.$put(`/question/api/question/view/count/${id}`))
 
      // 通过问题id查询回复数据接口
      inject('getReplayByQuestionById', questionId => $axios.$get(`/question/api/replay/list/${questionId}`))
 
     // 更新点赞数
-    inject('updateQuestionThumb', (questionId,count)  => $axios.$put(`/question/question/thumb/${questionId}/${count}`))
-    
+    inject('updateQuestionThumb', (questionId,count)  => $axios.$put(`/question/question/likes/${questionId}/${count}`))
+
     // 新增问题回答内容
     inject('addReplay', data  => $axios.$post(`/question/replay`, data))
-    
+
     // 删除回答内容, id 是回答内容的id
     inject('deleteReplayById', id  => $axios.$delete(`/question/replay/${id}`))
 

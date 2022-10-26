@@ -51,7 +51,7 @@ public class QuestionController {
             @ApiImplicitParam(name = "count", value = "点赞数(只能是1或-1)", required = true)
     })
     @ApiOperation("更新点赞数")
-    @PutMapping("/thumb/{id}/{count}")
+    @PutMapping("/likes/{id}/{count}")
     public Result updateLikesNumber(@PathVariable("id") String id,
                                     @PathVariable("count") int count) {
         return questionService.updateLikesNumber(id, count);

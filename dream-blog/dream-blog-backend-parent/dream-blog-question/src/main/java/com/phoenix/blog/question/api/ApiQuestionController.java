@@ -54,7 +54,7 @@ public class ApiQuestionController {
 
     @ApiOperation("更新浏览数接口")
     @ApiImplicitParam(name = "id", value = "问题ID", required = true)
-    @PutMapping("/viewCount/{id}")
+    @PutMapping("/view/count/{id}")
     public Result updateViewCount(@PathVariable("id") String id) {
         return questionService.updateViewCount(id);
     }

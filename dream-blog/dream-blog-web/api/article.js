@@ -3,7 +3,6 @@ export default({$axios}, inject) => {
     // 查询技术频道列表接口
     inject('getCategoryList', () => $axios.$get('/article/api/category/list'))
 
-
     // 获取指定位置的广告信息
     inject('getAdvertList', position => $axios.$get(`/article/api/advert/list/${position}`))
 
@@ -17,7 +16,7 @@ export default({$axios}, inject) => {
     inject('updateArticleViewCount', id => $axios.$put(`/article/api/article/view/count/${id}`))
 
     // 更新文章点赞数
-    inject('updateArticleThumb', (articleId, count) => $axios.$put(`/article/article/thumb/${articleId}/${count}`))
+    inject('updateArticleThumb', (articleId, count) => $axios.$put(`/article/article/likes/${articleId}/${count}`))
 
     // 通过文章id查询评论列表
     inject('getCommentListByArticleId', articleId => $axios.$get(`/article/api/comment/list/${articleId}`))
@@ -33,7 +32,6 @@ export default({$axios}, inject) => {
 
     // 新增文章
     inject('addArticle', data => $axios.$post(`/article/article`, data))
-
 
     // 修改文章
     inject('updateArticle', data => $axios.$put(`/article/article`, data))

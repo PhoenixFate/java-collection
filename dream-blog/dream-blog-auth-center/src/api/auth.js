@@ -5,7 +5,7 @@ const headers = {
     'Content-Type': 'application/x-www-form-urlencoded'
 }
 
-//  请求头添加 Authrization: Basic client_id: client_secret
+//  请求头添加 Authorization: Basic client_id: client_secret
 const auth = {
     username: "dream-blog-admin",
     password: "123456",
