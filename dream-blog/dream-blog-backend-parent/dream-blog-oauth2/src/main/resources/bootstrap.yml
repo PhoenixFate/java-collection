@@ -1,5 +1,5 @@
 server:
-  port: 7001 # nacos中的配置的port会替换掉该port，主要用于记录该应用的端口，也可以删除nacos中的配置的端口
+  port: 7001 # nacos中的配置的port会替换掉该port，主要用于查看该应用的端口，也可以删除nacos中的配置的端口
 spring:
   application:
     name: @artifactId@ # 当前服务应用名，需与nacos中的dataId的前缀匹配
