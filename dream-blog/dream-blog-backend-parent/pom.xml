@@ -142,7 +142,7 @@
             <id>dev</id>
             <properties>
                 <profileActive>dev</profileActive>
-                <namespace>dream-blog-namespace-id</namespace>
+                <namespace>dream-blog-development-id</namespace>
                 <serverAddress>http://www.bytes-space.com:10841</serverAddress>
             </properties>
             <activation>
@@ -153,7 +153,7 @@
             <id>prod</id>
             <properties>
                 <profileActive>prod</profileActive>
-                <namespace>dream-blog-namespace-id</namespace>
+                <namespace>dream-blog-production-id</namespace>
                 <serverAddress>http://www.bytes-space.com:10841</serverAddress>
             </properties>
             <activation>

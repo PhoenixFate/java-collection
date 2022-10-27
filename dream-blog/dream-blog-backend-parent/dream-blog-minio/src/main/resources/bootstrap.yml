@@ -15,5 +15,10 @@ spring:
         server-addr: @serverAddress@ # 配置中心地址
         file-extension: yml  # 配置中心的配置文件的后缀
         namespace: @namespace@
+        # 用于共享的配置文件
+        shared-configs:
+          - data-id: common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            group: DEFAULT_GROUP
+            refresh: true
   profiles:
     active: @profileActive@
