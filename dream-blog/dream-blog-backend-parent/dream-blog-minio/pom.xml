@@ -65,6 +65,52 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!-- 单元测试插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- 打包跳过单元测试 -->
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <!--打包生成镜像并且上传到服务器-->
+            <!--
+                切换到对应项目的pom.xml目录下： 执行下面指令
+                mvn clean package -D maven.test.skip=true docker:build
+                -D maven.test.skip=true 代表的是排除test的编译，可以加快编译的速度
+                docker:build 代表的是docker编译
+                clean和package 分别是清除和打包了
+            -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <!--修改imageName节点的内容，改为私有仓库地址和端口，再加上镜像id和 TAG,我们要直接传到私服-->
+                    <!-- Docker宿主机地址 -->
+                    <dockerHost>http://www.bytes-space.com:50375</dockerHost>
+                    <!--配置最后生成的镜像名，docker images里的，我们这边取项目名:版本-->
+                    <imageName>${project.artifactId}:${project.version}</imageName>
+                    <!--镜像tag; 如果上面imageName只有指定名称，没有指定版本，则需要下面指定版本-->
+                    <!--<imageTags>-->
+                    <!--    <imageTag>${project.version}</imageTag>-->
+                    <!--</imageTags>-->
+                    <!-- true 会覆盖构建相同标签的镜像 -->
+                    <forceTags>true</forceTags>
+                    <!--指定 Dockerfile 位置-->
+                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                    <!-- 将jar文件从target目录复制到镜像的根目录 -->
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <!--指定需要复制的根目录，下面表示target目录-->
+                            <directory>${project.build.directory}</directory>
+                            <!--指定需要复制的文件，下面指的是打包后的jar包文件-->
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

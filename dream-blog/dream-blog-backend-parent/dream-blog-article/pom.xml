@@ -80,6 +80,13 @@
                 </configuration>
             </plugin>
             <!--打包生成镜像并且上传到服务器-->
+            <!--
+                切换到对应项目的pom.xml目录下： 执行下面指令
+                mvn clean package -D maven.test.skip=true docker:build
+                -D maven.test.skip=true 代表的是排除test的编译，可以加快编译的速度
+                docker:build 代表的是docker编译
+                clean和package 分别是清除和打包了
+            -->
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
@@ -89,6 +96,10 @@
                     <dockerHost>http://www.bytes-space.com:50375</dockerHost>
                     <!--配置最后生成的镜像名，docker images里的，我们这边取项目名:版本-->
                     <imageName>${project.artifactId}:${project.version}</imageName>
+                    <!--镜像tag; 如果上面imageName只有指定名称，没有指定版本，则需要下面指定版本-->
+                    <!--<imageTags>-->
+                    <!--    <imageTag>${project.version}</imageTag>-->
+                    <!--</imageTags>-->
                     <!-- true 会覆盖构建相同标签的镜像 -->
                     <forceTags>true</forceTags>
                     <!--指定 Dockerfile 位置-->

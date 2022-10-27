@@ -6,7 +6,7 @@
 
 FROM openjdk:8-alpine
 
-# 修改源 为东八区时间
+# 修改源 修改时间为东八区时间
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN apk update \
     && apk add ttf-dejavu libuuid tzdata \
@@ -21,7 +21,7 @@ RUN apk update \
 ADD dream-blog-*.jar app.jar
 
 # 这个可以不写，主要是记录当前镜像需要对外暴露的端口，而非限制端口
-EXPOSE 8001
+EXPOSE 6001
 
 # Docker容器启动时执行的命令，注意：是 -D 开头。如果有换行，后面要加上英文状态的 \ 进行连接
 #ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar", \
