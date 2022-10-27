@@ -54,7 +54,7 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setParent("com.phoenix.blog"); //父包名
-        pc.setController(MODULE_NAME + ".controller"); // com.mengxuegu.blog.aritcle.controller
+        pc.setController(MODULE_NAME + ".controller"); // com.phoenix.blog.article.controller
         pc.setService(MODULE_NAME + ".service");
         pc.setServiceImpl(MODULE_NAME + ".service.impl");
         pc.setMapper(MODULE_NAME + ".mapper");

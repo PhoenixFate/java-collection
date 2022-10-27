@@ -32,9 +32,9 @@ export default({store, route, redirect, $axios}) => {
 }
 
 let isLock = true // 防止并发重复发送刷新令牌请求， true 还未发送，false正在请求刷新
- 
+
 const sendRefreshRequest = (route, store, redirect) => {
-   
+
     if(isLock && store.state.refreshToken) {
         isLock = false
         // 发送请求到认证客户端，通过刷新令牌获取新令牌
@@ -46,10 +46,10 @@ const sendRefreshRequest = (route, store, redirect) => {
         // console.log('跳转到登录页')
         store.commit('RESET_USER_STATE')
         // 跳转到登录页
-        
+
         redirect(`${process.env.authURL}?redirectURL=${redirectURL(route)}`)
     }
-}  
+}
 
 // 获取重定向地址
 const redirectURL = (route) => {
@@ -57,6 +57,6 @@ const redirectURL = (route) => {
     if(process.client) {
         return window.location.href
     }
-    // 服务端 process.env._AXIOS_BASE_URL_  http://localhost:3000/api   http://blog.mengxuegu.com/api
+    // 服务端 process.env._AXIOS_BASE_URL_  http://localhost:3000/api   http://blog.bytes-space.com/api
     return process.env._AXIOS_BASE_URL_.replace('api', '') + route.path
 }

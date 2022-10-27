@@ -1,4 +1,4 @@
-# mengxuegu-auth-center
+# dream-blog-auth-center
 
 ## Project setup
 ```

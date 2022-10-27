@@ -2,7 +2,7 @@ export default {
   mode: 'universal',
   env: {
     // 认证客户端URL， process.env.authURL
-    authURL: process.env.NODE_ENV === 'dev' ? '//localhost:3000' : '//login.mengxuegu.com'
+    authURL: process.env.NODE_ENV === 'dev' ? '//localhost:3000' : '//login.bytes-space.com'
   },
 
   modules: [

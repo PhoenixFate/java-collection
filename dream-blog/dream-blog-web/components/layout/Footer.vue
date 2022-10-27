@@ -12,7 +12,7 @@
           <a rel="nofollow" target="_blank" href="/question/">常见问题</a>
         </div>
         <div class="footer-information-box">
-          <p>Copyright &copy;2020 mengxuegu.com &nbsp;All Rights Reserved&nbsp;
+          <p>Copyright &copy;2020 bytes-space.com &nbsp;All Rights Reserved&nbsp;
             <a href="http://www.beian.miit.gov.cn/" target="_blank" rel="nofollow"> 赣ICP备16666888号-99</a>
           </p>
         </div>

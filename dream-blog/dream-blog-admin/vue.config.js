@@ -72,7 +72,8 @@ module.exports = {
       //   }
       // },
       [process.env.VUE_APP_BASE_API]: {
-        target: 'http://localhost:6001',
+        // 目标服务器地址(网关地址)
+        target: process.env.VUE_APP_SERVICE_URL,
         changeOrigin: true, // 开启代理服务器,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''

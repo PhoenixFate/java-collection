@@ -16,7 +16,7 @@
               首页
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="//www.mengxuegu.com">
+          <a target="_blank" href="//www.bytes-space.com">
             <el-dropdown-item>字节空间</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">

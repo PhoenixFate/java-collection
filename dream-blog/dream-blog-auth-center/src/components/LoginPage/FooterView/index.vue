@@ -1,8 +1,8 @@
 <template>
   <div class="g-footer">
     <div class="m-info">
-      Copyright &copy;1999 mengxuegu.com &nbsp;All Rights Reserved&nbsp;
-      <a href="http://www.beian.miit.gov.cn/" target="_blank" rel="nofollow"> 赣ICP备16666888号-99</a>
+      Copyright &copy;1999 bytes-space.com &nbsp;All Rights Reserved&nbsp;
+      <a href="http://www.beian.miit.gov.cn/" target="_blank" rel="nofollow"> 赣ICP备16666777888号-99</a>
     </div>
   </div>
 </template>

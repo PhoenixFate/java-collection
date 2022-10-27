@@ -128,7 +128,7 @@ export const constantRoutes = [
 
   // 跳转外网
   {
-    path: 'mengxuegu',
+    path: 'byteSpace',
     component: Layout,
     children: [
       {

@@ -2,7 +2,7 @@
   "name": "dream-blog-web",
   "version": "1.0.0",
   "description": "字节空间博客门户网站",
-  "author": "mengxuegu",
+  "author": "phoenix",
   "private": true,
   "config": {
     "nuxt": {
