@@ -15,6 +15,41 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TestFilesWalkFileTree {
 
     public static void main(String[] args) throws IOException {
+        //m2();
+
+        m3();
+    }
+
+    private static void m3() throws IOException {
+        //删除多级目录及目录下的文件
+        Files.walkFileTree(Paths.get("test"), new SimpleFileVisitor<Path>() {
+            /**
+             * 删除文件
+             */
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return super.visitFile(file, attrs);
+            }
+
+            /**
+             * 退出目录时删除空目录
+             */
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                System.out.println("<======== 退出" + dir);
+                Files.delete(dir);
+                return super.postVisitDirectory(dir, exc);
+            }
+        });
+    }
+
+    /**
+     * 所有以.jar结尾的文件
+     *
+     * @throws IOException IO异常
+     */
+    private static void m2() throws IOException {
         System.out.println(System.getProperty("java.home"));
         //m1();
         AtomicInteger fileCount = new AtomicInteger();

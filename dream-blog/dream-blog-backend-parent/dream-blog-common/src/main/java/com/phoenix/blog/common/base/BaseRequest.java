@@ -17,10 +17,10 @@ import java.io.Serializable;
 @Data
 public class BaseRequest<T> implements Serializable {
 
-    @ApiModelProperty(value = "页码", required = false)
+    @ApiModelProperty(value = "页码", required = false, example = "1")
     private long current = 1;
 
-    @ApiModelProperty(value = "每页显示多少条", required = false)
+    @ApiModelProperty(value = "每页显示多少条", required = false, example = "10")
     private long size = 10;
 
     /**
