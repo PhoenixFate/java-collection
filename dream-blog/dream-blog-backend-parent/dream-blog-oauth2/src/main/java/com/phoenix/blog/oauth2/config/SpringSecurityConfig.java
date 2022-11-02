@@ -1,5 +1,6 @@
 package com.phoenix.blog.oauth2.config;
 
+import com.phoenix.blog.oauth2.filter.ImageCodeValidateFilter;
 import com.phoenix.blog.oauth2.handler.CustomAuthenticationFailureHandler;
 import com.phoenix.blog.oauth2.handler.CustomAuthenticationSuccessHandler;
 import com.phoenix.blog.oauth2.handler.CustomLogoutSuccessHandler;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * 安全配置类
@@ -32,6 +34,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
+    private final ImageCodeValidateFilter imageCodeValidateFilter;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //读取用户信息认证
@@ -51,9 +55,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //配置当前的session管理方式：无session
         //SessionCreationPolicy.STATELESS: Spring Security will never create an HttpSession and it will never use it to obtain the SecurityContext
         //关闭csrf攻击
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+
+        // http.sessionManagement()
+        //         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        //         .and()
+        http.addFilterBefore(imageCodeValidateFilter, UsernamePasswordAuthenticationFilter.class) //将验证码过滤器添加到用户名密码过滤器之前
                 .formLogin()
                 .successHandler(customAuthenticationSuccessHandler) //自定义认证成功处理器
                 .failureHandler(customAuthenticationFailureHandler) //自定义认证失败处理器

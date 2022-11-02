@@ -19,6 +19,8 @@
             <form @submit.prevent="loginSubmit">
               <input type="text" v-model="loginData.username" placeholder="请输入用户名" autocomplete="off">
               <input type="password" v-model="loginData.password" placeholder="请输入密码" autocomplete="off">
+              <img @click="refreshCode()" :src="codeUrl" alt="验证码"/>
+
               <div class="error_msg">{{loginMessage}}</div>
               <input type="submit" v-if="subState" disabled="disabled" value="登录中···" class="btn" />
               <input type="submit" v-else value="登录" @submit="loginSubmit" class="btn" />
@@ -65,6 +67,7 @@ export default {
         tab:  1, // 高亮当前标签名
         reverse:  1, // 旋转 1 登录，2 注册
         loginMessage: '', //登录错误提示信息
+        codeUrl:'/dev-api/auth/code/image',
         regMessage: '', //注册错误提示信息
         subState: false, //提交状态
         xieyi: false, // 显示隐藏协议内容
@@ -101,6 +104,10 @@ export default {
           setTimeout(() => {
             this.reverse = int
           }, 200)
+      },
+
+      refreshCode(){
+        this.codeUrl='/dev-api/auth/code/image?'+new Date().getTime();
       },
 
       // 提交登录
