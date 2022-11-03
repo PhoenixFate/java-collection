@@ -36,19 +36,19 @@ public class ImageCodeValidateFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         //1.只拦截登录处理请求
         // 如果是登录处理请求，则校验输入的验证码是否正确 并且需要是post请求
-        if (springSecurityProperties.getAuthentication().getLoginProcessingUrl()
-                .equalsIgnoreCase(httpServletRequest.getRequestURI()) && httpServletRequest.getMethod().equalsIgnoreCase("post")
-        ) {
-            try {
-                //登录校验验证码的合法性
-                validateImageCode(httpServletRequest);
-            } catch (ValidationImageCodeException e) {
-                //如果验证失败，则交由spring security 认证失败处理器来处理
-                customAuthenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
-                //结束当前请求，不继续放行
-                return;
-            }
-        }
+        //if (springSecurityProperties.getAuthentication().getLoginProcessingUrl()
+        //        .equalsIgnoreCase(httpServletRequest.getRequestURI()) && httpServletRequest.getMethod().equalsIgnoreCase("post")
+        //) {
+        //    try {
+        //        //登录校验验证码的合法性
+        //        validateImageCode(httpServletRequest);
+        //    } catch (ValidationImageCodeException e) {
+        //        //如果验证失败，则交由spring security 认证失败处理器来处理
+        //        customAuthenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
+        //        //结束当前请求，不继续放行
+        //        return;
+        //    }
+        //}
         //放行其他请求
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }

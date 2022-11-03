@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.CharSequenceUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -15,9 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.WebUtils;
 import reactor.core.publisher.Mono;
-import sun.security.util.SecurityConstants;
 
 /**
  * @Author phoenix
@@ -33,7 +30,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    private static final String DEFAULT_CODE_KEY = "imageCode";
+    private static final String DEFAULT_CODE_KEY = "imageCode:";
 
     private static final Integer CODE_TIME = 60 * 30;
 
@@ -41,7 +38,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
      * GatewayFilter是一个接口
      * Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain);
      */
-    private static final String[] whitePath = {"/auth/login/"};
+    private static final String[] checkPath = {"/auth/login"};
 
     @Override
     public GatewayFilter apply(Object config) {
@@ -53,9 +50,9 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
             // if (!isAuthToken) {
             //     return chain.filter(exchange);
             // }
-            // 不是登录请求，直接向下执行其他的过滤器
 
-            if (StringUtils.indexOfAny(request.getURI().getPath(), whitePath) != -1) {
+            // 不是登录请求，直接向下执行其他的过滤器
+            if (StringUtils.indexOfAny(request.getURI().getPath(), checkPath) == -1) {
                 //直接放行
                 return chain.filter(exchange);
             }
@@ -68,6 +65,8 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
                 // if (!isIgnoreClient) {
                 //     checkCode(request);
                 // }
+
+
                 checkCode(request);
 
             } catch (Exception e) {
@@ -99,19 +98,19 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
      * 然后作比较
      */
     private void checkCode(ServerHttpRequest request) throws Exception {
-        String code = request.getQueryParams().getFirst("code");
+        String code = request.getQueryParams().getFirst("verificationCode");
         if (StringUtils.isBlank(code)) {
             throw new RuntimeException("验证码不能为空22");
         }
 
-        String randomStr = request.getQueryParams().getFirst("randomStr");
-        if (StringUtils.isBlank(randomStr)) {
-            randomStr = request.getQueryParams().getFirst("mobile");
+        String randomString = request.getQueryParams().getFirst("randomString");
+        if (StringUtils.isBlank(randomString)) {
+            randomString = request.getQueryParams().getFirst("mobile");
         }
 
-        String key = DEFAULT_CODE_KEY + randomStr;
+        String key = DEFAULT_CODE_KEY + randomString;
 
-        Object codeObj = redisTemplate.opsForValue().get(key);
+        String codeObj = redisTemplate.opsForValue().get(key);
         redisTemplate.delete(key);
         if (!code.equals(codeObj)) {
             throw new RuntimeException("验证码不合法");

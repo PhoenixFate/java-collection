@@ -12,18 +12,23 @@
               <span :class="{on: tab == 2}">注册</span>
             </div>
           </div>
-          
+
           <!-- 登录 -->
           <div class="form_body" v-if="reverse == 1">
             <!-- submit.prevent 阻止默认表单事件提交，采用loginSubmit -->
             <form @submit.prevent="loginSubmit">
               <input type="text" v-model="loginData.username" placeholder="请输入用户名" autocomplete="off">
               <input type="password" v-model="loginData.password" placeholder="请输入密码" autocomplete="off">
-              <img @click="refreshCode()" :src="codeUrl" alt="验证码"/>
+              <div style="display:flex;justify-content: space-between;align-items: flex-end">
+                <input type="text" v-model="loginData.verificationCode" placeholder="请输入验证码" autocomplete="off">
+                <img style="height: 46px;width: 100px;margin-top: 20px" @click="refreshCode()" :src="codeUrl"
+                     alt="验证码"/>
+              </div>
 
-              <div class="error_msg">{{loginMessage}}</div>
-              <input type="submit" v-if="subState" disabled="disabled" value="登录中···" class="btn" />
-              <input type="submit" v-else value="登录" @submit="loginSubmit" class="btn" />
+
+              <div class="error_msg">{{ loginMessage }}</div>
+              <input type="submit" v-if="subState" disabled="disabled" value="登录中···" class="btn"/>
+              <input type="submit" v-else value="登录" @submit="loginSubmit" class="btn"/>
             </form>
           </div>
 
@@ -31,12 +36,13 @@
           <div class="form_body r180" v-if="reverse == 2">
             <form @submit.prevent="regSubmit">
               <input type="text" v-model="registerData.username" placeholder="请输入用户名" autocomplete="off">
-              <input type="password" v-model="registerData.password" placeholder="6-30位密码，可用数字/字母/符号组合" autocomplete="off">
-              <input type="password" v-model="registerData.repassword" placeholder="确认密码" >
-              <div class="error_msg">{{regMessage}}</div>
+              <input type="password" v-model="registerData.password" placeholder="6-30位密码，可用数字/字母/符号组合"
+                     autocomplete="off">
+              <input type="password" v-model="registerData.repassword" placeholder="确认密码">
+              <div class="error_msg">{{ regMessage }}</div>
               <div class="agree">
                 <input type="checkbox" id="tonyi" v-model="registerData.check">
-                <label for="tonyi">我已经阅读并同意</label><a href="jvascript:;"  @click="xieyi = true">《用户协议》</a>
+                <label for="tonyi">我已经阅读并同意</label><a href="jvascript:;" @click="xieyi = true">《用户协议》</a>
               </div>
               <input type="submit" v-if="subState" disabled="disabled" value="提交中···" class="btn">
               <input type="submit" v-else value="注册" class="btn">
@@ -57,162 +63,169 @@
     </div>
   </div>
 </template>
-<script >
-import { isvalidUsername } from '@/utils/validate'
-import { getXieYi, getUserByUsername, register } from '@/api/auth'
+<script>
+import {isvalidUsername} from '@/utils/validate'
+import {getXieYi, getUserByUsername, register} from '@/api/auth'
+
 export default {
 
-    data () {
-      return {
-        tab:  1, // 高亮当前标签名
-        reverse:  1, // 旋转 1 登录，2 注册
-        loginMessage: '', //登录错误提示信息
-        codeUrl:'/dev-api/auth/code/image',
-        regMessage: '', //注册错误提示信息
-        subState: false, //提交状态
-        xieyi: false, // 显示隐藏协议内容
-        xieyiContent: null, // 协议内容
-        redirectURL: '//www.bytes-space.com', // 登录成功后重写向地址
-        loginData: { // 登录表单数据
-            username: '',
-            password: ''
-        },
-        registerData: { // 注册表单数据
-            username: '',
-            password: '',
-            repassword: '',
-            check: false
-        },
-      }
-    },
+  data() {
+    return {
+      tab: 1, // 高亮当前标签名
+      reverse: 1, // 旋转 1 登录，2 注册
+      loginMessage: '', //登录错误提示信息
+      randomString: '',
+      codeUrl: '',
+      regMessage: '', //注册错误提示信息
+      subState: false, //提交状态
+      xieyi: false, // 显示隐藏协议内容
+      xieyiContent: null, // 协议内容
+      redirectURL: '//www.bytes-space.com', // 登录成功后重写向地址
+      loginData: { // 登录表单数据
+        username: '',
+        password: '',
+        randomString: '',
+        verificationCode: ''
+      },
+      registerData: { // 注册表单数据
+        username: '',
+        password: '',
+        repassword: '',
+        check: false
+      },
+    }
+  },
 
   async created() {
-      if(this.$route.query.redirectURL){
-        this.redirectURL = this.$route.query.redirectURL
-      }
-
-      //获取协议内容
-      this.xieyiContent = await getXieYi();
+    if (this.$route.query.redirectURL) {
+      this.redirectURL = this.$route.query.redirectURL
+    }
+    this.randomString = (new Date()).getTime();
+    this.codeUrl = '/dev-api/code?randomString=' + this.randomString
+    //获取协议内容
+    this.xieyiContent = await getXieYi();
   },
 
   methods: {
 
-      // 切换标签
-      changetab (int) {
-          this.tab = int;
-          let _that = this;
-          setTimeout(() => {
-            this.reverse = int
-          }, 200)
-      },
+    // 切换标签
+    changetab(int) {
+      this.tab = int;
+      let _that = this;
+      setTimeout(() => {
+        this.reverse = int
+      }, 200)
+    },
 
-      refreshCode(){
-        this.codeUrl='/dev-api/auth/code/image?'+new Date().getTime();
-      },
+    refreshCode() {
+      this.randomString = (new Date()).getTime();
+      this.codeUrl = '/dev-api/code?randomString=' + this.randomString;
+    },
 
-      // 提交登录
-      loginSubmit() {
-        console.log('登录')
-        // 表单校验
-        // 正在登陆中，不能重复提交
-        if(this.subState){
-          this.loginMessage = '正在登陆中'
-          return false
-        }
-
-        //校验参数合法
-        if(!isvalidUsername(this.loginData.username)){
-          this.loginMessage = '请输入正确的用户名'
-          return false
-        }
-
-        if(this.loginData.password.length < 6){
-          this.loginMessage = '请输入正确的用户名或密码'
-          return false
-        }
-        // 登陆中
-        this.subState = true
-
-        this.$store.dispatch('UserLogin',this.loginData)
-            .then(response =>{
-              const {code, message} = response
-              //登录成功
-              if(code === 20000){
-              // 跳转回来源页面
-                window.location.href = this.redirectURL
-              }else {
-                this.loginMessage = message
-              }
-              this.subState = false
-            })
-            .catch(error=> {
-              // 出现异常恢复登录按钮
-              this.subState = false
-              this.loginMessage = '系统繁忙，请稍后重试'
-            })
-      },
-
-      // 提交注册
-      async regSubmit() {
-        // 是否已经点击注册
-        if(this.subState){
-          return false
-        }
-        // 用户名是否合法
-        if(!isvalidUsername(this.registerData.username)){
-          this.regMessage = '请输入4-30位用户名，中文，数字，字母和下划线'
-          return false
-        }
-        //用户名是否已经被注册
-        const {code, message, data} = await getUserByUsername(this.registerData.username)
-        // 不为20000，后台校验不通过
-        if(code !== 20000){
-          this.regMessage = message
-          return false
-        }
-        if(data){  // true 已被注册，false 未被注册
-          this.regMessage = '用户名已经被注册，请重新输入用户名'
-        }
-        // 密码校验
-        if(this.registerData.password.length < 6
-          || this.registerData.password.length > 30){
-          this.regMessage = '请输入6-30位密码，区分大小写且不可有空格'
-          return false
-        }
-        // 重复密码校验
-        if(this.registerData.password !== this.registerData.repassword){
-          this.regMessage = '两次输入密码不一致'
-          return false
-        }
-        // 用户协议是否勾选
-        if(!this.registerData.check){
-          this.regMessage = '请阅读并同意用户协议'
-          return false
-        }
-        // 提交状态为true,提交中
-        this.subState = true
-
-        //提交注册
-        register(this.registerData).then(response => {
-          this.subState = false
-          const {code, message} = response
-          if(code === 20000){
-            //注册成功，切换到登录页
-            this.changetab(1)
-          }else {
-            this.regMessage = message
-          }
-        }).catch(error => {
-          this.subState = false
-          this.regMessage = '系统繁忙，请稍后重试'
-        })
-
+    // 提交登录
+    loginSubmit() {
+      console.log('登录')
+      // 表单校验
+      // 正在登陆中，不能重复提交
+      if (this.subState) {
+        this.loginMessage = '正在登陆中'
+        return false
       }
 
+      //校验参数合法
+      if (!isvalidUsername(this.loginData.username)) {
+        this.loginMessage = '请输入正确的用户名'
+        return false
+      }
+
+      if (this.loginData.password.length < 6) {
+        this.loginMessage = '请输入正确的用户名或密码'
+        return false
+      }
+      // 登陆中
+      this.subState = true
+
+      this.loginData.randomString = this.randomString
+      this.$store.dispatch('UserLogin', this.loginData)
+          .then(response => {
+            const {code, message} = response
+            //登录成功
+            if (code === 20000) {
+              // 跳转回来源页面
+              window.location.href = this.redirectURL
+            } else {
+              this.loginMessage = message
+            }
+            this.subState = false
+          })
+          .catch(error => {
+            // 出现异常恢复登录按钮
+            this.subState = false
+            this.loginMessage = '系统繁忙，请稍后重试'
+          })
     },
+
+    // 提交注册
+    async regSubmit() {
+      // 是否已经点击注册
+      if (this.subState) {
+        return false
+      }
+      // 用户名是否合法
+      if (!isvalidUsername(this.registerData.username)) {
+        this.regMessage = '请输入4-30位用户名，中文，数字，字母和下划线'
+        return false
+      }
+      //用户名是否已经被注册
+      const {code, message, data} = await getUserByUsername(this.registerData.username)
+      // 不为20000，后台校验不通过
+      if (code !== 20000) {
+        this.regMessage = message
+        return false
+      }
+      if (data) {  // true 已被注册，false 未被注册
+        this.regMessage = '用户名已经被注册，请重新输入用户名'
+      }
+      // 密码校验
+      if (this.registerData.password.length < 6
+          || this.registerData.password.length > 30) {
+        this.regMessage = '请输入6-30位密码，区分大小写且不可有空格'
+        return false
+      }
+      // 重复密码校验
+      if (this.registerData.password !== this.registerData.repassword) {
+        this.regMessage = '两次输入密码不一致'
+        return false
+      }
+      // 用户协议是否勾选
+      if (!this.registerData.check) {
+        this.regMessage = '请阅读并同意用户协议'
+        return false
+      }
+      // 提交状态为true,提交中
+      this.subState = true
+
+      //提交注册
+      register(this.registerData).then(response => {
+        this.subState = false
+        const {code, message} = response
+        if (code === 20000) {
+          //注册成功，切换到登录页
+          this.changetab(1)
+        } else {
+          this.regMessage = message
+        }
+      }).catch(error => {
+        this.subState = false
+        this.regMessage = '系统繁忙，请稍后重试'
+      })
+
+    }
+
+  },
 }
 </script>
 <style scoped>
-@import '../../assets/style/login.css'; 
+@import '../../assets/style/login.css';
 </style>
 
