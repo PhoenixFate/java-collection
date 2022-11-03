@@ -50,10 +50,10 @@ const actions = {
     UserLogin({commit}, userData) {
         console.log('UserLogin',userData)
         // 解构赋值
-        const {username, password} = userData
+        const {username, password,randomString,verificationCode} = userData
 
         return new Promise((resolve, reject)=> {
-            login( {username: username.trim(), password: password } ).then(response => {
+            login( {username: username.trim(), password: password,randomString,verificationCode } ).then(response => {
                 console.log('response',response)
                 const {code, data} = response
                 if (code === 20000){
