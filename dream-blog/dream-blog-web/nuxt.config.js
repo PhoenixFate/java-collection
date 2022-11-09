@@ -2,7 +2,7 @@ export default {
   mode: 'universal',
   env: {
     // 认证客户端URL， process.env.authURL
-    authURL: process.env.NODE_ENV === 'dev' ? '//localhost:3000' : '//login.bytes-space.com'
+    authURL: process.env.NODE_ENV === 'dev' ? '//localhost:3000' : '//blog-login.bytes-space.com'
   },
 
   modules: [
@@ -42,7 +42,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: '字节空间博客社区门户网',
+    title: '字节空间',
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
