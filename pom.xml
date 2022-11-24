@@ -22,6 +22,7 @@
         <module>dream-blog</module>
         <module>encrypt-decrypt</module>
         <module>netty</module>
+        <module>base-test</module>
     </modules>
 
     <properties>
