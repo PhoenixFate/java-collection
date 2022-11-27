@@ -32,16 +32,20 @@ public class TestLambda01 {
         list.add("DDDDD");
         //形参的类型是确定的，可省略；只有一个形参，()可以省略；
         list.forEach(t -> System.out.print(t + "\t"));
+        System.out.println("");
         //或者更简洁的方法引用：list.forEach(System.out::println);
         //Random random = new Random();
         //Stream<Integer> stream = Stream.generate(() -> random.nextInt(100));
         //stream.forEach(t -> System.out.println(t));
 
         Collator collator = Collator.getInstance();
-        TreeSet<Student> set = new TreeSet<>((s1, s2) -> collator.compare(s1.getName(), s2.getName()));
-        set.add(new Student(10, "张飞"));
-        set.add(new Student(3, "周瑜"));
-        set.add(new Student(1, "宋江"));
-        set.forEach(student -> System.out.println(student));
+        TreeSet<Student> treeSet = new TreeSet<>((s1, s2) -> collator.compare(s1.getName(), s2.getName()));
+        treeSet.add(new Student(10, "张飞"));
+        treeSet.add(new Student(3, "周瑜"));
+        treeSet.add(new Student(1, "宋江"));
+        treeSet.forEach(student -> System.out.println(student));
+
+
+
     }
 }
