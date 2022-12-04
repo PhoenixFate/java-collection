@@ -26,7 +26,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class AuthenticationFilter implements GlobalFilter, Ordered {
 
-    private static final String[] whitePath = {"/api/","/auth/code/"};
+    private static final String[] whitePath = {"/api/", "/auth/code/"};
 
     /**
      * 验证请求头是否带有Authentication
@@ -45,7 +45,7 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
         String path = request.getPath().pathWithinApplication().value();
 
         //公开api接口进行放行，无需认证
-        if (StringUtils.indexOfAny(path, whitePath) == -1) {
+        if (StringUtils.indexOfAny(path, whitePath) != -1) {
             //直接放行
             return chain.filter(exchange);
         }
