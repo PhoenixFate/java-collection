@@ -14,10 +14,32 @@
     <modules>
         <module>local-date</module>
         <module>base-lambda</module>
+        <module>redis-all</module>
     </modules>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+        <fastjson.version>1.2.8</fastjson.version>
     </properties>
+
+    <!--<dependencyManagement>-->
+    <!--    <dependencies>-->
+    <!--        &lt;!&ndash;spring boot&ndash;&gt;-->
+    <!--        <dependency>-->
+    <!--            &lt;!&ndash;不使用parent方式进行依赖,需要scope和type设置&ndash;&gt;-->
+    <!--            <groupId>org.springframework.boot</groupId>-->
+    <!--            <artifactId>spring-boot-dependencies</artifactId>-->
+    <!--            <version>${spring-boot.version}</version>-->
+    <!--            <type>pom</type>-->
+    <!--            <scope>import</scope>-->
+    <!--        </dependency>-->
+    <!--        <dependency>-->
+    <!--            <groupId>com.alibaba</groupId>-->
+    <!--            <artifactId>fastjson</artifactId>-->
+    <!--            <version>${fastjson.version}</version>-->
+    <!--        </dependency>-->
+    <!--    </dependencies>-->
+    <!--</dependencyManagement>-->
 
 </project>
