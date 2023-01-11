@@ -15,6 +15,7 @@
         <module>local-date</module>
         <module>base-lambda</module>
         <module>redis-all</module>
+        <module>test-valid</module>
     </modules>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
