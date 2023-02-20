@@ -64,10 +64,12 @@ public class TestController {
     @RequestMapping("/test2")
     public String test2(HttpServletRequest request) {
         //log.info("local:{}",Locale.getDefault().getLanguage());
-        return getMessage2("test.name",request,null);
+        String name = request.getParameter("name");
+
+        return getMessage2("test.name",name);
     }
 
-    public String getMessage2(String key, HttpServletRequest request, String... strings ) {
+    public String getMessage2(String key,String... strings ) {
         return this.messageSource.getMessage(key, strings, LocaleContextHolder.getLocale());
     }
 
