@@ -98,24 +98,19 @@ public class RedisTest {
         //获取过期时间
         Long expire2 = redisTemplate.getExpire("ddd");
         System.out.println("ddd 的过期时间： " + expire2);
-
         //同时设置多个key
         Map<String, String> stringMap = new LinkedHashMap<>();
         stringMap.put("java-1", "java-1");
         stringMap.put("java-2", "java-2");
         redisTemplate.opsForValue().multiSet(stringMap);
-
         List<String> stringList = redisTemplate.opsForValue().multiGet(stringMap.keySet());
         for (String s : stringList) {
             System.out.println(s);
         }
-
         redisTemplate.opsForValue().set("int-number", "5");
         redisTemplate.opsForValue().increment("int-number", 10);
         System.out.println(redisTemplate.opsForValue().get("int-number"));
     }
-
-
 
     /**
      * List 类型操作
@@ -158,19 +153,15 @@ public class RedisTest {
     public void test02() {
         redisTemplate.opsForList().leftPush("list01", "list01");
         redisTemplate.opsForList().leftPush("list01", "list02");
-
         List<String> leftNameList = new LinkedList<>();
         leftNameList.add("mike");
         leftNameList.add("peter");
         redisTemplate.opsForList().leftPushAll("left-push-name", leftNameList);
-
         String index = redisTemplate.opsForList().index("left-push-name", 0);
         System.out.println("根据索引获得元素 " + index);
-
         List<String> range = redisTemplate.opsForList().range("left-push-name", 0, -1);
         System.out.println(JSON.toJSONString(range));
     }
-
 
     /**
      * Set 集合类型方法
@@ -207,7 +198,6 @@ public class RedisTest {
         redisTemplate.opsForSet().pop("set-java-2", redisTemplate.opsForSet().size("set-java-2"));
     }
 
-
     /**
      * Sort Set 类型方法（有序集合）
      */
@@ -234,9 +224,6 @@ public class RedisTest {
         //redisTemplate.opsForZSet().remove("sortset-java-1", "不及格"); // 单独删除一个元素
         //redisTemplate.opsForZSet().removeRangeByScore("sortset-java-1", 60, 100); // 删除分数段的所有元素
     }
-
-
-
 
     /**
      * Hash 类型方法
