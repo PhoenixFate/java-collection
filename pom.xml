@@ -23,6 +23,7 @@
         <module>encrypt-decrypt</module>
         <module>netty</module>
         <module>base-test</module>
+        <module>base-test/test-i18n</module>
     </modules>
 
     <properties>
