@@ -5,7 +5,6 @@ import com.phoenix.workflow.request.ProcessInstanceRequest;
 import com.phoenix.workflow.request.StartProcessInstanceRequest;
 import com.phoenix.workflow.service.IBusinessStatusService;
 import com.phoenix.workflow.service.IProcessInstanceService;
-import com.phoenix.workflow.service.impl.BusinessStatusService;
 import com.phoenix.workflow.utils.Result;
 import com.phoenix.workflow.utils.UserUtils;
 import io.swagger.annotations.Api;
@@ -14,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;

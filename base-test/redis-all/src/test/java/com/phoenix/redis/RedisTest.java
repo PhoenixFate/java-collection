@@ -117,19 +117,20 @@ public class RedisTest {
 
     @Test
     public void test02() {
-        redisTemplate.opsForList().leftPush("list01", "list01");
-        redisTemplate.opsForList().leftPush("list01", "list02");
-
+        redisTemplate.delete("left-push-name");
         List<String> leftNameList = new LinkedList<>();
         leftNameList.add("mike");
         leftNameList.add("peter");
+        leftNameList.add("abc");
+        leftNameList.add("ddd");
+        leftNameList.add("eee");
+        leftNameList.add("fff");
         redisTemplate.opsForList().leftPushAll("left-push-name", leftNameList);
 
-        String index = redisTemplate.opsForList().index("left-push-name", 0);
-        System.out.println("根据索引获得元素 " + index);
-
-        List<String> range = redisTemplate.opsForList().range("left-push-name", 0, -1);
-        System.out.println(JSON.toJSONString(range));
+        for(int i=0;i<200;i++){
+            List<String> range = redisTemplate.opsForList().range("left-push-name", 0, -1);
+            System.out.println(range.size());
+        }
     }
 
     /**

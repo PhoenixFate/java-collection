@@ -51,7 +51,7 @@ spring:
     # 地址
     host: www.bytes-space.com
     # 端口，默认为6379
-    port: 10379
+    port: 50379
     database: 3
     # 密码
     password: ENC(PfDPA+y3YVDqtcZ0XvkPjL6AYJse5+da)

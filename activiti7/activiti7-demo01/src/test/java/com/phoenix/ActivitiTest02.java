@@ -93,7 +93,6 @@ public class ActivitiTest02 {
                 LOGGER.info("processDefinition: {}", ToStringBuilder.reflectionToString(processDefinition, ToStringStyle.JSON_STYLE))
         );
 
-
     }
 
     /**

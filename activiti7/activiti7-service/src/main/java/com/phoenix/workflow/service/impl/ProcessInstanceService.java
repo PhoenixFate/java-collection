@@ -1,5 +1,6 @@
 package com.phoenix.workflow.service.impl;
 
+import com.google.common.base.CaseFormat;
 import com.phoenix.workflow.activiti.image.CustomProcessDiagramGenerator;
 import com.phoenix.workflow.entity.BusinessStatus;
 import com.phoenix.workflow.entity.ProcessConfig;
@@ -130,7 +131,7 @@ public class ProcessInstanceService extends ActivitiService implements IProcessI
             //获取撤回原因（如果撤回原因没有，则获取评论）
             if (StringUtils.isBlank(deleteReason)) {
                 List<Comment> taskComments = taskService.getTaskComments(historicTaskInstance.getId());
-                deleteReason = taskComments.stream().map(m -> m.getFullMessage()).collect(Collectors.joining("。"));
+                deleteReason = taskComments.stream().map(Comment::getFullMessage).collect(Collectors.joining("。"));
             }
             result.put("message", deleteReason);
             records.add(result);
@@ -143,18 +144,22 @@ public class ProcessInstanceService extends ActivitiService implements IProcessI
     public void getHistoryProcessImage(String processInstanceId, HttpServletResponse response) throws IOException {
         //1.查询流程实例历史数据
         HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
-                .processInstanceId(processInstanceId).singleResult();
+                .processInstanceId(processInstanceId)
+                .singleResult();
         //2.查询流程中已执行的节点，按照执行先后排序
         List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery()
                 .processInstanceId(processInstanceId)
-                .orderByHistoricActivityInstanceStartTime().desc()
+                .orderByHistoricActivityInstanceStartTime()
+                .desc()
                 .list();
         //3。单独提取的高亮节点id（绿色的，已经结束的）
         List<String> highLightedActivityIdList = historicActivityInstanceList.stream()
                 .map(HistoricActivityInstance::getActivityId).collect(Collectors.toList());
+
         //4.正在执行的节点（红色的，已经完成的）
         List<Execution> runningActivityInstanceList = runtimeService.createExecutionQuery()
-                .processInstanceId(processInstanceId).list();
+                .processInstanceId(processInstanceId)
+                .list();
         List<String> runningActivityIdList=new ArrayList<>();
         for (Execution execution : runningActivityInstanceList) {
             if(StringUtils.isNotEmpty(execution.getActivityId())){
@@ -162,13 +167,18 @@ public class ProcessInstanceService extends ActivitiService implements IProcessI
             }
         }
         //5.获取流程定义Model对象
-        BpmnModel bpmnModel = repositoryService.getBpmnModel(historicProcessInstance.getProcessDefinitionId());
+        BpmnModel bpmnModel = repositoryService
+                .getBpmnModel(historicProcessInstance
+                        .getProcessDefinitionId());
         //6.实例化流程图生成器
         CustomProcessDiagramGenerator customProcessDiagramGenerator=new CustomProcessDiagramGenerator();
         //获取高亮连线id
-        List<String> highLightedFlows = customProcessDiagramGenerator.getHighLightedFlows(bpmnModel, historicActivityInstanceList);
-        InputStream inputStream = customProcessDiagramGenerator.generateDiagramCustom(bpmnModel, highLightedActivityIdList,
+        List<String> highLightedFlows = customProcessDiagramGenerator
+                .getHighLightedFlows(bpmnModel, historicActivityInstanceList);
+        InputStream inputStream = customProcessDiagramGenerator
+                .generateDiagramCustom(bpmnModel, highLightedActivityIdList,
                 runningActivityIdList, highLightedFlows, "宋体", "微软雅黑", "黑体");
+
         //7.响应相关的图片
         response.setContentType("image/svg+xml");
         byte[] bytes = IOUtils.toByteArray(inputStream);
@@ -280,5 +290,12 @@ public class ProcessInstanceService extends ActivitiService implements IProcessI
         //3.更新流程业务状态，注意：流程实例id传递一个空字符串以更新数据
         businessStatusService.updateState(historicProcessInstance.getBusinessKey(),BusinessStatusEnum.DELETE,"");
         return Result.ok();
+    }
+
+    public static void main(String[] args) {
+        String camelCase = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "THIS_STRING_SHOULD_BE_IN_CAMEL_CASE");
+        System.out.println(camelCase);
+        String camelCase2 = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, "ProcessInstanceService");
+        System.out.println(camelCase2);
     }
 }
