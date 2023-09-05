@@ -16,6 +16,7 @@
         <module>activiti7-springboot</module>
         <module>activiti7-springboot-m5</module>
         <module>activiti7-service</module>
+        <module>activiti7-mine-test01</module>
     </modules>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
