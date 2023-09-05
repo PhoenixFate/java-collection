@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="mysqlTables" targetRuntime="MyBatis3">
+
+        <!--数据库配置-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://47.99.113.229:3306/cube-mall"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <!-- java类型解析 -->
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- 模型生成包名-->
+        <javaModelGenerator targetPackage="com.phoenix.pojo" targetProject="./education-auto-generator/src">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- mybatis的映射.xml-->
+        <sqlMapGenerator targetPackage="com.phoenix.mapper"  targetProject="./education-auto-generator/src">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- mybatis 的mapper接口生成的包路径-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.phoenix.mapper"  targetProject="./education-auto-generator/src">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- 配置生成表的模型-->
+        <table schema="" tableName="tb_content" domainObjectName="Content"/>
+        <table schema="" tableName="tb_content_category" domainObjectName="ContentCategory"/>
+        <table schema="" tableName="tb_item" domainObjectName="Item"/>
+        <table schema="" tableName="tb_item_cat" domainObjectName="ItemCategory"/>
+        <table schema="" tableName="tb_item_desc" domainObjectName="ItemDescription"/>
+        <table schema="" tableName="tb_item_param" domainObjectName="ItemParameter"/>
+        <table schema="" tableName="tb_item_param_item" domainObjectName="ItemParameterItem"/>
+        <table schema="" tableName="tb_order" domainObjectName="Order"/>
+        <table schema="" tableName="tb_order_item" domainObjectName="OrderItem"/>
+        <table schema="" tableName="tb_order_shipping" domainObjectName="OrderShipping"/>
+        <table schema="" tableName="tb_user" domainObjectName="User"/>
+
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="mysqlTables" targetRuntime="MyBatis3">
+
+        <!--数据库配置-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://47.99.113.229:3306/education"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <!-- java类型解析 -->
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- 模型生成包名-->
+        <javaModelGenerator targetPackage="com.phoenix.education.model" targetProject="./education-auto-generator/src">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- mybatis的映射.xml-->
+        <sqlMapGenerator targetPackage="com.phoenix.education.mapper" targetProject="./education-auto-generator/src">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- mybatis 的mapper接口生成的包路径-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.phoenix.education.mapper" targetProject="./education-auto-generator/src">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- 配置生成表的模型-->
+        <table tableName="t_course" domainObjectName="Course"/>
+        <table tableName="t_department" domainObjectName="Department"/>
+        <table tableName="t_employee" domainObjectName="Employee"/>
+        <table tableName="t_salary_detail" domainObjectName="SalaryDetail"/>
+        <table tableName="t_student" domainObjectName="Student"/>
+        <table tableName="t_user" domainObjectName="User"/>
+
+    </context>
+</generatorConfiguration>

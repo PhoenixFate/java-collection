@@ -1,0 +1,45 @@
+server:
+  port: 10087
+
+# 单台eureka 自己不注册到eureka中
+#eureka:
+#  instance:
+#    hostname: localhost
+#    # 指定ip
+#    prefer-ip-address: true
+#    ip-address: 127.0.0.1
+#  client:
+#    service-url:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+#    # 是否注册自己的信息到EurekaServer，默认是true
+#    register-with-eureka: false
+#    # 是否拉取其它服务的信息，默认是true
+#    fetch-registry: false
+#  server:
+#    # 多少秒之后剔除没有回应的服务  失效剔除
+#    eviction-interval-timer-in-ms: 60000
+
+
+# 集群eureka 自己作为服务 注册到其他eureka中
+eureka:
+  instance:
+    hostname: localhost
+    # 指定ip
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:10086/eureka
+    # 是否注册自己的信息到EurekaServer，默认是true
+    register-with-eureka: true
+    # 是否拉取其它服务的信息，默认是true
+    fetch-registry: true
+    # 发现服务的时长间隔 默认30秒
+    registry-fetch-interval-seconds: 30
+  server:
+    # 多少秒之后剔除没有回应的服务  失效剔除 单位毫秒
+    eviction-interval-timer-in-ms: 60000
+
+spring:
+  application:
+    name: eureka-server

@@ -304,8 +304,6 @@ public class RedisTest {
         System.out.println("所有的值：" + values.toString());
     }
 
-
-
     /**
      * 事务
      */

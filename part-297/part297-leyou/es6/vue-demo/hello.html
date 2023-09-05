@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+    <!--引入vue依赖-->
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <style>
+        .red {
+            background-color: red;
+        }
+        .green {
+            background-color: green;
+        }
+        .blue {
+            background-color: blue;
+        }
+        #box,#box2,#box3 {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--vue的基本使用-->
+    <input type="text" v-model="number"><button v-on:click="number++">v-on:click +</button>
+    <br>
+    <input type="text" v-model="number"><button @click="number++">@click 是（v-on:click）的简写形式 +</button>
+    <h1>
+        {{name}}从入门到入坟<br>
+        {{number}}
+    </h1>
+    <br>
+
+    <h3 v-text="html">abc</h3>
+    <h3 v-html="html">abc</h3>
+    <!--v-model的使用-->
+    <input type="checkbox" value="java" v-model="lessons"> Java
+    <input type="checkbox" value="python" v-model="lessons"> python
+    <input type="checkbox" value="c" v-model="lessons"> c <br>
+    <h3>您已购买下列课程</h3>
+    <span>{{lessons.join(",")}}</span>
+
+    <!--事件冒泡-->
+    <div style="width: 100px;height: 100px; background-color: cadetblue" @click="print('div')">
+        大的div
+        <button @click="print('button')">点我试试</button>
+    </div>
+    <hr>
+    <div style="width: 100px;height: 100px; background-color: cadetblue" @click="print('div')">
+        大的div
+        <button @click.stop="print('button')">.stop 拒绝冒泡 点我试试</button>
+    </div>
+
+    <!--.prevent: 阻止默认事件发生-->
+    <a href="http://www.baidu.com">百度</a><br>
+    <a href="http://www.baidu.com" @click.prevent="print('baidu')">@click.prevent 百度</a>
+
+    <!--v-for遍历数组-->
+    <!--
+    当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，它默认用“就地复用”策略。
+    如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序，
+    而是简单复用此处每个元素，并且确保它在特定索引下显示已被渲染过的每个元素。
+    这个功能可以有效的提高渲染的效率。
+    -->
+    <ul>
+        <li v-for="(u,index) in users" :key="u.id">
+            {{index}}: {{u.name}}, 今年{{u.age}}岁, 性别{{u.gender}}
+        </li>
+    </ul>
+    <!--v-for遍历对象-->
+    <ul>
+        <li v-for="(value,key) in users[0]">{{key+":"+value}}
+        </li>
+    </ul>
+    <!--v-for遍历数字-->
+    <ul>
+        <li v-for="i in 5">{{i}}
+        </li>
+    </ul>
+    <!--v-if v-else-->
+    <button @click="isShow=!isShow">点击切换</button>
+    <h3 v-if="isShow">你好</h3>
+    <h3 v-else>我很好</h3>
+    <!--v-show是display:none才隐藏-->
+    <!--v-show性能更好，v-show只改变css，不更改dom树-->
+    <!--v-if会导致dom树重新渲染-->
+    <h3 v-show="isShow">你好 v-show</h3>
+
+    <button @click="changeBackgroundColor('blue')">蓝色</button>
+    <button @click="changeBackgroundColor('red')">红色</button>
+    <div id="box" v-bind:class="color">
+
+    </div>
+    <hr>
+    <div id="box2" :class="color">
+        v-bind: 缩写:
+    </div>
+    <hr>
+    <!--:class里面可以是一个对象-->
+    <button @click="isRed=!isRed">改变颜色</button>
+    <h3>:class里面可以是一个对象</h3>
+    <div id="box3" :class="{red:isRed,blue:!isRed}">
+
+    </div>
+
+    <!--计算属性只会执行1次-->
+    <!--computed 计算属性-->
+    <h3>
+        您的生日是:{{birth}}
+    </h3>
+    <h3>
+        您的生日是:{{birth}}
+    </h3>
+    <h3>
+        您的生日是:{{birth}}
+    </h3>
+
+    <!--watch监控数据-->
+    <input type="text" v-model="watchNumber">
+    <h3>watch-number:{{watchNumber}}</h3>
+    <button @click="changeAge">修改jack的年龄</button>
+    <h3>jack的年龄：{{person.age}}</h3>
+    <!--多个相关组件之间的数据不会被共享-->
+    <counter></counter>
+    <br>
+    <!--多个相关组件之间的数据不会被共享-->
+    <counter></counter>
+    <br>
+    <!--多个相关组件之间的数据不会被共享-->
+    <counter></counter>
+    <br>
+    <counter2></counter2>
+</div>
+<script>
+    //vue中的组件
+    //全局组件
+    //组件与vue实例差别：组件中的data必须是一个方法，并且属性在return返回值中
+    //只有把data定义为函数，那个多个组件之间的数据才不会被共享
+    Vue.component("counter",{
+        template:"<button @click='count++'>点击我试试, 点了我{{count}}次了</button>",
+        data(){
+            return {
+                count:0,
+            }
+        }
+    })
+
+
+    //局部组件
+    //先定义变量，然后在components中注册组件
+    const counter2={
+        template:"<button @click='count++'>点击我试试, 点了我{{count}}次了</button>",
+        data(){
+            return {
+                count:0,
+            }
+        }
+    };
+
+
+    //vue实例中，data可以是一个对象
+    const app=new Vue({
+        //el:element
+        el:"#app",
+        data:{
+            name:"java",
+            number:4,
+            test:"this is test text",
+            html:"<span color='''red'>hello</span>",
+            lessons:[],
+            users:[
+                {id:1,name:"aa",age:10,gender:"female"},
+                {id:2,name:"bb",age:23,gender:"male"},
+                {id:3,name:"cc",age:43,gender:"female"},
+                {id:4,name:"dd",age:23,gender:"male"},
+            ],
+            isShow:true,
+            color:"red",
+            isRed:true,
+            birthday:1429032123201,
+            watchNumber:null,
+            person:{
+                name:"jack",
+                age:21
+            }
+        },
+        methods:{
+            print(str) {
+                console.log(str)
+            },
+            changeBackgroundColor(color) {
+                this.color=color;
+            },
+            changeAge(){
+                this.person.age++;
+            }
+        },
+        computed:{
+            // 计算属性本质是一个方法，但是必须返回结果
+            birth(){
+                console.log("调用了计算属性 birth")
+                const d=new Date(this.birthday);
+                return d.getFullYear()+"-"+d.getMonth()+"-"+d.getDay();
+            }
+        },
+        //使用watch监控数据
+        watch:{
+            watchNumber(newValue,oldValue){
+                console.log(newValue);
+                console.log(oldValue);
+            },
+            //深度监控，监控对象的属性变化
+            person:{
+                deep:true, //开启深度监控，可以监控对象中属性的变化
+                handler(value){ //定义监控到之后的处理方法
+                    console.log(value)
+                }
+            }
+        },
+
+        //局部组件
+        components:{
+            //es6中，如果key和value名称相同，则可以只写一个
+            counter2
+        }
+    })
+</script>
+</body>
+</html>

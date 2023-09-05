@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>promise</title>
+</head>
+<body>
+
+<script>
+    //var的变量都是挂载在window下面
+    var i=10;
+    console.log(window.i);
+
+    //默认的定义一个function 也是挂载在window对象下面
+    function f() {
+        console.log("this is a function")
+    }
+    console.log(window.f)
+
+    const p = new Promise(function (resolve, reject) {
+        // 这里我们用定时任务模拟异步
+        setTimeout(() => {
+            const num = Math.random();
+            // 随机返回成功或失败
+            if (num < 0.5) {
+                resolve("成功！num:" + num)
+            } else {
+                reject("出错了！num:" + num)
+            }
+        }, 300)
+    })
+
+    // 调用promise
+    p.then(function (msg) {
+        console.log("then")
+        console.log(msg);
+    }).catch(function (msg) {
+        console.log("catch")
+        console.log(msg);
+    })
+</script>
+</body>
+</html>

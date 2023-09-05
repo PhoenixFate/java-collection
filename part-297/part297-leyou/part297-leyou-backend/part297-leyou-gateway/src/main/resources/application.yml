@@ -1,0 +1,38 @@
+server:
+  port: 10011
+spring:
+  application:
+    name: leyou-gateway
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+    registry-fetch-interval-seconds: 30  # 配置网管发现注册服务的刷新时间，默认就为30s
+zuul:
+  host:
+    socket-timeout-millis: 20000
+    connect-timeout-millis: 20000
+  prefix: /api
+  routes:
+    item-service: /item/**
+    upload-service:
+      path: /upload/**
+      serviceId: upload-service
+      strip-prefix: false
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 360000        # 熔断超时时长: 6000ms
+#hystrix.timeout> (ribbon.ReadTimeout+ribbon+ConnectTimeout)*2
+ribbon:
+  ReadTimeout: 60000     # ribbon 读取超时时长
+  ConnectTimeout: 60000  # ribbon连接超时时长
+#  MaxAutoRetries: 0   # 当前服务重试次数
+#  MaxAutoRetriesNextServer: 0  # 切换服务重试次数
+

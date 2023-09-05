@@ -24,6 +24,7 @@
         <module>netty</module>
         <module>base-test</module>
         <module>base-test/test-i18n</module>
+        <module>part-297</module>
     </modules>
 
     <properties>

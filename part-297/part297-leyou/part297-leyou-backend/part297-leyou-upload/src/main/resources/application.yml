@@ -1,0 +1,28 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: upload-service
+  servlet:
+    multipart:
+      max-file-size: 100MB  # 限制文件上传的大小
+      max-request-size: 100MB
+
+
+# Eureka
+eureka:
+  instance:
+    prefer-ip-address: true  # 保证拿到的是ip而不是localhost
+    ip-address:  127.0.0.1
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+
+leyou:
+  upload:
+    baseUrl: http://image.leyou.com/
+    allowTypes:
+      - image/jpeg
+      - image/png
+      - image/bmp

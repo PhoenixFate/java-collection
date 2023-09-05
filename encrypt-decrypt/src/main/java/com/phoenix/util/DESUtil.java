@@ -2,7 +2,9 @@ package com.phoenix.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -45,6 +47,7 @@ public class DESUtil {
             throw new RuntimeException(e);
         }
     }
+
 
     /***
      * 获取加密的信息
@@ -93,10 +96,23 @@ public class DESUtil {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
         String encryptedString = DESUtil.encryptString("abc");
         System.out.println(encryptedString);
         String originalData = DESUtil.decryptString(encryptedString);
         System.out.println(originalData);
+
+
+        //生成DES算法对象
+        KeyGenerator generator = KeyGenerator.getInstance(ALGORITHM);
+        //运用SHA1安全策略
+        SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+        //设置上密钥种子
+        secureRandom.setSeed(SEED.getBytes());
+        //初始化基于SHA1的算法对象
+        generator.init(secureRandom);
+        //生成密钥对象
+        SecretKey secretKey = generator.generateKey();
+        System.out.println(secretKey);
     }
 }

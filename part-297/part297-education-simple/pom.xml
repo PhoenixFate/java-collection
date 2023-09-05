@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>part-297</artifactId>
+        <groupId>com.phoenix</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>part297-education-simple</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>part297-education-api</module>
+        <module>part297-education-dao</module>
+        <module>part297-education-manager</module>
+        <module>part297-education-model</module>
+        <module>part297-education-service</module>
+    </modules>
+
+    <!--公共的版本号管理-->
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>4.11</junit.version>
+        <spring.version>4.3.14.RELEASE</spring.version>
+        <mybatis.version>3.4.1</mybatis.version>
+        <mybatis-spring.version>1.3.2</mybatis-spring.version>
+        <mybatis-spring.version>1.3.1</mybatis-spring.version>
+        <log4j.version>1.2.17</log4j.version>
+        <slf4j.version>1.7.12</slf4j.version>
+        <jstl.version>1.2</jstl.version>
+        <taglibs.version>1.2.1</taglibs.version>
+        <c3p0.version>0.9.5.2</c3p0.version>
+        <mysql.version>6.0.6</mysql.version>
+        <jackson.version>2.8.1</jackson.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.phoenix</groupId>
+                <artifactId>part297-education-model</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.phoenix</groupId>
+                <artifactId>part297-education-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.phoenix</groupId>
+                <artifactId>part297-education-dao</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.phoenix</groupId>
+                <artifactId>part297-education-service</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.phoenix</groupId>
+                <artifactId>part297-education-manager</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <!--公共的依赖-->
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

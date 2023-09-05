@@ -1,0 +1,39 @@
+server:
+  port: 8091
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    com.example: debug
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://114.67.89.253:3306/oldpeople_pigxx?useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: root
+    password: centos123qwer
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      idle-timeout: 60000
+      maximum-pool-size: 50
+      minimum-idle: 10
+  application:
+    name: user-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka,http://127.0.0.1:10087/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+
+mybatis:
+  #  通用mapper自动开启驼峰
+  #  configuration:
+  #    map-underscore-to-camel-case: true
+  type-aliases-package: com.example.demo.pojo
+#  mapper-locations: mapper/*.xml

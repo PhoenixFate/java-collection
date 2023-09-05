@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <!--属性上 不能使用{{}}，需要用v-bind绑定属性 -->
+    <!--子向父通信，使用v-on @ 在子组件上面绑定父亲的方法-->
+    <!--然后子通过this.$emit向父通信-->
+    <introduce :title="message" :num="count" @increase="add"></introduce>
+    <component-lessons :items="lessons "></component-lessons>
+</div>
+
+<script>
+    //vue中的组件
+
+    //局部组件
+    //先定义变量，然后在components中注册组件
+    const introduce={
+        template:`<div>
+                    <button @click='changeCount'>你点了我{{num}}次数</button>
+                    <h1>{{title}}</h1>
+                </div>`,
+        data(){
+            return {
+            }
+        },
+        methods:{
+            changeCount(){
+                //子向父的通信
+                //this.$emit() 第一个参数是函数名，第二个参数是参数
+                this.$emit("increase")
+            }
+        },
+        props:["title","num"]
+    };
+
+    const componentLessons={
+        template: "<ul><li v-for='item in items'>{{item}}</li></ul>",
+        //props复杂写法，可以限制传入的类型以及添加默认值
+        props:{
+            items:{
+                type:Array,
+                default:['java','python']
+            }
+        }
+    }
+
+    //vue实例中，data可以是一个对象
+    const app=new Vue({
+        //el:element
+        el:"#app",
+        data:{
+            name:"java",
+            message:"大家好，我是渣渣辉",
+            count:0,
+            lessons:["java","c","c++"]
+        },
+        methods:{
+            add(){
+                this.count++;
+            },
+        },
+
+        //局部组件
+        components:{
+            //es6中，如果key和value名称相同，则可以只写一个
+            introduce,
+            componentLessons
+        }
+    })
+</script>
+</body>
+</html>

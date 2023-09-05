@@ -1,0 +1,21 @@
+server:
+  port: 8089
+spring:
+  application:
+    name: item-service
+  datasource:
+    url: jdbc:mysql://47.99.113.229:3306/leyou
+    username: root
+    password: 123456
+
+eureka:
+  instance:
+    prefer-ip-address: true  # 保证拿到的是ip而不是localhost
+    ip-address:  127.0.0.1
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
